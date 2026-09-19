@@ -2,42 +2,118 @@
 
 ## Activate for
 
-Campaign strategy, digital marketing, paid media, social campaigns, influencer marketing, activations, promotion, acquisition, lead generation, conversion, and campaign measurement.
+Campaign strategy, brand campaigns, digital marketing, paid media, social campaigns, influencer/creator activity, activations, acquisition, lead generation, conversion, and campaign measurement.
 
-## Discovery questions
+## Scope ontology
 
-- What is the business or institutional outcome?
-- Who owns media spend?
-- Is paid media budget included, pass-through, or excluded?
-- What tracking stack and conversion events exist?
-- Which audiences can legally and practically be activated?
-- Are influencers or paid creator partnerships involved?
-- What content volume is available for testing?
+1. research and audience definition
+2. campaign strategy
+3. concept and message system
+4. creative production
+5. media planning and buying
+6. landing/conversion experience
+7. influencer and creator activation
+8. tracking and attribution
+9. campaign operations
+10. reporting, testing, and learning
 
-## Typical workstreams
+Keep media spend, creator fees, agency fees, production, and technology commercially visible.
 
-- strategy and audience architecture
-- campaign concept and message system
-- media planning and buying
-- creative production
-- landing experience or conversion path
-- influencer / creator activation
-- tracking and attribution
-- reporting and optimization cadence
+## Discovery
+
+Resolve:
+- business/institutional objective
+- audience and geography
+- baseline performance
+- campaign period
+- media budget ownership
+- conversion event and attribution stack
+- landing-page readiness
+- creative asset supply
+- brand constraints
+- creator/influencer requirements
+- promotion/legal approvals
+- customer-list or CRM data availability
+- platform access and payment method
+
+## Campaign architecture
+
+Build a campaign architecture only after objective and measurement readiness are known.
+
+For each channel define:
+- role in funnel
+- audience
+- objective
+- creative format
+- destination
+- primary KPI
+- secondary KPI
+- optimization cadence
+- stop/scale rule
+
+Avoid copying one platform structure to every channel.
+
+## Deliverable units
+
+| Deliverable | Unit | Acceptance examples |
+| --- | --- | --- |
+| campaign strategy | campaign | audience, objective, proposition, channel role |
+| media plan | campaign/month | spend allocation, flight dates, KPI framework |
+| creative concept | concept | message system, key visual direction, adaptations |
+| ad creative | asset/version | platform-native ratio, copy, CTA, approval |
+| creator brief | creator/campaign | deliverables, usage rights, disclosure requirements |
+| landing page | page | approved copy, analytics events, responsive QA |
+| tracking plan | implementation | event taxonomy, ownership, test evidence |
+| optimization report | weekly/monthly | spend, funnel, tests, decisions, next actions |
 
 ## KPI discipline
 
-Separate business, funnel, media, creative, and operational KPIs. Do not promise ROAS, leads, reach, or conversion improvement without a baseline and commercial assumptions.
+Separate:
+- business: revenue, qualified leads, registrations
+- funnel: landing view, lead, checkout, purchase
+- media: CPM, CPC, CTR, reach, frequency
+- creative: hook, completion, save/share where relevant
+- operational: asset turnaround, test velocity
+- recovery: recovered leads/purchases if implemented
 
-## Risks
+Never promise ROAS, lead volume, reach, or conversion improvement without baseline, budget, tracking readiness, and controllable assumptions.
 
-- tracking failure
-- weak creative supply
-- missing landing-page readiness
-- unlicensed or unavailable creator
-- media-cost volatility
-- unclear media-budget treatment
+## Influencer/creator controls
 
-## Pricing implications
+Define:
+- creator selection criteria
+- commercial treatment
+- deliverable count
+- usage rights duration
+- whitelisting/amplification
+- exclusivity
+- approval flow
+- disclosure/licensing check
+- replacement policy
+- cancellation/no-show treatment
 
-Keep agency fee, production, creator fees, technology, and media spend distinct unless the buyer explicitly requests one blended price.
+Use Regulatory Scout for current Saudi advertising requirements.
+
+## Pricing drivers
+
+Separate:
+- strategy/account fee
+- creative production
+- media management fee
+- media spend
+- creator fees
+- rights/usage
+- technology/tracking
+- landing-page work
+- reporting
+- travel/activation production
+
+## Failure modes
+
+Revise when:
+- media budget is mixed into agency revenue with no explanation
+- campaign objective has no conversion event
+- creator prices are guessed
+- influencer compliance is copied from a prior year
+- "performance marketing" is priced without landing/tracking readiness
+- guaranteed results are stated without contractual basis

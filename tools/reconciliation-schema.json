@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Scope Price Reconciliation Record",
+  "type": "object",
+  "required": ["deliverable_id","requirement_ids","technical_treatment","commercial_treatment","status"],
+  "properties": {
+    "deliverable_id": {"type":"string"},
+    "requirement_ids": {"type":"array","items":{"type":"string"}},
+    "technical_treatment": {
+      "type":"object",
+      "required":["unit","quantity"],
+      "properties":{
+        "unit":{"type":["string","null"]},
+        "quantity":{"type":["number","integer","string","null"]},
+        "frequency":{"type":["string","null"]},
+        "sla":{"type":["string","null"]}
+      }
+    },
+    "commercial_treatment": {
+      "type":"object",
+      "required":["type"],
+      "properties":{
+        "type":{"enum":["priced","included","optional","client-supplied","pricing-input-required","excluded"]},
+        "boq_line_id":{"type":["string","null"]},
+        "unit":{"type":["string","null"]},
+        "quantity":{"type":["number","integer","string","null"]}
+      }
+    },
+    "status":{"enum":["matched","mismatch","blocked"]},
+    "mismatch_reason":{"type":["string","null"]}
+  }
+}

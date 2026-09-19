@@ -82,10 +82,21 @@ Otherwise the output remains `PRICING INPUT REQUIRED`.
 
 ```bash
 python3 -m pip install -r requirements.txt
+
+# Focused agent/config security regression scan
+python3 scripts/security_gate.py
+
+# Structural contracts
 python3 scripts/validate_pack.py
+
+# Eval schema and semantic-family checks
 python3 scripts/run_static_evals.py
-python3 -m unittest tests/test_validate_pack.py
+
+# Regression suite
+python3 -m unittest discover -s tests
 ```
+
+The security gate checks agent, skill, router and CI configuration surfaces for credential patterns and a small set of dangerous executable-instruction patterns. It is focused evidence for this repository shape, not a substitute for organization-level secret scanning or platform security controls.
 
 Behavioral maturity still requires a real model harness run. Static validation does not prove model behavior.
 

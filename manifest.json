@@ -1,6 +1,6 @@
 {
   "name": "saudi-marcom-proposal",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "agentic-skill-pack",
   "entrypoint": "SKILL.md",
   "architecture": "guarded-state-dag",
@@ -20,66 +20,18 @@
   "state_contract": "schemas/bid-state.schema.json",
   "neural_graph": "neural-links/graph.yaml",
   "skills": [
-    {
-      "name": "source-intake",
-      "path": "skills/source-intake/SKILL.md",
-      "role": "Source Intake"
-    },
-    {
-      "name": "rfp-forensics",
-      "path": "skills/rfp-forensics/SKILL.md",
-      "role": "Requirement Forensics"
-    },
-    {
-      "name": "regulatory-scout",
-      "path": "skills/regulatory-scout/SKILL.md",
-      "role": "Regulatory Effective-State Resolver"
-    },
-    {
-      "name": "service-router",
-      "path": "skills/service-router/SKILL.md",
-      "role": "Service Architecture Router"
-    },
-    {
-      "name": "precedent-miner",
-      "path": "skills/precedent-miner/SKILL.md",
-      "role": "Sanitized Precedent and Benchmark Mining"
-    },
-    {
-      "name": "bid-strategist",
-      "path": "skills/bid-strategist/SKILL.md",
-      "role": "Buyer and Evaluation Strategy"
-    },
-    {
-      "name": "technical-architect",
-      "path": "skills/technical-architect/SKILL.md",
-      "role": "Technical Solution Architecture"
-    },
-    {
-      "name": "commercial-modeler",
-      "path": "skills/commercial-modeler/SKILL.md",
-      "role": "Commercial and Capacity Modeling"
-    },
-    {
-      "name": "scope-reconciliation",
-      "path": "skills/scope-reconciliation/SKILL.md",
-      "role": "Semantic Technical-Financial Reconciliation"
-    },
-    {
-      "name": "evaluator-simulator",
-      "path": "skills/evaluator-simulator/SKILL.md",
-      "role": "Evaluator Traceability Simulation"
-    },
-    {
-      "name": "proposal-qc",
-      "path": "skills/proposal-qc/SKILL.md",
-      "role": "Independent Bid QC"
-    },
-    {
-      "name": "artifact-assembler",
-      "path": "skills/artifact-assembler/SKILL.md",
-      "role": "Client Package Assembly"
-    }
+    {"name":"source-intake","path":"skills/source-intake/SKILL.md","role":"Source Intake"},
+    {"name":"rfp-forensics","path":"skills/rfp-forensics/SKILL.md","role":"Requirement Forensics"},
+    {"name":"regulatory-scout","path":"skills/regulatory-scout/SKILL.md","role":"Regulatory Effective-State Resolver"},
+    {"name":"service-router","path":"skills/service-router/SKILL.md","role":"Service Architecture Router"},
+    {"name":"precedent-miner","path":"skills/precedent-miner/SKILL.md","role":"Sanitized Precedent and Benchmark Mining"},
+    {"name":"bid-strategist","path":"skills/bid-strategist/SKILL.md","role":"Buyer and Evaluation Strategy"},
+    {"name":"technical-architect","path":"skills/technical-architect/SKILL.md","role":"Technical Solution Architecture"},
+    {"name":"commercial-modeler","path":"skills/commercial-modeler/SKILL.md","role":"Commercial and Capacity Modeling"},
+    {"name":"scope-reconciliation","path":"skills/scope-reconciliation/SKILL.md","role":"Semantic Technical-Financial Reconciliation"},
+    {"name":"evaluator-simulator","path":"skills/evaluator-simulator/SKILL.md","role":"Evaluator Traceability Simulation"},
+    {"name":"proposal-qc","path":"skills/proposal-qc/SKILL.md","role":"Independent Bid QC"},
+    {"name":"artifact-assembler","path":"skills/artifact-assembler/SKILL.md","role":"Client Package Assembly"}
   ],
   "artifacts": [
     "bid_state",

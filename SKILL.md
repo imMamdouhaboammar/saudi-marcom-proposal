@@ -1,7 +1,7 @@
 ---
 name: saudi-marcom-proposal
 description: "Agentic operating system for tailored Saudi technical and financial proposals across corporate communications, media, marketing, promotion, events, crisis and reputation, digital products, AI, monitoring, production, and adjacent MarCom services. Use for Saudi RFP responses, tenders, pitches, retainers, proposal reviews, and bid package assembly. Do NOT use for civil/MEP/construction engineering tenders, legal opinions, generic sales decks, or bare price formatting."
-version: 0.4.0
+version: 0.4.1
 pack: proposal
 inputs:
   - rfp_documents

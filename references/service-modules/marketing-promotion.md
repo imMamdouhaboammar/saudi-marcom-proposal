@@ -1,43 +1,115 @@
 # Marketing and Promotion Module
 
-## Activate for
+## Owns
 
-Campaign strategy, digital marketing, paid media, social campaigns, influencer marketing, activations, promotion, acquisition, lead generation, conversion, and campaign measurement.
+- campaign strategy
+- audience and message architecture
+- creative campaign system
+- channel roles
+- paid media management
+- social campaign operations
+- influencer/creator campaign management
+- landing-page and conversion-path requirements where campaign-led
+- testing and performance reporting
 
 ## Discovery questions
 
-- What is the business or institutional outcome?
-- Who owns media spend?
-- Is paid media budget included, pass-through, or excluded?
-- What tracking stack and conversion events exist?
-- Which audiences can legally and practically be activated?
-- Are influencers or paid creator partnerships involved?
-- What content volume is available for testing?
+- What is the business or behavioral outcome?
+- Is the buyer asking for awareness, registration, attendance, leads, sales, adoption, or reputation?
+- What is the actual media budget and is it inside or outside agency fees?
+- Which audience data can legally and operationally be used?
+- What conversion events are measurable?
+- Who owns media accounts and pixels?
+- Are creator fees and production budgets separate?
+- Is the scope Saudi-only or multi-market?
+- Which languages and cultural adaptations are required?
+- What claims need legal/brand approval?
 
-## Typical workstreams
+## Campaign architecture
 
-- strategy and audience architecture
-- campaign concept and message system
-- media planning and buying
+Separate:
+1. strategy and research
+2. campaign platform/creative system
+3. content production
+4. paid media operations
+5. creator/influencer operations
+6. landing/conversion path
+7. measurement/testing
+8. reporting and learning
+
+Do not present platform presence as strategy. Every channel needs a role.
+
+## Deliverable units
+
+- campaign strategy
+- audience/message matrix
+- key visual or creative platform
+- campaign asset
+- video/ad variation
+- landing page
+- paid media campaign/month
+- creator brief
+- creator deliverable
+- media plan
+- testing cycle
+- weekly/monthly performance report
+- dashboard
+
+## Measurement contract
+
+For each KPI define:
+- funnel stage
+- exact formula
+- source/platform
+- attribution rule
+- baseline if available
+- target provenance
+- reporting cadence
+- decision rule
+
+Never invent improvement percentages.
+
+Separate:
+- business outcomes
+- funnel metrics
+- media metrics
+- diagnostic metrics
+
+## Commercial model
+
+Keep distinct:
+- agency strategy/management fees
 - creative production
-- landing experience or conversion path
-- influencer / creator activation
-- tracking and attribution
-- reporting and optimization cadence
+- media spend
+- creator fees
+- platform/tool licenses
+- third-party production
+- landing-page development
 
-## KPI discipline
+Never present media spend as agency revenue in profitability logic.
 
-Separate business, funnel, media, creative, and operational KPIs. Do not promise ROAS, leads, reach, or conversion improvement without a baseline and commercial assumptions.
+## Influencer/creator controls
 
-## Risks
+Record:
+- creator selection criteria
+- deliverable count/formats
+- usage rights
+- whitelisting/amplification rights
+- exclusivity
+- revisions
+- cancellation/no-show terms
+- licensing/compliance evidence when applicable
+- creator fee basis
 
-- tracking failure
-- weak creative supply
-- missing landing-page readiness
-- unlicensed or unavailable creator
-- media-cost volatility
-- unclear media-budget treatment
+Live-check current Saudi media/advertising requirements when creators or sponsored content are in scope.
 
-## Pricing implications
+## Failure modes
 
-Keep agency fee, production, creator fees, technology, and media spend distinct unless the buyer explicitly requests one blended price.
+- awareness campaign with conversion KPIs but no conversion path
+- media budget absent yet final performance commitment promised
+- creator fees hidden in management fee
+- creative volume insufficient for test plan
+- paid media launched without tracking readiness
+- copied benchmark target treated as client commitment
+- platform plan with no audience/message difference
+- regulatory assumptions reused from a prior year

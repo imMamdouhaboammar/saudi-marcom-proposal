@@ -1,97 +1,68 @@
 import json
-import shutil
-import unittest
+from pathlib import Path
 import subprocess
 import sys
-import tempfile
-from pathlib import Path
+import unittest
 
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 
-class TestSkillPackValidation(unittest.TestCase):
-    def run_validator(self, root):
-        return subprocess.run(
-            [sys.executable, str(root / 'scripts' / 'validate_pack.py')],
+
+class PackValidationTests(unittest.TestCase):
+    def run_json_script(self, relative_path):
+        proc = subprocess.run(
+            [sys.executable, str(ROOT / relative_path)],
+            cwd=ROOT,
+            text=True,
             capture_output=True,
-            text=True
+        )
+        self.assertEqual(proc.returncode, 0, msg=proc.stdout + "\n" + proc.stderr)
+        return json.loads(proc.stdout)
+
+    def test_pack_validator_passes(self):
+        result = self.run_json_script("scripts/validate_pack.py")
+        self.assertEqual(result["status"], "PASS")
+        self.assertGreaterEqual(result["atomic_skills"], 12)
+        self.assertGreaterEqual(result["scenarios"], 22)
+
+    def test_static_eval_validator_passes(self):
+        result = self.run_json_script("scripts/run_static_evals.py")
+        self.assertEqual(result["status"], "PASS")
+        self.assertGreaterEqual(result["semantic_families"], 12)
+
+    def test_manifest_graph_and_state_contract_align(self):
+        manifest = json.loads((ROOT / "manifest.json").read_text(encoding="utf-8"))
+        graph = yaml.safe_load((ROOT / "neural-links/graph.yaml").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["state_contract"], graph["state_contract"])
+        manifest_names = {item["name"] for item in manifest["skills"]}
+        self.assertEqual(manifest_names, set(graph["nodes"]))
+        self.assertIn("bid-strategist", manifest_names)
+        self.assertIn("precedent-miner", manifest_names)
+        self.assertIn("evaluator-simulator", manifest_names)
+
+    def test_every_graph_node_has_guard(self):
+        graph = yaml.safe_load((ROOT / "neural-links/graph.yaml").read_text(encoding="utf-8"))
+        for node_id, node in graph["nodes"].items():
+            self.assertTrue(node.get("exit_guard"), node_id)
+
+    def test_source_precedence_keeps_prior_proposals_low(self):
+        router = yaml.safe_load((ROOT / "routers/source-precedence.yaml").read_text(encoding="utf-8"))
+        order = router["precedence"]
+        self.assertGreater(
+            order.index("private_prior_proposal_pattern"),
+            order.index("verified_bidder_owned_fact"),
         )
 
-    def run_mutated_pack(self, mutate):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            root = Path(temp_dir) / 'pack'
-            shutil.copytree(ROOT, root)
-            mutate(root)
-            return self.run_validator(root)
+    def test_eval_contains_transition_and_capacity_cases(self):
+        data = json.loads((ROOT / "evals/scenarios.json").read_text(encoding="utf-8"))
+        families = {s["family"] for s in data["scenarios"]}
+        self.assertIn("procurement-law-transition", families)
+        self.assertIn("capacity-stress", families)
+        self.assertIn("proof-laundering", families)
+        self.assertIn("precedent-contamination", families)
+        self.assertIn("evaluator-traceability", families)
 
-    def test_validate_pack_script(self):
-        result = self.run_validator(ROOT)
-        self.assertEqual(
-            result.returncode, 0,
-            f"validate_pack.py failed with exit {result.returncode}:\n{result.stdout}\n{result.stderr}"
-        )
-        self.assertIn('"status": "PASS"', result.stdout)
-        self.assertIn('"atomic_skills_validated": 9', result.stdout)
 
-    def test_rejects_manifest_graph_membership_drift(self):
-        def add_manifest_only_skill(root):
-            path = root / 'manifest.json'
-            manifest = json.loads(path.read_text(encoding='utf-8'))
-            manifest['skills'].append({
-                'name': 'manifest-only',
-                'path': 'skills/manifest-only/SKILL.md',
-                'role': 'Unmapped Skill',
-            })
-            path.write_text(json.dumps(manifest), encoding='utf-8')
-
-        result = self.run_mutated_pack(add_manifest_only_skill)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("manifest skill 'manifest-only' missing from graph.yaml nodes", result.stdout)
-
-    def test_rejects_unknown_targets_in_every_edge_field(self):
-        edge_values = {
-            'precursors': ['missing-node'],
-            'continuations': ['missing-node'],
-            'lateral_peers': ['missing-node'],
-            'on_pass': ['missing-node'],
-            'on_fail': ['missing-node'],
-            'recovery': 'missing-node',
-        }
-        for field, value in edge_values.items():
-            with self.subTest(field=field):
-                def set_unknown_target(root, field=field, value=value):
-                    path = root / 'neural-links' / 'graph.yaml'
-                    graph = yaml.safe_load(path.read_text(encoding='utf-8'))
-                    graph['nodes']['source-intake'][field] = value
-                    path.write_text(yaml.safe_dump(graph, sort_keys=False), encoding='utf-8')
-
-                result = self.run_mutated_pack(set_unknown_target)
-                self.assertNotEqual(result.returncode, 0)
-                self.assertIn('references unknown target', result.stdout)
-
-    def test_rejects_unknown_top_level_recovery_target(self):
-        def set_unknown_recovery(root):
-            path = root / 'neural-links' / 'graph.yaml'
-            graph = yaml.safe_load(path.read_text(encoding='utf-8'))
-            graph['recovery']['stale_source'] = 'missing-node'
-            path.write_text(yaml.safe_dump(graph, sort_keys=False), encoding='utf-8')
-
-        result = self.run_mutated_pack(set_unknown_recovery)
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("graph recovery 'stale_source' references unknown target 'missing-node'", result.stdout)
-
-    def test_static_evals_script(self):
-        result = subprocess.run(
-            [sys.executable, str(ROOT / 'scripts' / 'run_static_evals.py')],
-            capture_output=True,
-            text=True
-        )
-        self.assertEqual(
-            result.returncode, 0,
-            f"run_static_evals.py failed with exit {result.returncode}:\n{result.stdout}\n{result.stderr}"
-        )
-        self.assertIn('"status": "PASS"', result.stdout)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

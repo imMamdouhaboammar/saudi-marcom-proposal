@@ -1,109 +1,106 @@
 ---
 name: proposal-qc
-description: "Conduct independent adversarial red-team review and final quality assurance for Saudi MarCom technical and financial proposals. Use when auditing a completed bid package before client submission to falsify compliance, catch ungrounded claims, detect confidential data leakage, verify arithmetic, and prevent disqualifications. Do NOT use for initial drafting, price estimation, or routine spelling fixes."
-version: 0.1.0
+description: "Independently red-team Saudi MarCom proposal packages for compliance, evidence, evaluator usability, technical-commercial consistency, confidentiality, arithmetic, and submission readiness. Use for final reviews, audit requests, finished-file checks, or pre-submission gates. Do NOT use as the primary drafting or pricing skill."
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
+  - bid_state
   - technical_outline
-  - deliverable_map
   - client_boq
-  - payment_milestones
-  - requirement_ledger
   - reconciliation_certificate
+  - evaluator_readability_report
 requires:
   - source_grounding
 produces:
   - qc_report
   - submission_status
-  - blocker_log
 gates:
-  - zero_unresolved_blockers
-  - zero_client_data_leakage
-  - compliance_falsification
+  - independent_review
+  - blocker_zero
+  - evaluator_navigation
+  - client_boundary
 neural_links:
-  precursors:
-    - scope-reconciliation
-  continuations:
-    - artifact-assembler
-  lateral_peers: []
+  precursors: [evaluator-simulator]
+  continuations: [artifact-assembler]
   recovery: proposal-qc
 ---
 
-# Proposal Red-Team & Quality Control
+# Proposal QC and Red Team
 
-Execute independent adversarial falsification before proposal submission.
+Try to disqualify, misunderstand, or break the proposal before the evaluator can.
 
-## Mission
+Evaluator-simulation findings are advisory evidence. An unresolved mandatory-requirement gap remains a blocker even if the simulator labels it only as a question.
 
-Act as an independent client evaluator and legal/commercial red team to challenge and audit the entire proposal package, discovering compliance flaws, ungrounded claims, arithmetic defects, or confidential data leaks before the client sees them.
+## Review order
 
-## Activation Contract
+1. submission and mandatory forms
+2. pass/fail qualifications
+3. source and claim integrity
+4. evaluation coverage
+5. technical executability
+6. technical-financial parity
+7. commercial formulas and treatment
+8. Saudi regulatory freshness when relevant
+9. confidentiality and client boundary
+10. evaluator navigation and artifact clarity
 
-Activate when:
-- Conducting final quality assurance on a completed proposal draft
-- Evaluating compliance against RFP evaluation criteria and mandatory qualification gates
-- Auditing the text for residual competitor names, prior client identifiers, or placeholder tags
-- Issuing the formal `qc_report` and go/no-go `submission_status`
+## Finding severity
 
-Do NOT activate for:
-- Initial requirement analysis (use `rfp-forensics`)
-- Proposal narrative authoring (use `technical-architect`)
-- Packaging documents into final file formats (use `artifact-assembler`)
+- `BLOCKER`: could disqualify, invalidate price, breach confidentiality, or make delivery materially impossible
+- `MAJOR`: meaningful evaluation, delivery, or commercial risk
+- `MINOR`: correctable weakness with limited impact
+- `POLISH`: readability or presentation improvement
 
-## Non-Negotiable Invariants
+## Mandatory falsification checks
 
-1. **Independent Evaluation Lens**: Red-team review must attempt to disqualify or penalize the proposal as a tough government evaluator would. Never rubber-stamp a draft.
-2. **Blocking Finding Veto**: Any critical finding (e.g., missed mandatory clause, arithmetic mismatch, client data leak, missing portal attachment) immediately blocks final release (`STATUS: BLOCKED`).
-3. **Evidence Requirement**: Every assertion of failure or pass must cite exact line numbers, clause references, or formula checks.
+Attempt to find:
+- an RFP clause with no response location
+- a mandatory attachment missing or transformed incorrectly
+- a case claim with no evidence receipt
+- a current regulatory statement with no effective-state receipt
+- a deliverable with no commercial treatment
+- a price line with no technical purpose
+- a 24/7 or rapid-response promise with insufficient capacity
+- a quantity, language, location, or revision mismatch
+- an internal margin, bank detail, old client name, or private commercial term in client artifacts
+- a total, VAT, or milestone inconsistency
+- a stale assumption that should have been superseded by an addendum
 
-## Execution Procedure
+## Evaluator usability
 
-### Step 1: Compliance Falsification Audit
-Check against `requirement_ledger` and `templates/compliance-matrix.csv`:
-- Is every mandatory requirement explicitly and visibly answered?
-- Are all requested company certifications, licenses, and permits attached?
-- Does the team CV structure satisfy minimum years of experience and Saudization rules?
-- Are mandatory submission forms and signed declarations present?
+A compliant proposal can still underperform if evidence is hard to find.
 
-### Step 2: Factual Grounding & Anti-Hallucination Scan
-Audit every factual statement in the technical proposal:
-- Flag ungrounded claims (e.g., "we have 99% reach", "we guarantee zero negative sentiment")
-- Check that all cited case studies are verified and authorized
-- Flag invented dates, fictitious client quotes, or unsupported performance metrics
+Check:
+- high-weight criteria have visible, evidence-backed coverage
+- executive summary reflects the actual solution
+- requirements cross-reference is navigable
+- differentiators are specific and proven
+- long sections have clear decision logic
+- optional ideas are labeled and do not contaminate base scope
 
-### Step 3: Confidentiality & Leakage Scrub
-Execute comprehensive pattern search:
-- Search for names of past clients, unredacted third-party rates, internal cost estimates
-- Search for lingering template markers: `[CLIENT NAME]`, `[DATE]`, `[XXX]`, `TODO`
-- Verify that metadata in source files (author properties, revision history) is scrubbed
+Do not invent a score for opaque criteria. You may assess coverage quality against known criteria.
 
-### Step 4: Arithmetic & Financial Consistency Check
-Confirm `reconciliation_certificate` validity:
-- Re-verify BOQ totals and VAT line items
-- Verify that no conflicting numbers appear in the executive summary or technical text
+## Release states
 
-### Step 5: Arabic Language, RTL & Presentation Review
-- Check Arabic grammar, tone (formal official Arabic suitable for Saudi ministries/PIF entities)
-- Ensure bidirectional text (English acronyms embedded in Arabic sentences) renders with correct punctuation and flow
-- Check that table alignments and numbering sequences are consistent
+`READY`:
+- zero blockers
+- reconciliation certificate is current and passing
+- mandatory requirements covered
+- client artifacts contain no internal leakage
 
-### Step 6: Verdict & Blocker Log Generation
-Compile `templates/final-qc-checklist.md` into `qc_report`:
-- **BLOCKING ISSUES**: Disqualifying items that halt release
-- **MAJOR ISSUES**: Significant risks that weaken evaluation score
-- **POLISH ITEMS**: Minor stylistic or aesthetic improvements
-- Set `submission_status`: `READY` | `REVISIONS_REQUIRED` | `BLOCKED`
+`REVISIONS_REQUIRED`:
+- no disqualifying blocker, but major issues remain
 
-## Neural Handoff Contract
+`BLOCKED`:
+- any unresolved blocker
 
-When complete, output:
-- `qc_report`: Detailed audit findings (`templates/final-qc-checklist.md`)
-- `submission_status`: Go / No-Go verdict
-- `blocker_log`: Action items for remediation
-- Target Continuations: Hand off to **`artifact-assembler`** on `READY`; route back to originating skill on `BLOCKED`.
+## External reviewer adapters
 
-## Progressive Resources
-- `references/final-qc.md`
-- `references/writing-and-rtl.md`
-- `templates/final-qc-checklist.md`
+Independent external reviewers may add findings through `tools/reviewer-adapter-contract.md`.
+
+Their results are evidence, not automatic truth. Normalize and deduplicate them before changing release status.
+
+## Handoff
+
+Only `READY` continues to `artifact-assembler`.

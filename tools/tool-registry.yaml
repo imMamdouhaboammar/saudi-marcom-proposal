@@ -1,0 +1,50 @@
+version: 1
+principle: "Canonical skills request capabilities. Host adapters choose providers."
+
+capabilities:
+  connected_source_search:
+    purpose: "Find private or user-owned RFPs, briefs, prior proposals, rate cards, and evidence."
+    evidence: [source_id, title, locator, fetched_at]
+    failure: "Mark source unavailable. Never replace private evidence with web guesses."
+
+  connected_source_read:
+    purpose: "Read authoritative user-owned source content."
+    evidence: [source_id, locator, range_or_section, fetched_at]
+
+  public_web_search:
+    purpose: "Find current official Saudi authority sources and public benchmarks."
+    evidence: [query, url, authority, checked_at]
+    preference: "Primary official sources first."
+
+  public_web_fetch:
+    purpose: "Read exact official text when search excerpts are insufficient."
+    evidence: [url, checked_at, extracted_section]
+
+  spreadsheet_compute:
+    purpose: "Calculate pricing, quantities, VAT/tax inputs, milestones, and reconciliations."
+    controls:
+      - "Preserve buyer forms."
+      - "No unsourced final rates."
+      - "Client output excludes internal costs."
+
+  document_artifact:
+    purpose: "Create or edit DOCX/Docs proposal artifacts."
+    controls: [rtl_ltr_validation, mandatory_structure_preservation]
+
+  presentation_artifact:
+    purpose: "Create or edit PPTX/Slides proposal artifacts."
+    controls: [render_validation, visual_hierarchy, overflow_check]
+
+  deterministic_validator:
+    purpose: "Run package, schema, formula, reference, and leakage checks."
+    evidence: [command_or_validator, result, timestamp]
+
+  independent_reviewer:
+    purpose: "Receive external code/skill/proposal findings from tools such as CodeRabbit-style or plugin-eval reviewers."
+    evidence: [reviewer, target_revision, findings, timestamp]
+    authority: "advisory"
+    rule: "Cannot override hard gates or self-certify fixes."
+
+fallback_rules:
+  - "If a preferred provider is unavailable, use another provider with the same capability contract."
+  - "If no capability exists, return a named blocker. Never simulate tool success."

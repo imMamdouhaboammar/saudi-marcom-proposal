@@ -1,47 +1,38 @@
 # Tool Capability Contract
 
-The canonical Skill is provider-neutral. Hosts can map these capability families to available tools.
+Canonical skills depend on capabilities, not specific plugin brands.
 
-## Required capability families
+The machine-readable registry is tools/tool-registry.yaml.
 
-### File/source discovery
+## Selection rule
 
-- list/search connected files
-- read documents, presentations, spreadsheets, PDFs, and text
-- preserve source identifiers and page/section references
+For each task:
+1. identify required capability
+2. prefer the connected/private source provider for user-owned evidence
+3. prefer official public sources for current Saudi rules
+4. use deterministic compute for money and reconciliation
+5. use artifact-specific tools for final files
+6. verify writes/readback
+7. return a blocker if no compatible capability exists
 
-### Current web research
+## Evidence rule
 
-- search official Saudi domains
-- fetch current pages
-- capture URL and check date
+Every material tool-derived fact should leave a receipt appropriate to the capability.
 
-### Spreadsheet production
+Examples:
+- connected file: source ID, title, locator, fetched time
+- web rule: authority, official URL, checked time
+- spreadsheet: formula/model revision and validation result
+- artifact: output ID/path and render-validation result
+- external review: reviewer, target revision, finding IDs
 
-- create/edit formulas, formatting, validations, and separate internal/client sheets
-- inspect formulas and scan for spreadsheet errors
+## Failure behavior
 
-### Document/presentation production
+Never simulate:
+- file reads
+- live regulatory checks
+- spreadsheet calculations
+- reviewer runs
+- artifact writes
 
-- create/edit Arabic and English documents and decks
-- support native RTL
-- export to client-required formats
-
-### Validation
-
-- search all artifacts for stale client identifiers or confidential patterns
-- validate numeric reconciliation
-- run pack/eval scripts when filesystem execution exists
-
-## Capability degradation
-
-If a required capability is missing:
-
-- no live web: mark regulatory proof stale and do not claim current compliance
-- no spreadsheet engine: produce a structured financial schema but do not claim formula verification
-- no document renderer: produce content structure but mark visual QA incomplete
-- no source access: ask for or clearly list the missing source instead of reconstructing it from memory
-
-## Secret handling
-
-Never copy credentials, bank details, API keys, private contact information, or unrelated sensitive identifiers from a benchmark source into a new proposal.
+A missing provider is a named runtime limitation, not permission to invent evidence.

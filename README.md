@@ -1,77 +1,110 @@
 # Saudi MarCom Proposal Skill Pack
 
-A provider-neutral agentic Skill Pack for architecting, authoring, and auditing tailored Saudi technical and financial proposals across media, corporate communications, marketing, promotion, events, crisis and reputation, digital and AI, monitoring, production, and adjacent services.
+A provider-neutral agentic operating system for preparing, reviewing, and packaging tailored Saudi technical and financial proposals across corporate communications, media, marketing, promotion, events, crisis and reputation, digital products, AI, monitoring, and production.
 
-## Architectural Model: Atomic Neural-Connected DAG
+Version 0.3 deepens the pack from a linear proposal workflow into a guarded state machine.
 
-The skill pack is organized as a **Master Dynamic Orchestrator** (`SKILL.md`) driving a **Directed Acyclic Graph (DAG)** of 9 discrete, fully self-contained atomic skills under `skills/` connected via the `neural_links` protocol:
+## What changed in v0.3
+
+The pack now treats a bid as one persistent evidence model. Every specialist reads and writes the same `bid_state`, while guarded neural links control when downstream work is allowed.
+
+Key additions:
+- buyer-context routing for government, semi-government, private, and direct-award briefs
+- `bid-strategist` skill for evaluation weights, proof strategy, win themes, and bid/no-bid evidence
+- regulatory effective-state resolver that distinguishes announced, enacted, effective, superseded, and unknown rules
+- capacity-aware commercial modeling instead of price-table-only behavior
+- semantic technical-financial reconciliation across SLA, languages, geography, rights, timing, revisions, and operating coverage
+- provider-neutral tool registry and independent reviewer adapter contract
+- trace-oriented behavioral eval contract
+
+## Architecture
 
 ```mermaid
 flowchart TD
-    In["RFP / Tender Input"] --> S1["skills/source-intake"]
-    S1 --> S2["skills/rfp-forensics"]
-    S2 --> S3["skills/regulatory-scout"]
-    S2 --> S4["skills/service-router"]
-    S3 --> S5["skills/technical-architect"]
-    S4 --> S5
-    S3 --> S6["skills/commercial-modeler"]
-    S5 --> S6
-    S5 --> S7["skills/scope-reconciliation"]
-    S6 --> S7
-    S7 --> S8["skills/proposal-qc"]
-    S7 -.->|"Scope / Price Discrepancy"| S5
-    S8 --> S9["skills/artifact-assembler"]
-    S8 -.->|"Critical QC Blocker"| S2
-    S9 --> Out["Submission Package (Technical + Financial)"]
+    A[Source Intake] --> B[RFP Forensics]
+    B --> C[Regulatory Scout]
+    B --> D[Service Router]
+    B --> E[Bid Strategist]
+    C --> F[Technical Architect]
+    D --> F
+    E --> F
+    F --> G[Commercial Modeler]
+    C --> G
+    F --> H[Scope Reconciliation]
+    G --> H
+    H --> I[Proposal QC]
+    I --> J[Artifact Assembler]
+    H -. mismatch .-> F
+    H -. pricing gap .-> G
+    I -. requirement gap .-> B
+    I -. regulatory gap .-> C
 ```
 
-## The 9 Atomic Skills Suite
+The neural graph lives at `neural-links/graph.yaml`. The shared state contract lives at `schemas/bid-state.schema.json`.
 
-| # | Skill Directory | Canonical Entrypoint | Core Responsibility |
-|---|---|---|---|
-| 1 | `skills/source-intake/` | `SKILL.md` | Ingestion, document inventory, situation classification, confidentiality quarantine |
-| 2 | `skills/rfp-forensics/` | `SKILL.md` | Clause decomposition, requirement ledger, scoring rubric, clarification log |
-| 3 | `skills/regulatory-scout/`| `SKILL.md` | Live Saudi checks: Etimad GTPL, Local Content, ZATCA VAT, PDPL, GCAM, GEA |
-| 4 | `skills/service-router/` | `SKILL.md` | Multi-stream scope routing across 6 MarCom families and interface boundaries |
-| 5 | `skills/technical-architect/`| `SKILL.md`| Technical proposal (العرض الفني), deliverable units, RACI, schedule, risk register |
-| 6 | `skills/commercial-modeler/` | `SKILL.md` | Financial model (العرض المالي), client BOQ (جدول الكميات والأسعار), payment milestones |
-| 7 | `skills/scope-reconciliation/`| `SKILL.md`| Bidirectional 2-way verification: every deliverable priced $\leftrightarrow$ every charge justified |
-| 8 | `skills/proposal-qc/` | `SKILL.md` | Adversarial red-team evaluation, compliance falsification, zero-leakage audit |
-| 9 | `skills/artifact-assembler/` | `SKILL.md` | Deliverable compilation, Arabic RTL layout fidelity, separate/combined packages |
+## Principle
 
-## Minimum Inputs for a Final Bid
+The technical proposal and the financial proposal are two projections of the same scope model.
 
-- RFP or approved brief
-- Submission deadline and platform format
-- Bidder credentials and approved case facts
-- Commercial rate cards, vendor quotes, or pricing parameters
-- Prescribed client templates or mandatory BOQ
-- Clarification Q&A and issued addenda
+That means a promise such as "24/7 monitoring with 30-minute escalation" cannot pass if the commercial model only funds business-hours coverage. The reconciliation node blocks release until the capacity, SLA, and price basis agree.
 
-If inputs are incomplete, the skills produce an assumptions-led draft with an explicit missing-input list rather than inventing facts.
+## Regulatory behavior
 
-## Non-Negotiable Invariants
+The skill does not assume that an announced Saudi rule is already effective.
 
-1. **Source Before Prose**: Never write requirements from memory when the RFP or official source can answer it.
-2. **Evidence Before Claims**: Zero fabricated credentials, case stats, audience reach, or permit status.
-3. **Strict Scope-to-Price Parity**: Every technical promise must be funded; every BOQ line must have scope purpose.
-4. **Zero Unsourced Pricing**: Missing commercial inputs remain marked as `PRICING INPUT REQUIRED`.
-5. **Mandatory Form Preservation**: Government BOQ tables and declarations retain original structure.
-6. **Relevance-Gated Saudi Regulations**: Live-check only authorities that directly govern the scope.
-7. **Zero Client Leakage**: Scrub past client names, numbers, account details, and confidential case facts.
+For each triggered regulatory domain it records:
+- authority
+- instrument
+- status
+- publication date
+- effective date if verified
+- checked date
+- official source
+- technical implication
+- commercial implication
 
-## Verification & Evaluation Suite
+This is especially important during procurement-law transitions and when authority names, permit services, or implementation guidance change.
 
-Install the validator dependency, then run the static validation and behavioral evaluation suites locally:
+## Commercial behavior
+
+The financial model never fabricates final market prices.
+
+Allowed final pricing bases:
+- approved bidder rate card
+- verified bidder cost basis
+- current supplier quote
+- client contractual schedule
+- explicitly authorized commercial assumption
+
+Public or historical benchmarks may guide unit structure and scenario design, but they do not become final prices by inference.
+
+## Using internal references
+
+Private prior proposals are used only for patterns such as:
+- proposal anatomy
+- deliverable units
+- approval flows
+- multilingual operations
+- event production dependencies
+- monitoring and crisis coverage models
+- pricing table structure
+
+Client names, private rates, account information, and unverified case claims are excluded.
+
+## Verification
+
+Run:
 
 ```bash
 python3 -m pip install -r requirements.txt
-
-# Validate master orchestrator and all 9 atomic skills (<500 lines, neural links, secrets)
 python3 scripts/validate_pack.py
-
-# Run scenario schema validation (use full live testbed harness for behavioral scoring)
 python3 scripts/run_static_evals.py
 ```
 
-Internal ledgers remain outside `final_handoff` unless the RFP explicitly requires a specific ledger.
+Behavioral maturity still requires a real agent harness that records route decisions, evidence receipts, tool traces, gates, and final outputs. Static validation alone is not a behavioral proof.
+
+## Optional external reviewers
+
+Code-review or plugin-evaluation systems can be connected through `tools/reviewer-adapter-contract.md`.
+
+They are independent evidence sources, not release authorities. A reviewer result cannot bypass the pack's own hard gates.

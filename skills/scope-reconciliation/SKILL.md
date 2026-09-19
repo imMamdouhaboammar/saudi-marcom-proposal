@@ -1,12 +1,15 @@
 ---
 name: scope-reconciliation
-description: "Perform strict bidirectional reconciliation between technical deliverables and commercial pricing lines for Saudi proposals. Use when validating that every technical deliverable is accounted for financially, every line in the BOQ has a technical purpose, quantities and dates match exactly, and arithmetic is verified. Do NOT use for initial solution design, pricing creation, or graphic formatting."
-version: 0.2.0
+description: "Falsify and reconcile technical scope against commercial scope for Saudi proposals. Use when checking that every promise has a commercial treatment, every charge has a technical purpose, and quantity, SLA, timing, language, geography, rights, revisions, operating coverage, and capacity agree. Do NOT use for initial solution design, price invention, or formatting."
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
+  - requirement_ledger
   - deliverable_map
-  - pricing_engine
+  - acceptance_map
+  - capacity_model
+  - pricing_basis_ledger
   - client_boq
 requires:
   - source_grounding
@@ -14,90 +17,96 @@ produces:
   - scope_price_map
   - mismatch_report
   - reconciliation_certificate
+  - change_impact_log
 gates:
-  - 100_percent_bidirectional_coverage
-  - quantity_and_unit_parity
+  - bidirectional_coverage
+  - semantic_parity
   - arithmetic_integrity
+  - change_propagation
 neural_links:
-  precursors:
-    - technical-architect
-    - commercial-modeler
-  continuations:
-    - proposal-qc
-  lateral_peers: []
+  precursors: [technical-architect, commercial-modeler]
+  continuations: [evaluator-simulator]
   recovery: scope-reconciliation
 ---
 
-# Scope-Price Reconciliation Engine
+# Semantic Scope Reconciliation
 
-Execute rigorous bidirectional reconciliation between technical promises and commercial prices.
+Treat reconciliation as a falsification step, not a checkbox.
 
-## Mission
+## Forward trace: technical to commercial
 
-Guarantee that the technical proposal and financial proposal are 100% harmonized, eliminating unpriced commitments, unsupported price lines, quantity mismatches, and arithmetic defects before independent QC.
+For every deliverable verify:
+- commercial treatment exists
+- unit and quantity are compatible
+- languages and locations are covered
+- turnaround and SLA are funded
+- revision rounds are funded
+- rights/licensing/pass-throughs are handled
+- operating window and staffing are supportable
+- dependencies and client responsibilities are consistent
 
-## Activation Contract
+Unresolved item types:
+- `UNPRICED_COMMITMENT`
+- `CAPACITY_GAP`
+- `RIGHTS_OR_LICENSE_GAP`
+- `DEPENDENCY_GAP`
 
-Activate when:
-- Both technical scope (`deliverable_map`) and commercial pricing (`client_boq` / `pricing_engine`) have been drafted
-- Verifying whether all promised technical work is funded and accounted for
-- Checking that client-facing BOQ lines correspond to tangible technical scope
-- Validating arithmetic, unit consistency, VAT formulas, and milestone logic
+## Backward trace: commercial to technical
 
-Do NOT activate for:
-- Drafting new technical methodologies (use `technical-architect`)
-- Calculating unit rates from scratch (use `commercial-modeler`)
-- Conducting general RFP clause extraction (use `rfp-forensics`)
+For every BOQ line verify:
+- technical purpose exists
+- buyer requirement or bidder option is identified
+- quantity basis is visible
+- supplier/pass-through treatment is disclosed where appropriate
+- no internal-only cost line leaks into client-facing scope
 
-## Non-Negotiable Invariants
+Unresolved item types:
+- `UNSUPPORTED_CHARGE`
+- `DUPLICATE_CHARGE`
+- `CLIENT_INTERNAL_LEAK`
 
-1. **Zero Unpriced Commitments**: Every single deliverable in the technical offer must be priced, explicitly marked as included at zero cost, client-supplied, or formally listed as an optional extra.
-2. **Zero Unsupported Charges**: Every price item in the BOQ must have a clear technical justification in the technical proposal.
-3. **Quantity & Schedule Parity**: Quantities (e.g., number of videos, days of events, monthly reports) and delivery durations must match verbatim across both documents.
+## Semantic parity dimensions
 
-## Execution Procedure
+Compare:
+- quantity
+- unit
+- duration
+- frequency
+- service window
+- response time
+- languages
+- geography
+- deliverable format
+- review/revision count
+- acceptance criteria
+- handover/ownership rights
+- supplier responsibility
+- permit dependency
+- team coverage
+- optional/excluded status
 
-### Step 1: Forward Traceability Check (Technical $\to$ Financial)
-Iterate through every entry in the `deliverable_map`:
-- Does an equivalent line exist in the `client_boq` or internal cost model?
-- If not:
-  - Is it explicitly documented as "Included at no additional cost"?
-  - Is it documented as "Client Responsibility / Supplied by Client"?
-  - Is it an "Optional Add-on"?
-- If none of the above: **RECONCILIATION FAILS** $\to$ Flag as `UNPRICED TECHNICAL DELIVERABLE`.
+A numeric match is insufficient if service semantics differ.
 
-### Step 2: Backward Traceability Check (Financial $\to$ Technical)
-Iterate through every line item in the `client_boq`:
-- Does this line correspond to a deliverable or operational workstream in the technical proposal?
-- If not: **RECONCILIATION FAILS** $\to$ Flag as `UNSUPPORTED COMMERCIAL LINE`.
+## Change propagation
 
-### Step 3: Metric & Quantity Parity Verification
-Verify exact numeric agreement:
-- Check quantities: Does the technical proposal say "12 monthly reports" while the BOQ prices "10"?
-- Check event durations: Does the technical plan say "3-day exhibition" while BOQ prices "2 days"?
-- Check staffing levels: Do team roles in the governance section match the FTEs priced in the rate card?
+When one side changes:
+1. identify dependent deliverables, BOQ lines, milestones, risks, assumptions, and schedule entries
+2. update the change-impact log
+3. invalidate prior reconciliation certificate
+4. re-run only affected checks plus totals
 
-### Step 4: Arithmetic & Tax Formula Audit
-Recalculate all formulas independently:
-- Unit Price $\times$ Quantity = Line Subtotal
-- Sum of Line Subtotals = Total Exclusive of VAT
-- VAT = Total Exclusive $\times$ 15% (or 0% if exempt/zero-rated with proof)
-- Grand Total = Total Exclusive + VAT
-- Check rounding errors (must match to 2 decimal places in SAR)
+Do not preserve a stale certificate after mutation.
 
-### Step 5: Disposition & Reconciliation Certificate
-- If any discrepancy is found: Generate `mismatch_report` and route back to `technical-architect` or `commercial-modeler` for remediation.
-- If 100% matched: Issue formal `reconciliation_certificate` (verified audit report documenting 1:1 parity and calculation sign-off) clearing the proposal for `proposal-qc`.
+## Certificate
 
-## Neural Handoff Contract
+Issue `PASS` only when:
+- no material mismatch remains
+- formulas/totals are valid
+- all final-priced lines have a pricing basis
+- all mandatory deliverables have a commercial treatment
 
-When complete, output:
-- `scope_price_map`: 1:1 cross-reference ledger
-- `mismatch_report`: Discrepancy log (if failed)
-- `reconciliation_certificate`: Verified reconciliation sign-off report (if passed)
-- Target Continuation: Hand off to **`proposal-qc`** on pass; bounce back to **`technical-architect`** / **`commercial-modeler`** on fail.
+Otherwise issue `FAIL` with machine-readable mismatch IDs.
 
-## Progressive Resources
-- `references/financial-modeling.md`
-- `references/technical-proposal-anatomy.md`
-- `templates/boq.csv`
+## Handoff
+
+Only a passing certificate continues to `evaluator-simulator`.

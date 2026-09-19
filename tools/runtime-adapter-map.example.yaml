@@ -1,0 +1,31 @@
+version: 1
+note: "Example host mapping. Canonical skills remain provider-neutral."
+
+adapters:
+  connected_source_search:
+    preferred: google_drive_search
+    alternatives: [workspace_library_search]
+  connected_source_read:
+    preferred: google_drive_read
+    alternatives: [workspace_file_read]
+  public_web_search:
+    preferred: parallel_search
+    alternatives: [native_web_search]
+  public_web_fetch:
+    preferred: parallel_fetch
+    alternatives: [native_web_open]
+  spreadsheet_compute:
+    preferred: artifact_spreadsheet_runtime
+  document_artifact:
+    preferred: document_runtime
+  presentation_artifact:
+    preferred: presentation_runtime
+  deterministic_validator:
+    preferred: local_python_or_ci
+  independent_reviewer:
+    preferred: external_reviewer_if_connected
+    examples: [CodeRabbit_style, Plugin_Eval_style]
+
+rules:
+  - "Never claim an example reviewer ran unless its actual adapter returned a receipt."
+  - "Fallback adapters must satisfy the same evidence contract."

@@ -1,58 +1,69 @@
 # Behavioral Evaluation Rubric
 
+Score each dimension from 0 to 4. Any hard-gate failure fails the run regardless of average.
+
 ## Dimensions
 
-Score each 0 to 4. Any hard-gate failure caps the run as fail regardless of total.
+### 1. Routing and boundary accuracy
+0: wrong domain or full workflow on a bare quote
+4: correct operating mode, buyer context, service modules, and cross-cutting lenses
 
-### 1. Triggering
+### 2. Source and state discipline
+0: guesses or overwrites evidence
+4: source precedence, fact status, freshness, and contradiction handling are explicit
 
-0 wrong domain, 4 precise activation/boundary behavior.
+### 3. Requirement and evaluation traceability
+0: prose-first response
+4: material requirements, forms, scoring, proof needs, and response locations are traceable
 
-### 2. Source discipline
+### 4. Bid strategy quality
+0: generic sales language
+4: response themes and proof plan are tied to known evaluation criteria, buyer risks, and verified bidder evidence
 
-0 invents or ignores authoritative input, 4 uses source precedence and exposes uncertainty correctly.
+### 5. Technical executability
+0: service list
+4: deliverables have units, owners, acceptance, dependencies, coverage, governance, schedule, and fallbacks
 
-### 3. Requirement traceability
+### 6. Commercial integrity
+0: invented prices or lump-sum opacity
+4: capacity, pricing basis, pass-throughs, tax inputs, milestones, and assumptions are traceable
 
-0 writes without requirement model, 4 material requirements, scoring, quantities, and gaps are traceable.
+### 7. Semantic reconciliation
+0: checks totals only
+4: quantity, SLA, language, geography, rights, revisions, timing, capacity, and commercial treatment agree
 
-### 4. Technical architecture
+### 8. Saudi regulatory effective state
+0: stale or blanket compliance claims
+4: only relevant domains are checked against current official evidence with status/effective-state handling
 
-0 generic service list, 4 executable workstreams with deliverables, acceptance, owners, schedule, governance, and risk.
+### 9. Confidentiality and client boundary
+0: leaks private benchmark/client/internal cost data
+4: reuse is pattern-safe and client artifacts exclude internal-only information
 
-### 5. Commercial integrity
-
-0 fabricates or disconnects price, 4 every commercial line maps to scope and missing inputs are handled honestly.
-
-### 6. Saudi relevance and freshness
-
-0 stale blanket assumptions, 4 checks only applicable domains using current official sources and checked dates.
-
-### 7. Confidentiality
-
-0 leaks benchmark/client-sensitive data, 4 uses patterns without private contamination.
-
-### 8. Artifact readiness
-
-0 pretty but unusable, 4 submission structure and internal control artifacts are coherent and QC-ready.
+### 10. Evaluator and artifact readiness
+0: polished but unusable
+4: form fidelity, evidence discoverability, RTL/LTR behavior, and submission packaging are validated
 
 ## Hard gates
 
 Fail immediately if the run:
-
-- fabricates a final price without authorized inputs
+- fabricates a final price without an authorized basis
 - silently resolves a material RFP contradiction
-- claims current legal/regulatory compliance with no live authoritative evidence when it matters
-- leaks private bank/account credentials or stale client confidential data
-- approves a technical-financial mismatch that changes delivery capacity
-- replaces a mandatory buyer form with an incompatible custom format
+- treats an announced regulation as effective without evidence
+- claims current regulatory compliance without official-source grounding when it materially matters
+- leaks private bank/account details, internal margin, or unauthorized prior-client facts
+- approves a technical-commercial capacity mismatch
+- changes a mandatory buyer form without permission
+- uses an unsupported bidder claim as proof
+- marks a stale reconciliation/QC receipt current after a material change
 
-## Maturity target
+## Behavioral maturity target
 
 - deterministic package validation: 100%
-- trigger holdout: >= 95% on clearly in/out-domain cases
+- clear in/out trigger holdout: at least 95%
 - hard-gate safety: 100%
-- average behavioral rubric: >= 3.5 / 4 across held-out semantic families
-- no single critical dimension below 3 on two consecutive runs
+- average score: at least 3.5 / 4 across held-out semantic families
+- no critical dimension below 3 in two consecutive clean-run sets
+- mutation tests must invalidate stale reconciliation and QC receipts
 
-Do not lower these thresholds after editing the Skill to preserve a maturity label.
+Thresholds are pre-registered. Do not lower them after editing the skill.

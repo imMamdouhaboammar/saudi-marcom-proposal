@@ -1,7 +1,7 @@
 ---
 name: regulatory-scout
-description: "Research and verify Saudi regulatory requirements, procurement procedures, tax rules, and operational permits relevant to MarCom proposals. Use when validating Etimad government procurement rules, local content requirements, ZATCA VAT/e-invoicing rules, PDPL data privacy, GCAM media licensing, or GEA event permits. Do NOT use for generic market research, creative copywriting, or legal opinions."
-version: 0.1.0
+description: "Resolve current Saudi regulatory and procurement obligations that materially affect a MarCom bid, including procurement, local content, tax, personal data, media/advertising, events, and triggered digital controls. Use when a proposal contains a current compliance claim, permit dependency, tax treatment, government submission rule, or regulated data/media activity. Do NOT use for generic legal research, legal opinions, or unrelated macro summaries."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -12,84 +12,119 @@ requires:
 produces:
   - regulatory_source_ledger
   - applicability_flags
-  - compliance_citations
+  - regulatory_effective_state
 gates:
   - relevance_gated_only
-  - authority_url_verification
+  - official_source_preference
+  - effective_state_verified
   - non_legal_advice_boundary
 neural_links:
-  precursors:
-    - rfp-forensics
-  continuations:
-    - technical-architect
-    - commercial-modeler
-  lateral_peers:
-    - rfp-forensics
+  precursors: [rfp-forensics]
+  continuations: [technical-architect, commercial-modeler]
+  lateral_peers: [service-router, bid-strategist]
   recovery: regulatory-scout
 ---
 
-# Saudi Regulatory & Freshness Scout
+# Saudi Regulatory Effective-State Resolver
 
-Verify and cite live Saudi regulatory rules strictly relevant to proposal scope.
+Research only regulatory domains that change scope, risk, submission, or price.
 
-## Mission
+## Core rule
 
-Ensure the proposal adheres to current Saudi Arabian laws, authority decrees, tax codes, data privacy guidelines, media regulations, and event permitting procedures without bloating the bid with generic research.
+An announcement is not an effective rule until the effective state is verified.
 
-## Activation Contract
+Read `references/regulatory-state-resolver.md` before making a current compliance claim.
 
-Activate when:
-- Government tenders requiring Etimad procurement compliance or Local Content declarations
-- Commercial offers requiring ZATCA VAT treatment (15%) or e-invoicing provisions
-- Solutions handling personal data, audience monitoring, or AI databases requiring PDPL compliance
-- Communications scopes involving advertising licensing (Mawthooq, GCAM permits)
-- Event management requiring GEA, civil defense, or municipal permits
+## Trigger map
 
-Do NOT activate for:
-- Writing general project methodology (use `technical-architect`)
-- Unrelated legal drafting or corporate bylaws
-- Endless generic Vision 2030 macro summaries with no bearing on tender evaluation
+Potential domains:
+- government procurement and Etimad
+- local content and mandatory lists
+- VAT, withholding, e-invoicing, or other tax treatment
+- PDPL and cross-border personal data transfer
+- media, publishing, advertising, influencer, or content licensing
+- entertainment/event permits and supplier accreditation
+- cybersecurity or telecom controls when the technical scope actually triggers them
+- sector-specific buyer rules named in the RFP
 
-## Non-Negotiable Invariants
+Do not activate every domain by default.
 
-1. **Relevance Gating**: Never research or cite a regulation that does not directly impact the scope, risk, compliance, or pricing of this specific tender.
-2. **Freshness & Provenance**: Every cited regulation must include the issuing authority name, decree/document title, verified URL, and date checked.
-3. **No Unlicensed Legal Advice**: If regulatory applicability is disputed or ambiguous, flag it as a contractual dependency for client confirmation.
+## Source hierarchy
 
-## Execution Procedure
+Prefer:
+1. current RFP, addenda, and buyer submission instructions for bid-specific obligations
+2. official Saudi authority pages, regulations, gazette publications, and official service pages
+3. official government news for announcements
+4. secondary legal commentary only to locate issues that must then be verified against primary sources
 
-### Step 1: Regulatory Domain Mapping
-Check which regulatory domains are triggered by the requirement ledger:
-- **Government Procurement**: Government Tender & Procurement Law (GTPL) via Etimad portal
-- **Local Content**: Local Content & Government Procurement Authority (LCGPA) baseline and mandatory lists
-- **Taxation**: ZATCA 15% VAT, withholding tax on foreign suppliers, e-invoicing Phase 2 requirements
-- **Data Protection**: Saudi Personal Data Protection Law (PDPL) & SDAIA regulations regarding data residency, consent, and cross-border transfer
-- **Media & Advertising**: General Authority of Media Regulation (GCAM) content licenses and Mawthooq influencer advertiser permits
-- **Events & Entertainment**: General Entertainment Authority (GEA) licensing, filming permits, drone approvals, and safety requirements
+## Effective-state record
 
-### Step 2: Live Authority Verification
-For each triggered domain:
-- Verify the current statutory requirement
-- Check whether recent amendments alter bidding eligibility or cost calculations
-- Record findings in `templates/source-ledger.csv`:
-  - `domain`: e.g., Tax / Media / Privacy / Events
-  - `authority`: e.g., ZATCA, GCAM, SDAIA, Etimad
-  - `citation`: Law name / Article number / Portal guideline
-  - `timestamp`: Date verified
-  - `bid_implication`: Exact effect on technical scope or financial pricing
+For each material rule, record:
+- `reg_id`
+- domain
+- authority
+- instrument or service
+- status: `ANNOUNCED | ENACTED | EFFECTIVE | SUPERSEDED | UNKNOWN`
+- publication date if known
+- effective date if verified
+- checked timestamp
+- official URL
+- exact bid implication
+- technical implication
+- commercial implication
+- unresolved question
 
-### Step 3: Synthesis for Downstream Nodes
-- **For `technical-architect`**: Provide exact regulatory compliance language, operational safety measures, and governance controls.
-- **For `commercial-modeler`**: Provide statutory cost lines (permit fees, withholding taxes, VAT inclusion/exclusion rules, local content baseline commitments).
+If status is `ANNOUNCED`, `ENACTED`, or `UNKNOWN`, do not write "we comply with the current requirement" unless the obligation is independently shown to apply.
 
-## Neural Handoff Contract
+## Current authority naming
 
-When complete, output:
-- `regulatory_source_ledger`: Log of verified regulations and citations
-- `applicability_flags`: Boolean flags for active regulatory gates
-- `compliance_citations`: Formatted text blocks for proposal insertion
-- Target Continuations: Hand off to **`technical-architect`** and **`commercial-modeler`**
+Use the authority name shown on the current official source. Do not preserve stale acronyms from old proposals.
 
-## Progressive Resources
-- `references/saudi-regulatory-freshness.md`
-- `templates/source-ledger.csv`
+For media regulation, verify the current General Authority for Media Regulation source and service name before inserting licensing language.
+
+## Tax behavior
+
+Never treat a tax percentage as timeless configuration.
+
+Commercial modeling receives tax parameters from:
+- current official tax source
+- prescribed buyer BOQ
+- explicit buyer instruction
+
+If they conflict, block finalization and request resolution.
+
+## Data and AI behavior
+
+When personal data is in scope:
+- identify controller/processor questions
+- classify data categories and purpose
+- identify hosting and cross-border transfer
+- identify retention and access assumptions
+- verify applicable SDAIA/DGP requirements
+- pass technical safeguards and commercial dependencies downstream
+
+Do not claim PDPL compliance solely because a cloud vendor advertises compliance.
+
+## Events behavior
+
+For event or entertainment scope:
+- classify the actual event type first
+- verify the relevant current official permit/service
+- record application lead time and supplier prerequisites only from current sources
+- propagate permit lead time into schedule and pricing assumptions
+
+## Failure taxonomy
+
+- stale authority naming
+- announced-vs-effective confusion
+- regulation dumping with no scope relevance
+- secondary-source-only legal claim
+- permit assumed without event classification
+- tax hardcoding
+- privacy claim with no data-flow evidence
+
+## Handoff
+
+Append the effective-state ledger and applicability flags to `bid_state`.
+
+Downstream nodes receive implications, not a generic legal memo.

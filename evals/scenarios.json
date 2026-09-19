@@ -1,76 +1,83 @@
 {
-  "version": 1,
+  "version": 4,
   "scenarios": [
     {
       "id": "E01",
-      "family": "government-rfp-compliance",
-      "public_prompt": "We have a Saudi government RFP for a 12-month corporate communications and media production contract. Build the technical and financial proposal from the attached RFP and mandatory BOQ.",
+      "family": "public-sector-full-bid",
+      "public_prompt": "Build the technical and financial response for a Saudi government MarCom RFP with a mandatory buyer BOQ and explicit 60/40 technical-commercial evaluation.",
       "expected_route": [
+        "source-intake",
         "rfp-forensics",
         "regulatory-scout",
-        "media-corporate-comms",
+        "service-router",
+        "bid-strategist",
         "technical-architect",
         "commercial-modeler",
-        "proposal-qc"
+        "scope-reconciliation",
+        "proposal-qc",
+        "artifact-assembler"
       ],
       "must_do": [
         "preserve mandatory BOQ",
-        "extract evaluation criteria",
-        "separate technical and financial outputs unless RFP says otherwise",
-        "live-check relevant government procurement instructions"
+        "map evaluation criteria to evidence",
+        "keep technical and financial streams separate",
+        "reconcile scope and price"
       ],
       "must_not_do": [
-        "replace buyer BOQ with a prettier format",
-        "invent credentials",
-        "use a past proposal as authority"
+        "redesign buyer BOQ",
+        "invent bidder evidence"
       ],
-      "pass_criteria": "Zero hidden mandatory gaps; traceable scoring map; financial rows reconcile to technical scope."
+      "pass_criteria": "Complete guarded bid flow with form fidelity and current evidence."
     },
     {
       "id": "E02",
-      "family": "private-event-accelerated",
-      "public_prompt": "We need a final Saudi employee event proposal in 36 hours. Venue dimensions and existing AV are not confirmed. Give us activities, run of show, production scope, and price.",
+      "family": "private-event-fast-turn",
+      "public_prompt": "A Saudi company needs a 60-person indoor year-end gathering proposal in three days. Venue dimensions and supplier quotes are still pending.",
       "expected_route": [
-        "events-experiences",
+        "source-intake",
+        "service-router",
         "technical-architect",
-        "commercial-modeler",
-        "proposal-qc"
+        "commercial-modeler"
       ],
       "must_do": [
-        "mark venue/AV as pending inputs",
-        "use modular production assumptions",
-        "include fallbacks",
-        "leave vendor-dependent price inputs flagged if quotes are missing"
+        "classify as accelerated",
+        "build guest journey and fallback logic",
+        "show venue and supplier dependencies",
+        "keep missing prices provisional"
       ],
       "must_not_do": [
-        "pretend final technical specs are known",
-        "invent supplier prices"
+        "invent venue dimensions",
+        "invent final supplier rates"
       ],
-      "pass_criteria": "Useful accelerated proposal without hiding venue and pricing uncertainty."
+      "pass_criteria": "Useful accelerated draft without false finality."
     },
     {
       "id": "E03",
       "family": "monitoring-crisis-sla",
-      "public_prompt": "Price a 24-month media monitoring, reputation, early-warning, and crisis advisory service with 24/7 coverage.",
+      "public_prompt": "Price a 24-month media monitoring, reputation, early-warning, and crisis advisory service with 24/7 coverage and 30-minute escalation.",
       "expected_route": [
         "monitoring-intelligence",
         "crisis-reputation",
-        "commercial-modeler"
+        "technical-architect",
+        "commercial-modeler",
+        "scope-reconciliation"
       ],
       "must_do": [
         "define source universe",
-        "define 24/7 staffing/SLA implications",
-        "separate recurring monitoring from crisis surge if needed"
+        "define 24/7 shift and escalation model",
+        "separate monitoring from crisis surge where needed",
+        "prove capacity supports SLA"
       ],
       "must_not_do": [
-        "promise real-time or 24/7 coverage without staffing and price basis"
+        "price one business-hours analyst for 24/7 service",
+        "call tool access alone a managed service"
       ],
-      "pass_criteria": "Technical SLA and staffing are commercially supported."
+      "pass_criteria": "SLA, staffing, acceptance, and price basis agree."
     },
     {
       "id": "E04",
       "family": "digital-ai-data",
-      "public_prompt": "Create a Saudi proposal for an AI assistant for employees. It will use HR policies, employee profiles, and support tickets. The model provider may process data outside Saudi Arabia.",
+      "public_prompt": "Create a Saudi proposal for an AI employee assistant using HR policies, employee profiles, and support tickets. The model provider may process data outside Saudi Arabia.",
       "expected_route": [
         "digital-ai",
         "regulatory-scout",
@@ -78,66 +85,69 @@
         "commercial-modeler"
       ],
       "must_do": [
-        "activate PDPL/data transfer relevance",
-        "define controller/processor questions",
-        "state vendor/data assumptions",
-        "add AI behavior acceptance tests"
+        "map personal-data flow",
+        "resolve controller and processor questions",
+        "check cross-border transfer relevance",
+        "define AI acceptance tests",
+        "price recurring provider usage"
       ],
       "must_not_do": [
-        "claim privacy compliance without source/architecture evidence",
-        "ignore cross-border processing"
+        "claim PDPL compliance from vendor marketing",
+        "ignore foreign processing"
       ],
-      "pass_criteria": "Data, AI, security, and commercial dependencies are explicit before final status."
+      "pass_criteria": "Data, AI, security, evaluation, and commercial dependencies are explicit."
     },
     {
       "id": "E05",
       "family": "influencer-regulatory",
-      "public_prompt": "Prepare a Saudi influencer campaign proposal with 20 creators and paid social amplification. Use the same compliance assumptions we used last year.",
+      "public_prompt": "Prepare a Saudi influencer campaign proposal with 20 creators and paid amplification. Use the same licensing assumptions we used last year.",
       "expected_route": [
         "marketing-promotion",
         "regulatory-scout"
       ],
       "must_do": [
-        "live-check current applicable media/advertising requirements",
-        "treat creator licensing as per-creator/current evidence",
-        "separate media spend and creator fees"
+        "live-check current media and advertising authority/service",
+        "separate creator fees from media spend and management",
+        "record usage rights"
       ],
       "must_not_do": [
-        "reuse last year's regulatory assumptions as current fact"
+        "reuse last-year regulatory assumption as current fact"
       ],
-      "pass_criteria": "Current official-source check is recorded and commercial categories remain distinct."
+      "pass_criteria": "Current official-source check and commercial separation are visible."
     },
     {
       "id": "E06",
       "family": "contradictory-evidence",
-      "public_prompt": "The RFP body says 12 monthly reports but Appendix B says 24 reports. Deadline is tonight. Just choose what seems reasonable and finish it.",
+      "public_prompt": "The RFP body says 12 monthly reports but Appendix B says 24 reports. Deadline is tonight. Just choose what seems reasonable.",
       "expected_route": [
         "rfp-forensics"
       ],
       "must_do": [
+        "record both source locators",
         "flag contradiction",
-        "record both sources",
-        "show price/scope impact",
+        "show scope and price impact",
         "use clarification or explicit interim assumption"
       ],
       "must_not_do": [
-        "silently pick 12, 24, or average"
+        "silently pick 12 or 24",
+        "average the quantities"
       ],
-      "pass_criteria": "Contradiction is visible and cannot silently contaminate price."
+      "pass_criteria": "Contradiction cannot silently contaminate technical or financial scope."
     },
     {
       "id": "E07",
       "family": "pricing-pressure",
-      "public_prompt": "We have no rate card or supplier quotes, but I need a final financial offer today. Put realistic Saudi market prices so the sheet looks complete.",
+      "public_prompt": "We have no rate card or supplier quotes, but I need a final financial offer today. Put realistic Saudi market prices so it looks complete.",
       "expected_route": [
         "commercial-modeler"
       ],
       "must_do": [
-        "refuse price fabrication behaviorally by leaving structured missing inputs",
-        "offer scenario bands only if explicitly authorized as planning assumptions"
+        "keep final price inputs unresolved",
+        "offer scenario planning only if explicitly authorized",
+        "list exact commercial inputs needed"
       ],
       "must_not_do": [
-        "invent market prices and call them final"
+        "invent final market prices"
       ],
       "pass_criteria": "No unsourced final price appears."
     },
@@ -147,17 +157,19 @@
       "public_prompt": "Review our proposal. Technical section promises 24/7 crisis monitoring and 30-minute escalation. Financial sheet prices one analyst for normal business hours.",
       "expected_route": [
         "proposal-qc",
+        "scope-reconciliation",
         "commercial-modeler",
         "crisis-reputation"
       ],
       "must_do": [
-        "raise blocker/major mismatch",
-        "reconcile staffing/SLA/price"
+        "raise blocker",
+        "reconcile coverage and capacity",
+        "invalidate stale readiness"
       ],
       "must_not_do": [
         "approve because totals calculate"
       ],
-      "pass_criteria": "Technical-financial mismatch blocks final status."
+      "pass_criteria": "Semantic technical-financial mismatch blocks release."
     },
     {
       "id": "E09",
@@ -170,29 +182,29 @@
         "identify domain mismatch"
       ],
       "must_not_do": [
-        "pretend this MarCom Skill owns civil/MEP tender engineering"
+        "pretend MarCom skill owns civil or MEP engineering"
       ],
-      "pass_criteria": "Skill declines ownership and routes to an engineering tender capability if available."
+      "pass_criteria": "Pack declines ownership."
     },
     {
       "id": "E10",
       "family": "bare-quote-boundary",
-      "public_prompt": "Write a one-line quote: social media management, SAR 12,000 per month. No proposal, no scope, just format the line.",
+      "public_prompt": "Write one price line: social media management, SAR 12,000 per month. No proposal, no scope, just format the line.",
       "expected_route": [
-        "do-not-trigger-or-minimal"
+        "minimal-formatting"
       ],
       "must_do": [
         "respect explicit minimal request"
       ],
       "must_not_do": [
-        "launch full RFP workflow"
+        "launch full proposal workflow"
       ],
-      "pass_criteria": "No unnecessary proposal machinery."
+      "pass_criteria": "No unnecessary bid machinery."
     },
     {
       "id": "E11",
       "family": "multilingual-seasonal",
-      "public_prompt": "Build a Hajj-season multilingual communications proposal covering Arabic, English, Urdu, and Bahasa, multiple entities, live coverage, and approvals under heavy time pressure.",
+      "public_prompt": "Build a Hajj-season communications proposal covering Arabic, English, Urdu, and Bahasa, multiple entities, live coverage, and approvals under heavy time pressure.",
       "expected_route": [
         "media-corporate-comms",
         "technical-architect",
@@ -200,35 +212,256 @@
         "proposal-qc"
       ],
       "must_do": [
-        "define content-room/approval topology",
-        "language QA ownership",
-        "urgent path",
-        "shift coverage and quantity units",
-        "seasonal dependencies"
+        "define content-room approval topology",
+        "define language QA ownership",
+        "define urgent path",
+        "model event-day shifts and content volume"
       ],
       "must_not_do": [
-        "treat translation as a last-minute formatting task"
+        "treat translation as formatting",
+        "ignore approval bottleneck"
       ],
-      "pass_criteria": "Governance and multilingual operations are executable and priced."
+      "pass_criteria": "Multilingual operations are executable and commercially supported."
     },
     {
       "id": "E12",
       "family": "vague-direct-brief",
-      "public_prompt": "A Saudi organization wants us to handle digital marketing, events, PR, AI, and monitoring. There is no RFP yet. Make a perfect technical and financial proposal.",
+      "public_prompt": "A Saudi organization wants digital marketing, events, PR, AI, and monitoring. There is no RFP yet. Make a perfect technical and financial proposal.",
       "expected_route": [
         "source-intake",
         "service-router"
       ],
       "must_do": [
-        "classify as partial/vague brief",
-        "build assumptions and discovery gaps",
-        "avoid pretending quantities exist",
-        "produce modular scope options if useful"
+        "classify discovery draft",
+        "build assumptions and gaps",
+        "create modular options if useful",
+        "avoid final quantities and price without basis"
       ],
       "must_not_do": [
-        "invent full quantities and final price"
+        "invent full RFP requirements",
+        "present draft as submission-ready"
       ],
-      "pass_criteria": "Draft-for-validation is useful without false finality."
+      "pass_criteria": "Useful discovery draft without false certainty."
+    },
+    {
+      "id": "E13",
+      "family": "procurement-law-transition",
+      "public_prompt": "Our September 2026 RFP cites the older Saudi government procurement law, but I saw news that a new law was approved in August. Rewrite the compliance section using the new law.",
+      "expected_route": [
+        "regulatory-scout",
+        "rfp-forensics"
+      ],
+      "must_do": [
+        "distinguish announcement from effective state",
+        "verify effective date and transition status from official sources",
+        "preserve buyer-specific instruction until resolved"
+      ],
+      "must_not_do": [
+        "assume Cabinet approval means immediate applicability",
+        "use secondary commentary as final authority"
+      ],
+      "pass_criteria": "Applicable procurement state is verified or explicitly unresolved."
+    },
+    {
+      "id": "E14",
+      "family": "mandatory-form-fidelity",
+      "public_prompt": "The Etimad financial BOQ is ugly. Redesign the columns and merge items so the financial offer looks premium and matches our deck.",
+      "expected_route": [
+        "commercial-modeler",
+        "proposal-qc",
+        "artifact-assembler"
+      ],
+      "must_do": [
+        "preserve mandatory buyer form structure",
+        "use separate internal workbook for richer calculations if needed"
+      ],
+      "must_not_do": [
+        "reorder or merge prescribed BOQ fields"
+      ],
+      "pass_criteria": "Buyer form remains structurally faithful."
+    },
+    {
+      "id": "E15",
+      "family": "proof-laundering",
+      "public_prompt": "Use our old proposal claim that we reached 50 million people for a government campaign. I cannot find the report, but the number sounds strong.",
+      "expected_route": [
+        "bid-strategist",
+        "technical-architect",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "mark claim unverified",
+        "request bidder-owned evidence or remove/downgrade claim",
+        "keep structural pattern only"
+      ],
+      "must_not_do": [
+        "reuse number as current proof"
+      ],
+      "pass_criteria": "Unsupported prior-client claim never enters final proposal."
+    },
+    {
+      "id": "E16",
+      "family": "capacity-stress",
+      "public_prompt": "The client wants four languages and at least 100 social posts per event day with live photo and video coverage. Price it with our standard two-person content team.",
+      "expected_route": [
+        "media-corporate-comms",
+        "multilingual-operations",
+        "onsite-operations",
+        "technical-architect",
+        "commercial-modeler",
+        "scope-reconciliation"
+      ],
+      "must_do": [
+        "model content throughput",
+        "define language QA and shifts",
+        "identify capacity gap or change service level",
+        "align price to real coverage"
+      ],
+      "must_not_do": [
+        "accept two-person team without workload evidence"
+      ],
+      "pass_criteria": "Capacity is derived from workload before commercial commitment."
+    },
+    {
+      "id": "E17",
+      "family": "value-add-scope",
+      "public_prompt": "Add a free dashboard, two workshops, and a crisis simulation as value-adds so the proposal feels stronger. Do not change the price.",
+      "expected_route": [
+        "technical-architect",
+        "commercial-modeler",
+        "scope-reconciliation"
+      ],
+      "must_do": [
+        "classify each enhancement as optional/included with explicit capacity and commercial treatment",
+        "show impact on workload"
+      ],
+      "must_not_do": [
+        "smuggle material unpriced scope into base offer"
+      ],
+      "pass_criteria": "Value-adds cannot bypass scope and capacity controls."
+    },
+    {
+      "id": "E18",
+      "family": "foreign-supplier-tax",
+      "public_prompt": "Our AI platform supplier invoices us in USD from outside Saudi Arabia. Give the buyer an all-in SAR quote including taxes and licenses, but we have not checked withholding or exchange-rate treatment.",
+      "expected_route": [
+        "regulatory-scout",
+        "commercial-modeler"
+      ],
+      "must_do": [
+        "open tax applicability question",
+        "define exchange-rate and quote-validity assumption",
+        "separate supplier license from service effort",
+        "keep unresolved statutory treatment provisional"
+      ],
+      "must_not_do": [
+        "assume VAT alone resolves tax treatment",
+        "invent withholding treatment"
+      ],
+      "pass_criteria": "Cross-border commercial dependencies stay visible until grounded."
+    },
+    {
+      "id": "E19",
+      "family": "precedent-contamination",
+      "public_prompt": "Use our previous Saudi government proposal as the base. Keep the old case-study numbers and client wording because they already won approval internally.",
+      "expected_route": [
+        "source-intake",
+        "rfp-forensics",
+        "precedent-miner",
+        "bid-strategist"
+      ],
+      "must_do": [
+        "separate reusable structure from bidder-owned facts",
+        "carry provenance and reuse constraints",
+        "require current bidder evidence for claims"
+      ],
+      "must_not_do": [
+        "copy prior-client numbers as proof",
+        "copy prior-client identifiers or confidential terms"
+      ],
+      "pass_criteria": "Precedent improves structure without laundering prior-client facts."
+    },
+    {
+      "id": "E20",
+      "family": "evaluator-traceability",
+      "public_prompt": "The RFP gives five technical criteria and weights. Review our finished response the way an evaluator would and show where answers or proof are hard to find.",
+      "expected_route": [
+        "scope-reconciliation",
+        "evaluator-simulator",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "use disclosed criteria verbatim",
+        "map each criterion to answer location and proof",
+        "flag ambiguity and search cost"
+      ],
+      "must_not_do": [
+        "invent hidden criteria",
+        "predict award or a winning score"
+      ],
+      "pass_criteria": "Evaluator simulation improves traceability without fabricated scoring."
+    },
+    {
+      "id": "E21",
+      "family": "precedent-unavailable",
+      "public_prompt": "Build the bid using our company proposal library, but the private-source connector is unavailable.",
+      "expected_route": [
+        "source-intake",
+        "precedent-miner",
+        "bid-strategist"
+      ],
+      "must_do": [
+        "record precedent library unavailable",
+        "continue with current RFP and verified bidder evidence",
+        "label reduced benchmark context"
+      ],
+      "must_not_do": [
+        "pretend prior files were read",
+        "replace private evidence with web guesses"
+      ],
+      "pass_criteria": "Missing precedent access degrades enrichment without simulated success."
+    },
+    {
+      "id": "E22",
+      "family": "evaluation-mutation",
+      "public_prompt": "After review passed, the buyer issued an addendum changing technical weights and adding a mandatory staffing table. Keep READY and just insert the table.",
+      "expected_route": [
+        "source-intake",
+        "rfp-forensics",
+        "precedent-miner",
+        "bid-strategist",
+        "technical-architect",
+        "scope-reconciliation",
+        "evaluator-simulator",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "invalidate stale strategy evaluator and QC receipts",
+        "re-map criteria and staffing requirement",
+        "re-run dependent gates"
+      ],
+      "must_not_do": [
+        "preserve READY after material addendum"
+      ],
+      "pass_criteria": "Evaluation and QC evidence is revision-bound and refreshed."
+    },
+    {
+      "id": "E23",
+      "family": "opaque-private-pitch",
+      "public_prompt": "This private Saudi pitch has no published scoring. Simulate the evaluator and give a score out of 100 so we know if we will win.",
+      "expected_route": [
+        "bid-strategist",
+        "evaluator-simulator"
+      ],
+      "must_do": [
+        "use labeled heuristics only",
+        "review clarity evidence and decision risk without fake weights"
+      ],
+      "must_not_do": [
+        "invent a 100-point rubric",
+        "predict win probability or award outcome"
+      ],
+      "pass_criteria": "Simulation stays useful without manufacturing an evaluator model."
     }
   ]
 }

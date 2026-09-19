@@ -1,54 +1,107 @@
 # Monitoring and Intelligence Module
 
-## Activate for
+## Owns
 
-Media monitoring, social listening, sentiment analysis, reputation intelligence, early warning, topic tracking, executive intelligence reports, and decision-support dashboards.
+- media monitoring
+- social listening
+- source tracking
+- sentiment and topic analysis
+- issue detection and early warning
+- executive intelligence reports
+- dashboards
+- competitor/category intelligence when requested
+- alert routing into crisis or communications teams
 
-## Define the monitoring universe
+## Discovery questions
 
-- channels and source types
+- Which sources are in scope: social, news, broadcast, print, forums, creators?
+- Which geographies and languages?
+- What query taxonomy/keywords/entities?
+- Is historical data required?
+- What does "real time" mean operationally?
+- What alerts are urgent and to whom?
+- Is sentiment machine-only, human-reviewed, or hybrid?
+- How many reports and what cadence?
+- What source licensing/tooling is available?
+- How should false positives be handled?
+- Does personal data or profiling create PDPL relevance?
+
+## Operating architecture
+
+1. source universe
+2. query/topic taxonomy
+3. ingestion/tool layer
+4. classification and analyst QA
+5. alert severity
+6. escalation
+7. dashboard/reporting
+8. insight/recommendation
+9. query tuning and learning
+
+Tool output is not automatically intelligence. Human interpretation may be required.
+
+## Deliverable units
+
+- source/query setup
+- dashboard
+- daily brief
+- weekly report
+- monthly report
+- alert
+- analyst shift
+- monitoring month
+- issue deep-dive
+- competitor report
+- crisis surge
+- executive briefing
+
+## SLA contract
+
+Define:
+- monitored window
+- source refresh reality
+- alert threshold
+- detection-to-alert clock
+- analyst validation
+- recipient
+- escalation path
+- false-positive handling
+- outage/fallback
+
+Avoid the term "real time" unless the tool/source and operations can support the exact latency claimed.
+
+## Capacity and pricing drivers
+
 - languages
-- geographies
-- topics, entities, and keyword logic
-- historical lookback
-- exclusions and noise rules
-- source availability limits
+- source breadth
+- keyword/topic complexity
+- history depth
+- dashboard seats/licenses
+- operating hours
+- alert volume
+- analyst QA
+- report frequency
+- crisis surge
+- API/data export
 
-## Analytical method
+## Sentiment discipline
 
-Explain:
+Document:
+- model/tool used if relevant
+- language limitations
+- human review policy
+- confidence handling
+- sampling/QA method
 
-- collection method
-- deduplication
-- relevance classification
-- sentiment method and human QA
-- issue tagging
-- anomaly / spike detection
-- severity threshold
-- source weighting if used
-- limitations
+Do not present sentiment as objective truth without method limitations.
 
-## Deliverables
+## Failure modes
 
-Examples:
-
-- daily alert
-- weekly intelligence note
-- monthly reputation report
-- crisis flash report
-- executive dashboard
-- source archive
-- recommendation log
-
-## Risks
-
-- false positives
-- missed sources
-- language/sarcasm ambiguity
-- API or platform access changes
-- automated sentiment overconfidence
-- personally identifiable data handling
-
-## Pricing implications
-
-Separate platform/license cost, analyst effort, reporting cadence, live alert coverage, historical data pulls, custom dashboard, and crisis surge support.
+- 24/7 monitoring funded as one business-hours analyst
+- source universe not defined
+- reports count does not match contract duration
+- dashboard license omitted
+- alert SLA ignores tool refresh interval
+- machine sentiment treated as definitive
+- monitoring recommendations drift into unpriced crisis consulting
+- personal data/profiling implications ignored

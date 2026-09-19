@@ -1,0 +1,41 @@
+version: 1
+buyer_types:
+  GOVERNMENT:
+    signals: ["Etimad", "government entity", "وزارة", "هيئة حكومية", "منافسة عامة"]
+    default_controls:
+      - mandatory_form_fidelity
+      - qualification_attachments
+      - evaluation_weight_mapping
+      - local_content_relevance_check
+      - official_submission_rules
+  SEMI_GOV:
+    signals: ["government-owned", "PIF company", "semi-government", "شركة حكومية"]
+    default_controls:
+      - procurement_policy_check
+      - evaluation_map_if_available
+      - brand_and_governance_controls
+  PRIVATE_ENTERPRISE:
+    signals: ["private company", "corporate buyer", "enterprise RFP"]
+    default_controls:
+      - decision_stakeholder_map
+      - commercial_terms
+      - procurement_and_security_questionnaire
+  DIRECT_BRIEF:
+    signals: ["meeting notes", "WhatsApp brief", "email brief", "no RFP"]
+    default_controls:
+      - assumption_register
+      - discovery_gap_list
+      - modular_scope_options
+
+decision_context:
+  fields:
+    - buyer_type
+    - submission_channel
+    - evaluation_method
+    - decision_roles
+    - procurement_constraints
+    - mandatory_forms
+    - commercial_negotiation_state
+    - deadline_urgency
+
+rule: "Buyer type changes controls and evidence expectations, not the truth standard. Never infer a government rule merely from the buyer name."

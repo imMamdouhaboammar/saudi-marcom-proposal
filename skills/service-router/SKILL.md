@@ -1,7 +1,7 @@
 ---
 name: service-router
-description: "Route and structure Saudi MarCom tender requirements across the 6 core service modules: Media & Comms, Marketing & Promotion, Events & Experiences, Crisis & Reputation, Digital & AI, and Monitoring & Intelligence. Use when classifying tender scopes, setting up multi-service delivery frameworks, and loading specialized domain guidance. Do NOT use for writing final narrative text, financial calculations, or single-line quotes."
-version: 0.1.0
+description: "Classify Saudi MarCom bid scope into specialist service families and cross-cutting operational lenses, then define ownership and interfaces between them. Use after requirement extraction for multi-service or ambiguous communications, marketing, event, crisis, digital/AI, or monitoring scopes. Do NOT use to draft final narrative, create prices, or add unsolicited workstreams."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -10,81 +10,83 @@ requires:
   - source_grounding
 produces:
   - active_service_modules
+  - cross_cutting_lenses
   - service_boundaries
 gates:
   - boundary_isolation
-  - reference_module_activation
+  - material_scope_owned
+  - no_phantom_workstreams
 neural_links:
-  precursors:
-    - rfp-forensics
-  continuations:
-    - technical-architect
-  lateral_peers:
-    - regulatory-scout
+  precursors: [rfp-forensics]
+  continuations: [technical-architect]
+  lateral_peers: [regulatory-scout, bid-strategist]
   recovery: rfp-forensics
 ---
 
 # Service Architecture Router
 
-Classify tender requirements into specialized Saudi MarCom service families.
+Route requirements to domain guidance without duplicating scope.
 
-## Mission
+## Primary service families
 
-Analyze the extracted requirements and route workstreams into the appropriate specialized service architectures, defining clear operational boundaries and loading corresponding technical references.
+Activate only when supported by requirements:
+- media and corporate communications
+- marketing and promotion
+- events and experiences
+- crisis and reputation
+- digital and AI
+- monitoring and intelligence
 
-## Activation Contract
+Load the corresponding file under references/service-modules/.
 
-Activate when:
-- Determining the technical composition of a Saudi MarCom tender
-- Structuring multi-disciplinary proposals spanning media, events, digital, and crisis communications
-- Deciding which specialized service reference modules must govern the technical architecture
-- Defining cross-stream dependencies (e.g., event PR feeding media monitoring)
+## Cross-cutting lenses
 
-Do NOT activate for:
-- Writing the comprehensive technical proposal (use `technical-architect`)
-- Calculating bill of quantities or staffing rates (use `commercial-modeler`)
-- Conducting general RFP clause extraction (use `rfp-forensics`)
+Also inspect for concerns that span families:
+- creative/production
+- measurement/analytics
+- multilingual operations
+- onsite/live operations
+- data/security
+- third-party/vendor dependencies
 
-## Non-Negotiable Invariants
+Use routers/service-router.yaml as the canonical routing map.
 
-1. **Explicit Module Activation**: Every active workstream must explicitly load its dedicated service reference file.
-2. **Boundary Definition**: In multi-service tenders, define clear interface boundaries to prevent duplicate staffing or unowned deliverables.
-3. **No Phantom Workstreams**: Do not propose unsolicited service modules unless presented as clearly labeled optional enhancements.
+## Boundary contract
 
-## Execution Procedure
+For each active module define:
+- owned requirements
+- inputs received
+- outputs produced
+- shared resources
+- downstream consumers
+- handoff timing
+- exclusions
+- duplicate-risk notes
 
-### Step 1: Scope Family Classification
-Map each requirement in the ledger against the 6 core service families:
+Monitoring may detect a reputation incident while crisis owns the response protocol. Do not price two separate war rooms unless the architecture actually requires them.
 
-| Service Family | Scope Indicators | Governing Reference |
-|---|---|---|
-| **Media & Corporate Comms** | Press releases, media relations, spokesperson prep, executive thought leadership, op-eds, bilingual content | `references/service-modules/media-corporate-comms.md` |
-| **Marketing & Promotion** | Multi-channel campaigns, creative concepts, social media management, brand awareness, activation, collateral | `references/service-modules/marketing-promotion.md` |
-| **Events & Experiences** | Forums, exhibitions, launch events, VIP hospitality, staging, AV production, permitting, crowd logistics | `references/service-modules/events-experiences.md` |
-| **Crisis & Reputation** | Risk audits, crisis manuals, dark site preparation, 24/7 incident response, stakeholder escalation | `references/service-modules/crisis-reputation.md` |
-| **Digital & AI** | Web/app development, chatbots, AI content workflows, CRM, performance marketing, social listening | `references/service-modules/digital-ai.md` |
-| **Monitoring & Intelligence** | Media tracking, sentiment analysis, daily news clipping, influencer monitoring, competitive intelligence | `references/service-modules/monitoring-intelligence.md` |
+## Optional enhancements
 
-### Step 2: Multi-Service Interface Mapping
-When a tender spans multiple families:
-- Map inputs and outputs between workstreams:
-  - *Example*: `Monitoring & Intelligence` provides daily sentiment alerts $\to$ `Crisis & Reputation` triggers response protocols.
-  - *Example*: `Creative & Promotion` generates campaign assets $\to$ `Events & Experiences` displays assets on venue LED walls.
-- Prevent duplicate resource allocation (e.g., shared creative director across marketing and events).
+A useful but unrequested idea may be proposed only as:
+- clearly optional
+- operationally defined
+- commercially treated
+- excluded from mandatory compliance coverage unless adopted
 
-### Step 3: Architecture Directives Generation
-Synthesize specific technical constraints for `technical-architect`:
-- List mandatory reference files to load
-- Define core vs optional enhancement streams
-- Specify bilingual language requirements (e.g., Arabic-first copy for government audiences)
+Do not smuggle value-add into base scope.
 
-## Neural Handoff Contract
+## Failure taxonomy
 
-When complete, output:
-- `active_service_modules`: List of activated modules and referenced guides
-- `service_boundaries`: Matrix of workstream responsibilities and handoffs
-- Target Continuation: Hand off directly to **`technical-architect`**
+- one requirement owned by nobody
+- same deliverable duplicated across modules
+- digital/AI used as a catch-all for analytics or monitoring
+- monitoring and crisis responsibilities blurred
+- event production separated from required content/PR handoffs
+- multilingual work treated as formatting only
+- optional enhancement becomes an unpriced commitment
 
-## Progressive Resources
-- `routers/service-router.yaml`
-- `references/service-modules/*.md`
+## Handoff
+
+Append active modules, cross-cutting lenses, and boundary matrix to bid_state.
+
+Continue to technical-architect.

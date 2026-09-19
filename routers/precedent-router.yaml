@@ -1,0 +1,13 @@
+version: 1
+purpose: "Select prior examples by operating similarity while preserving confidentiality and provenance."
+dimensions:
+  buyer_context: [government, semi_government, private_enterprise, direct_brief]
+  service_family: [corporate_comms_media, marketing_promotion, events_experiences, crisis_reputation, digital_ai, monitoring_intelligence]
+  operating_shape: [retainer, campaign, event, seasonal_surge, project, managed_service]
+  evidence_shape: [technical, financial, combined, case_evidence, rate_card]
+ranking: [exact_service_and_operating_shape, buyer_context, duration_and_scale, language_and_live_operations, submission_shape]
+rules:
+  - "Similarity selects what to inspect, not what to copy."
+  - "Price similarity never creates price authority."
+  - "Every signal carries provenance and reuse_status."
+  - "No connected precedent library is a valid empty result."

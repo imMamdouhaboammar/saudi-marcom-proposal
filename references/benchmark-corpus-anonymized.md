@@ -1,91 +1,111 @@
-# Anonymized Benchmark Corpus
+# Anonymized Saudi Proposal Benchmark Patterns
 
-## Purpose
+This reference distills reusable patterns from private working materials without carrying client identities, private prices, account information, or unsupported performance claims.
 
-This reference captures reusable patterns observed across a private Saudi proposal corpus without embedding client names, private prices, bank information, tax identifiers, confidential contacts, or proprietary client facts.
+## Pattern 1: annual institutional media operation
 
-The raw files are not part of this distributable Skill pack.
+Strong proposals tend to separate:
+- institutional narrative
+- annual content/production plan
+- recurring editorial operations
+- event/urgent requests
+- approval governance
+- quality and asset handover
+- monthly reporting
 
-## Pattern A: corporate employee event
+Useful pattern:
+every output is a publication package, not a single file. Video work often needs platform variants, source/raw handover rules, captions/copy, and archive logic.
 
-Strong sequence:
+Commercial implication:
+a video count alone is not enough. Production days, complexity, revisions, formats, travel, rights, and urgent requests can change the cost basis.
 
-1. concrete event parameters and attendee constraints
-2. experience principles derived from culture, dress code, age profile, and room conditions
-3. clear role split between buyer-owned official hosting and supplier-owned facilitation
-4. one experience concept that organizes activities
-5. guest journey and energy curve
-6. hero interaction plus lower-friction alternatives
-7. production and venue model
-8. run of show with lead owner per block
-9. modular scope
-10. confirmed facts versus pending inputs
+## Pattern 2: large seasonal or conference MarCom
 
-Reusable lesson: event proposals improve when they design around the attendee experience and operational constraints rather than listing entertainment ideas.
+A mature operating shape often uses:
+1. prepare and measure
+2. design and produce
+3. operate and improve
+4. live coverage and close-out
 
-## Pattern B: annual media production and corporate communications
+Common cross-stream dependencies:
+- paid media requires tracking and landing readiness
+- PR requires approved messages and media assets
+- live event coverage requires an urgent approval lane
+- multilingual output requires language QA, not simple translation
+- daily production requires shift capacity and asset-transfer rules
+- reporting needs agreed data sources and attribution
 
-Strong sequence:
+Commercial implication:
+event-day surge capacity should not be assumed to fit ordinary monthly retainer staffing.
 
-1. strategic understanding and audience map
-2. platform roles
-3. communication narrative and content architecture
-4. RFP requirements translated into workstreams
-5. each deliverable tied to format, quantity, acceptance, and workflow
-6. urgent-request path
-7. quality, licensing, archive, and governance
-8. evaluation-criteria mapping
-9. team and readiness
+## Pattern 3: monitoring and reputation retainer
 
-Reusable lesson: annual media work should be sold and operated as a governed production system, not a list of creative deliverables.
+Useful separation:
+- source/query setup
+- recurring monitoring
+- periodic intelligence reports
+- urgent alerts
+- crisis advisory
+- incident surge
 
-## Pattern C: broad media-services rate card / BOQ
+Commercial implication:
+software license, analyst labor, 24/7 coverage, reporting, and crisis surge are different cost drivers. A zero-priced advisory line can create hidden scope if not explicitly treated.
 
-Observed reusable unit families:
+## Pattern 4: corporate event experience
 
-- content item
-- person-day / person-month / person-hour
-- video or finished minute
-- production day
-- photograph or location
-- design or designer-month
-- event / activation
-- campaign
-- report
-- platform or digital page
-- equipment package
-- influencer deliverable
+Strong proposals start from:
+- attendee profile
+- cultural/dress-code fit
+- guest journey
+- energy curve
+- program ownership
+- venue constraints
+- supplier dependencies
+- fallback systems
 
-Reusable lesson: the financial structure should support task-order work without losing traceability to the technical scope.
+Commercial implication:
+venue, production, hospitality, entertainment, staffing, rehearsal, prizes, and optional activities should be distinguishable even if the buyer sees a bundled option.
 
-## Pattern D: monitoring, reputation, and early-warning retainer
+## Pattern 5: buyer evaluation mapping
 
-Useful commercial structure:
+When an RFP exposes weights, strong proposals make the mapping visible:
+- criterion
+- requested evidence
+- response section
+- bidder proof
+- gaps
 
-- recurring report unit
-- periodic intelligence/reporting unit
-- monthly advisory or crisis-support retainer
-- clearly excluded third-party or influencer spend
-- explicit validity and payment conditions
+Do not exaggerate low-value sections while hiding weak high-weight evidence behind design.
 
-Reusable lesson: monitoring proposals need to define source coverage, analytical method, reporting cadence, escalation, and decision support. "Monitoring" alone is not a deliverable definition.
+## Pattern 6: technical and financial unity
 
-## Pattern E: internal human proposal playbook
+The most reusable rule across benchmark material is simple:
 
-Repeated principles:
+The financial offer is an economic projection of the technical operating model.
 
-- understand why the buyer needs the project now
-- treat a proposal as a trust and risk document, not only a sales file
-- separate strategic thinking, operations, and commercial terms
-- every technical item needs an observable deliverable, timing, and ownership
-- financial logic begins with time, effort, resources, suppliers, and risk
-- state assumptions, dependencies, in-scope, and out-of-scope items explicitly
-- use calm, confident language without vague promises
-- build a bid/no-bid gate
-- run a quality bar before submission
+Time, effort, resources, third parties, risk, and acceptance drive price. If a technical promise changes, the commercial model must be reconsidered.
 
-Reusable lesson: proposal quality is an operating discipline. Writing quality matters, but requirement traceability and execution integrity matter more.
+## Pattern 7: assumptions as control system
 
-## Anti-overfitting rule
+Useful assumptions are not boilerplate. Each one should explain:
+- dependency
+- owner
+- validation deadline
+- impact if false
+- affected deliverables/price lines
 
-No benchmark pattern may create a current-bid fact. It can suggest a question, section, unit, risk, or operating pattern only. Current facts must come from the current buyer/RFP, approved bidder sources, or current public authorities.
+This is especially important for venue details, access, buyer approvals, media budget, account permissions, supplier availability, permit lead time, data availability, and event schedules.
+
+## What not to learn from prior proposals
+
+Never copy:
+- client names
+- bank details
+- rates
+- internal margins
+- bidder claims with no current evidence
+- outdated authority names
+- old regulatory assumptions
+- old deadlines or quantities
+
+Learn the decision pattern, not the old facts.

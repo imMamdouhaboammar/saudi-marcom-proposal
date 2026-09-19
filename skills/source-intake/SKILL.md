@@ -1,12 +1,13 @@
 ---
 name: source-intake
-description: "Ingest, catalog, and screen RFP documents, briefs, appendices, rate cards, and prior materials for Saudi MarCom bids. Use when receiving incoming tender files, client meeting notes, pitch briefs, or pricing data to establish a verified source inventory, classify bid parameters, and screen for client confidential leakage. Do NOT use for writing proposal sections, estimating prices, or civil/construction tenders."
-version: 0.1.0
+description: "Ingest, inventory, version, and confidentiality-screen Saudi MarCom bid sources before any proposal reasoning begins. Use when receiving RFPs, addenda, briefs, meeting notes, buyer forms, bidder evidence, prior references, rate cards, or supplier quotes. Do NOT use for clause analysis, technical drafting, price invention, or unrelated tender domains."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
   - rfp_documents
   - organization_context
+  - bidder_evidence
   - reference_work
   - pricing_inputs
 requires:
@@ -21,83 +22,96 @@ gates:
   - source_precedence_locking
 neural_links:
   precursors: []
-  continuations:
-    - rfp-forensics
-  lateral_peers: []
+  continuations: [rfp-forensics]
   recovery: source-intake
 ---
 
-# Source Intake & Preflight
+# Source Intake
 
-Ingest, inventory, and screen incoming tender materials before drafting starts.
+Establish what is known, where it came from, and what is safe to reuse.
 
-## Mission
+## Source classes
 
-Turn raw bid inputs (RFPs, addenda, client brief emails, rate cards, case decks) into a structured, verified `source_inventory` and `situation_classification` while strictly isolating past confidential client data.
+Classify every received item:
+- current buyer RFP / TOR
+- addendum or formal clarification
+- mandatory buyer form
+- meeting/email/brief evidence
+- verified bidder-owned fact
+- approved rate card or commercial policy
+- supplier quote
+- past proposal/reference pattern
+- public source
+- assumption
 
-## Activation Contract
+## Source receipt
 
-Activate when:
-- Receiving initial RFP documents, briefs, or tender packs for Saudi bids
-- Cataloging received files, version dates, addenda, and clarification notes
-- Classifying bid constraints (buyer type, deadline, language, required deliverables)
-- Screening reference materials to prevent client data leakage
+For every material source record:
+- source ID
+- title/filename
+- source class
+- issuer/owner
+- version or issued date
+- received/fetched date
+- effective date if relevant
+- authority/preference level
+- confidentiality level
+- allowed use: factual / structural-only / pricing-only / client-output-safe
+- supersedes / superseded-by relationship
 
-Do NOT activate for:
-- Detailed clause-by-clause requirement extraction (use `rfp-forensics`)
-- Proposal narrative drafting (use `technical-architect`)
-- Commercial calculation (use `commercial-modeler`)
+No phantom source may enter the state.
 
-## Non-Negotiable Invariants
+## Situation classification
 
-1. **Source Precedence Locking**: Order of authority is: (1) signed clarifications/current instructions, (2) current RFP & official addenda, (3) official Saudi authorities, (4) verified bidder facts, (5) prior proposal patterns only.
-2. **Confidentiality Quarantine**: Past client names, commercial rates, bank details, or proprietary phrases must be flagged and isolated immediately.
-3. **No Phantom Files**: Every cataloged source must have a concrete filename, receipt timestamp, and origin.
+Populate:
+- operating mode
+- buyer type
+- output required
+- deadline
+- submission channel
+- languages
+- service families indicated
+- evidence health
+- pricing health
+- personal-data sensitivity
+- mandatory buyer forms present/missing
+- addenda/clarification status
 
-## Execution Procedure
+## Confidentiality quarantine
 
-### Step 1: Document Cataloging
-Inspect all received files in the workspace:
-- File name, file format, version date, and source authority
-- Record in `templates/source-ledger.csv`:
-  - `source_id`: S-01, S-02...
-  - `document_name`: e.g., RFP_Main.pdf, Addendum_1.docx
-  - `source_type`: RFP / Addendum / Client Q&A / Rate Card / Case Study
-  - `effective_date`: Date of issuance
-  - `authority_level`: 1 (highest) to 5 (reference only)
+Past proposals and private references are structural-only by default.
 
-### Step 2: Situation Classification
-Classify the bid along 8 operational dimensions:
-- **Buyer**: Government (Etimad rules) / Semi-Gov / Private
-- **Input Quality**: Full RFP / Partial Brief / Meeting Notes
-- **Required Output**: Technical Proposal / Financial Proposal / Both
-- **Deadline Urgency**: Standard (>10 days) / Accelerated (4-10 days) / Critical (<4 days)
-- **Scope Families**: Media & Comms / Marketing / Events / Crisis / Digital & AI / Monitoring
-- **Evidence Health**: Complete / Partial / Contradictory
-- **Data Sensitivity**: Public / Private Commercial / Personal Data (PDPL)
-- **Commercial State**: Rates provided / Quotes pending / Cost model missing
+Quarantine:
+- prior client names where reuse is not authorized
+- rates and margins
+- bank/account information
+- private performance claims
+- proprietary language tied to another engagement
+- personal data not needed for the bid
 
-### Step 3: Confidentiality & Leakage Screening
-Run static scan across all reference materials:
-- Search for past client identifiers, unredacted fee tables, or proprietary competitor names
-- Flag any contaminated reference as `QUARANTINED`
-- Allow structural reuse only, never factual reuse
+A quarantined source may still teach structure, never facts.
 
-### Step 4: Missing Input Ledger
-Identify blocking gaps before handoff:
-- Missing mandatory BOQ format?
-- Missing submission deadline or platform guidelines?
-- Missing commercial rates or third-party allowances?
+## Contradiction preflight
 
-## Neural Handoff Contract
+Detect obvious source-level conflicts:
+- two RFP versions
+- addendum vs original clause
+- buyer form vs narrative
+- user brief vs mandatory buyer instruction
 
-When complete, output:
-- `source_inventory`: Validated table of available sources
-- `situation_classification`: 8-dimension profile
-- `confidentiality_flags`: Quarantine log
-- Target Continuation: Hand off directly to **`rfp-forensics`**
+Do not decide the substantive requirement here. Mark the conflict and hand it to rfp-forensics.
 
-## Progressive Resources
-- `references/source-and-evidence-policy.md`
-- `templates/source-ledger.csv`
-- `templates/intake-brief.yaml`
+## Failure taxonomy
+
+- Stale pack: newer addendum exists but old RFP is treated as current
+- Source laundering: a prior proposal becomes current factual evidence
+- Confidentiality contamination: sensitive old-client material enters the active corpus
+- Missing mandatory form: drafting proceeds without the buyer's required template
+- Untraceable meeting fact: an informal note is presented as formal buyer instruction
+- Commercial ambiguity: a price input exists but ownership/date/currency is unknown
+
+## Handoff
+
+Append source receipts, situation classification, confidentiality flags, and visible source conflicts to bid_state.
+
+Continue only when the material source set is cataloged enough for requirement extraction.

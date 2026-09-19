@@ -1,7 +1,7 @@
 ---
 name: scope-reconciliation
 description: "Perform strict bidirectional reconciliation between technical deliverables and commercial pricing lines for Saudi proposals. Use when validating that every technical deliverable is accounted for financially, every line in the BOQ has a technical purpose, quantities and dates match exactly, and arithmetic is verified. Do NOT use for initial solution design, pricing creation, or graphic formatting."
-version: 0.1.0
+version: 0.2.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -87,14 +87,14 @@ Recalculate all formulas independently:
 
 ### Step 5: Disposition & Reconciliation Certificate
 - If any discrepancy is found: Generate `mismatch_report` and route back to `technical-architect` or `commercial-modeler` for remediation.
-- If 100% matched: Issue `reconciliation_certificate` clearing the proposal for `proposal-qc`.
+- If 100% matched: Issue formal `reconciliation_certificate` (verified audit report documenting 1:1 parity and calculation sign-off) clearing the proposal for `proposal-qc`.
 
 ## Neural Handoff Contract
 
 When complete, output:
 - `scope_price_map`: 1:1 cross-reference ledger
 - `mismatch_report`: Discrepancy log (if failed)
-- `reconciliation_certificate`: Cryptographic/hash clearance token (if passed)
+- `reconciliation_certificate`: Verified reconciliation sign-off report (if passed)
 - Target Continuation: Hand off to **`proposal-qc`** on pass; bounce back to **`technical-architect`** / **`commercial-modeler`** on fail.
 
 ## Progressive Resources

@@ -1,7 +1,7 @@
 ---
 name: technical-architect
 description: "Architect, write, and structure the technical proposal (العرض الفني) for Saudi MarCom bids. Use when designing the solution methodology, workstreams, deliverable units, project schedule, team governance, quality assurance processes, and risk registers for media, marketing, event, digital, and crisis proposals. Do NOT use for financial modeling, client BOQ pricing, or clause extraction."
-version: 0.1.0
+version: 0.2.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -16,6 +16,7 @@ produces:
   - schedule
   - governance_model
   - risk_register
+  - assumptions_register
 gates:
   - evidence_before_claims
   - executable_deliverable_units
@@ -86,9 +87,9 @@ For every work item, generate the formal `deliverable_map`:
 - `acceptance_criteria`: Measurable specification required for client sign-off
 - `delivery_milestone`: Phase 1, Monthly, Event Day, etc.
 
-### Step 3: Risk & Governance Engineering
-Build the operational risk register (`templates/risk-register.csv`):
-- Risk description (permitting delays, client review bottlenecks, scope creep, vendor supply chain)
+### Step 3: Risk & Assumptions Engineering
+Build the operational risk register (`templates/risk-register.csv`) and assumptions register (`templates/assumptions-register.csv`):
+- Technical dependencies, client review turnaround limits, scope boundaries
 - Severity, probability, impact score
 - Proactive mitigation protocol and contingency fallback
 
@@ -99,6 +100,7 @@ When complete, output:
 - `deliverable_map`: Exhaustive deliverable ledger
 - `schedule`: Work plan and milestone calendar
 - `risk_register`: Populated `templates/risk-register.csv`
+- `assumptions_register`: Populated `templates/assumptions-register.csv`
 - Target Continuations: Hand off to **`commercial-modeler`** (for pricing) and **`scope-reconciliation`**
 
 ## Progressive Resources
@@ -107,3 +109,4 @@ When complete, output:
 - `references/writing-and-rtl.md`
 - `templates/technical-proposal-outline.md`
 - `templates/risk-register.csv`
+- `templates/assumptions-register.csv`

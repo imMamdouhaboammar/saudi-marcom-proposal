@@ -45,7 +45,7 @@ nodes:
     path: skills/technical-architect/SKILL.md
     role: "Solution Design & Technical Proposal"
     inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger]
-    outputs: [technical_outline, deliverable_map, schedule, governance_model, risk_register]
+    outputs: [technical_outline, deliverable_map, schedule, governance_model, risk_register, assumptions_register]
     precursors: [service-router, regulatory-scout]
     continuations: [commercial-modeler, scope-reconciliation]
     lateral_peers: [commercial-modeler]
@@ -86,8 +86,8 @@ nodes:
   artifact-assembler:
     path: skills/artifact-assembler/SKILL.md
     role: "Deliverable Production & Package Assembly"
-    inputs: [technical_outline, client_boq, requirement_ledger, qc_report]
-    outputs: [technical_proposal_doc, financial_proposal_doc, ledgers_bundle, final_handoff]
+    inputs: [technical_outline, client_boq, requirement_ledger, qc_report, submission_status]
+    outputs: [technical_proposal_doc, financial_proposal_doc, final_handoff]
     precursors: [proposal-qc]
     continuations: [submission-complete]
     recovery: proposal-qc

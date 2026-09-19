@@ -25,7 +25,7 @@ neural_links:
     - regulatory-scout
     - service-router
   lateral_peers:
-    - claims-compliance-auditor
+    - regulatory-scout
   recovery: source-intake
 ---
 

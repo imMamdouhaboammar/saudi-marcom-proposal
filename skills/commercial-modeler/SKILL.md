@@ -1,108 +1,123 @@
 ---
 name: commercial-modeler
-description: "Engineer commercial models, client Bill of Quantities (BOQ / جدول الكميات والأسعار), financial proposals (العرض المالي), and payment schedules for Saudi bids. Use when building pricing workbooks, mapping labor rates, calculating production vendor costs, structuring VAT and milestone cashflows, and enforcing commercial assumptions. Do NOT use for inventing rates without source inputs or writing technical narratives."
-version: 0.1.0
+description: "Engineer commercial models, client BOQs, financial proposals (العرض المالي), and payment schedules for Saudi MarCom bids from grounded deliverables and authorized price inputs. Use for labor/vendor costing, VAT presentation, options, milestones, and commercial assumptions. Do NOT invent rates, redesign mandatory BOQs, or write the technical narrative."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
-inputs:
-  - deliverable_map
-  - boq_templates
-  - pricing_inputs
-  - regulatory_source_ledger
-requires:
-  - source_grounding
-produces:
-  - pricing_engine
-  - client_boq
-  - payment_milestones
-  - commercial_assumptions
-gates:
-  - zero_unsourced_pricing
-  - mandatory_boq_preservation
-  - internal_cost_isolation
+inputs: [deliverable_map, boq_templates, pricing_inputs, regulatory_source_ledger, response_strategy]
+requires: [source_grounding]
+produces: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
+gates: [zero_unsourced_pricing, mandatory_boq_preservation, internal_cost_isolation, value_add_commercial_treatment]
 neural_links:
-  precursors:
-    - technical-architect
-    - regulatory-scout
-  continuations:
-    - scope-reconciliation
-  lateral_peers:
-    - technical-architect
+  precursors: [technical-architect, regulatory-scout, bid-strategist]
+  continuations: [scope-reconciliation]
+  lateral_peers: [technical-architect]
   recovery: commercial-modeler
 ---
 
-# Commercial Modeler & Financial Proposal
+# Commercial Modeler
 
-Engineer the pricing model, client BOQ, and commercial proposal (العرض المالي).
+Translate technical scope into a defensible commercial model without inventing prices.
 
-## Mission
+## Pricing source order
 
-Translate the technical deliverable map into an airtight commercial model, preserving mandatory client BOQ tables, applying authorized labor and production rate cards, calculating statutory VAT, and structuring cashflow milestones.
+1. approved company rate card
+2. current vendor quote
+3. approved internal cost basis
+4. authorized normalized historical basis
+5. user-approved planning scenario
 
-## Activation Contract
+No source means `PRICING INPUT REQUIRED`.
 
-Activate when:
-- Pricing a Saudi MarCom bid, retainer, campaign, or event
-- Populating a mandatory government BOQ table or financial offer template
-- Calculating labor costs, vendor pass-throughs, management fees, risk buffers, and margins
-- Structuring billing terms, payment milestones, and VAT treatment (15%)
-- Formulating commercial exclusions and price validity assumptions
+Market research may inform an internal sensitivity check, but must not silently become a final bid price.
 
-Do NOT activate for:
-- Writing the technical approach (use `technical-architect`)
-- Reconciling technical scope vs financial lines (use `scope-reconciliation`)
-- Guessing or inventing market prices when inputs are absent
+## Model layers
 
-## Non-Negotiable Invariants
+Keep separate:
+- labor
+- supplier/direct costs
+- licenses/technology
+- media spend
+- creator/talent fees
+- logistics/travel
+- contingency/risk only when authorized
+- overhead/margin internal only
+- VAT/tax presentation
 
-1. **Zero Unsourced Pricing**: Never fabricate a rate or lump sum. Missing commercial inputs MUST remain explicitly flagged as `PRICING INPUT REQUIRED` or scenario-bounded with user authorization.
-2. **Preserve Prescribed BOQ**: Never reformat, reorder, or alter columns of a client's mandatory BOQ sheet.
-3. **Internal Cost Isolation**: Client-facing financial files must never disclose internal costs, staff salaries, contractor buy rates, or profit margins unless explicitly mandated by the RFP (e.g., cost-plus contracts).
+## Unit selection
 
-## Execution Procedure
+Use the unit that reflects the cost driver:
+- person-day/month
+- item/output
+- finished minute
+- production day
+- event/day
+- attendee
+- report
+- platform/license
+- campaign
+- creator deliverable
+- supplier package
 
-### Step 1: Internal Pricing Engine Construction
-Build the calculation layer using `templates/pricing-model.xlsx`:
-- **Labor Layer**: Role title, seniority, daily/monthly rate, allocated days/months per deliverable
-- **Direct Costs**: Venue rental, staging, AV gear, catering, paid media budget, printing, third-party software licenses
-- **Allowances & Contingencies**: Explicitly authorized risk buffers or contingency pools
-- **Overhead & Margin**: Standard agency markup or agreed profit percentage
-- **Statutory Taxes**: Saudi 15% VAT calculation (clearly labeled as exclusive or inclusive per tender rules)
+Do not convert a buyer-prescribed unit merely to fit the internal model. Build a mapping layer instead.
 
-### Step 2: Client BOQ Generation
-Map internal calculation lines to the client-facing BOQ (`templates/boq.csv`):
-- `line_id`: Matches client BOQ numbering (Item 1.1, 1.2...)
-- `item_description`: Formal deliverable title and service specification
-- `unit`: Month / Day / Event / Report / Unit / Lump Sum
-- `quantity`: Quantity matching technical proposal
-- `unit_price_sar`: Sourced quote price in SAR (exclusive of VAT)
-- `total_price_sar`: Unit price $\times$ Quantity
-- `vat_sar`: 15% VAT amount
-- `grand_total_sar`: Total inclusive of VAT
+## Mandatory BOQ
 
-### Step 3: Payment Milestones & Commercial Conditions
-Structure payment terms linked to verifiable technical deliverables:
-- Milestone 1: Mobilization / Kick-off (e.g., 10-20% upon contract signing / advance payment guarantee)
-- Progress Milestones: Linked to accepted deliverables (e.g., approval of strategy, monthly reports, event completion)
-- Close-out Milestone: Final payment upon formal sign-off / handover (e.g., 10%)
-- Define price validity (e.g., 90 or 120 days from bid submission)
+If buyer supplies a BOQ:
+- preserve row order, wording, columns, formulas/form constraints where required
+- map internal cost model behind it
+- log impossible/ambiguous units as clarification risks
+- never add internal margin columns to the client file
 
-### Step 4: Commercial Assumptions & Exclusions Register
-Populate `templates/assumptions-register.csv`:
-- Assumptions that directly govern pricing (e.g., client provides venue access, paid media ad spend billed directly to client credit card)
-- Explicit exclusions (e.g., government permit fees, hotel accommodation for external VIPs)
+## Value-add and options
 
-## Neural Handoff Contract
+Every strategy-level value-add must be:
+- priced
+- included with an explicit funded basis
+- optional
+- client-supplied
+- excluded
 
-When complete, output:
-- `pricing_engine`: Internal calculation model (`templates/pricing-model.xlsx`)
-- `client_boq`: Populated `templates/boq.csv`
-- `payment_milestones`: Cashflow schedule
-- `commercial_assumptions`: Commercial terms and exclusions
-- Target Continuation: Hand off directly to **`scope-reconciliation`**
+No "free dashboard/workshop/support" can enter technical prose without commercial treatment.
 
-## Progressive Resources
-- `references/financial-modeling.md`
-- `templates/pricing-model.xlsx`
-- `templates/boq.csv`
-- `templates/assumptions-register.csv`
+## Payment milestones
+
+Tie payment to measurable acceptance where allowed.
+
+Do not invent advance-payment percentages or validity periods. Examples in old proposals are not policy.
+
+## VAT
+
+Use Regulatory Scout evidence for current rate/treatment and buyer format.
+
+Keep VAT as configurable input. Verify inclusive/exclusive presentation.
+
+## Vendor-dependent scope
+
+For events, creators, production, licenses, travel:
+- quote source
+- quote date
+- validity
+- quantity basis
+- substitution assumptions
+- FX if applicable
+- cancellation/change exposure where material
+
+## Handoff
+
+Output:
+- internal pricing engine
+- client BOQ
+- payment milestones
+- commercial assumptions/exclusions
+- price-source ledger or receipts
+
+Then route to scope-reconciliation.
+
+## Resources
+
+- references/financial-modeling.md
+- references/service-modules/*.md
+- tools/reconciliation-schema.json
+- templates/pricing-model.xlsx
+- templates/boq.csv

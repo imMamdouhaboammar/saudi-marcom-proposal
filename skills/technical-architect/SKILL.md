@@ -1,112 +1,153 @@
 ---
 name: technical-architect
-description: "Architect, write, and structure the technical proposal (العرض الفني) for Saudi MarCom bids. Use when designing the solution methodology, workstreams, deliverable units, project schedule, team governance, quality assurance processes, and risk registers for media, marketing, event, digital, and crisis proposals. Do NOT use for financial modeling, client BOQ pricing, or clause extraction."
-version: 0.2.0
+description: "Architect and draft the technical proposal (العرض الفني) for Saudi MarCom bids after requirements, service routing, and bid strategy are grounded. Use for solution methodology, workstreams, deliverable units, schedule, governance, quality, KPIs, risk, and assumptions. Do NOT use for pricing, raw clause extraction, or artifact formatting."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
-inputs:
-  - requirement_ledger
-  - active_service_modules
-  - regulatory_source_ledger
-requires:
-  - source_grounding
-produces:
-  - technical_outline
-  - deliverable_map
-  - schedule
-  - governance_model
-  - risk_register
-  - assumptions_register
-gates:
-  - evidence_before_claims
-  - executable_deliverable_units
-  - 100_percent_requirement_traceability
+inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger, response_strategy, evidence_plan]
+requires: [source_grounding]
+produces: [technical_outline, deliverable_map, schedule, governance_model, risk_register, assumptions_register]
+gates: [evidence_before_claims, executable_deliverable_units, 100_percent_requirement_traceability, strategy_alignment]
 neural_links:
-  precursors:
-    - service-router
-    - regulatory-scout
-  continuations:
-    - commercial-modeler
-    - scope-reconciliation
-  lateral_peers:
-    - commercial-modeler
-  recovery: rfp-forensics
+  precursors: [service-router, bid-strategist, regulatory-scout]
+  continuations: [commercial-modeler, scope-reconciliation]
+  lateral_peers: [commercial-modeler]
+  recovery: bid-strategist
 ---
 
-# Solution Design & Technical Architect
+# Technical Architect
 
-Architect and draft decision-ready Saudi technical proposals (العرض الفني).
+Turn grounded requirements and strategy into an executable technical response.
 
-## Mission
+## Preconditions
 
-Transform requirements, service models, and regulatory constraints into an executable, persuasive, and 100% compliant technical proposal tailored to Saudi procurement standards and cultural context.
+Do not draft a weighted/scored bid until:
+- requirement ledger is materially complete
+- active service modules are known
+- applicable regulatory blockers are identified
+- response strategy and evidence plan exist
 
-## Activation Contract
+A direct technical-only brief without scoring can use a lighter strategy record, but still needs a clear problem, scope, audience, and evidence boundary.
 
-Activate when:
-- Designing the strategic methodology and work breakdown structure for a Saudi bid
-- Drafting proposal sections: Executive Summary, Context Understanding, Scope of Work, Governance, Team Structure, Work Plan, Risk Register
-- Building the exhaustive `deliverable_map` with discrete units, frequencies, and acceptance criteria
-- Crafting Arabic or bilingual proposal copy aligned with Vision 2030 objectives
+## Architecture
 
-Do NOT activate for:
-- Standalone pricing calculations or financial BOQs (use `commercial-modeler`)
-- Raw clause extraction from tender documents (use `rfp-forensics`)
-- Document formatting or desktop publishing export (use `artifact-assembler`)
+Select sections based on the RFP, not a fixed table of contents.
 
-## Non-Negotiable Invariants
+Common components:
+1. executive summary
+2. context and objectives
+3. response principles / strategic approach
+4. workstreams
+5. methodology
+6. deliverables and acceptance
+7. operating model and governance
+8. schedule
+9. team and capacity
+10. quality and SLA
+11. measurement
+12. risks, assumptions, dependencies
+13. evidence/cases
+14. compliance cross-reference where useful or required
 
-1. **Evidence Before Claims**: Never assert credentials, case results, audience reach, or performance statistics without verified evidence in the source inventory.
-2. **Executable Deliverable Units**: Every promised deliverable must have an explicit quantity/unit, timeline/frequency, owner, and objective acceptance criterion (no vague promises like "provide ongoing support").
-3. **Traceable Coverage**: Every mandatory requirement in the ledger must map to an explicit section and deliverable in the technical proposal.
+## Service-module loading
 
-## Execution Procedure
+Load every active `references/service-modules/*.md` before defining deliverables.
 
-### Step 1: Technical Proposal Architecture
-Construct the proposal outline following Saudi public/private evaluation standards:
-1. Cover & Bid Identity (RFP title, tender number, bidder identity)
-2. Executive Summary (Strategic value proposition, core methodology, key differentiators)
-3. Understanding of the Context & Objectives (Client landscape, strategic stakes, success metrics)
-4. Strategic Approach & Creative Concept (Guiding principles, overarching narrative)
-5. Detailed Scope of Work & Workstreams (Step-by-step execution across activated modules)
-6. Deliverables Matrix & Acceptance Criteria (Discrete units, specifications, review cycles)
-7. Project Management & Operating Model (Governance, client approvals, RACI matrix, escalation)
-8. Implementation Timeline & Work Plan (Gantt milestones, critical path, key dependencies)
-9. Team Structure & Key Personnel (Organizational chart, CV summaries, Saudization quotas)
-10. Quality Assurance & Performance Metrics (SLA tracking, KPI dashboard, reporting cadence)
-11. Risk Management & Assumptions Register (Anticipated risks, mitigation plans, dependencies)
-12. Compliance & Evaluation Cross-Reference (Traceability matrix mapping RFP clauses to sections)
+For multi-service bids create a cross-module interface table:
+- producer
+- output
+- consumer
+- cadence
+- approval owner
+- commercial owner
 
-### Step 2: Deliverable Unit Modeling
-For every work item, generate the formal `deliverable_map`:
-- `deliv_id`: D-01, D-02...
-- `mapped_req_id`: REQ-01, REQ-02...
-- `deliverable_name`: e.g., Monthly Sentiment Analysis Report
-- `unit_of_measure`: Report / Video / Event / Campaign / Man-month
-- `quantity`: Exact count or baseline frequency
-- `acceptance_criteria`: Measurable specification required for client sign-off
-- `delivery_milestone`: Phase 1, Monthly, Event Day, etc.
+## Deliverable model
 
-### Step 3: Risk & Assumptions Engineering
-Build the operational risk register (`templates/risk-register.csv`) and assumptions register (`templates/assumptions-register.csv`):
-- Technical dependencies, client review turnaround limits, scope boundaries
-- Severity, probability, impact score
-- Proactive mitigation protocol and contingency fallback
+Every promised item needs:
+- deliverable_id
+- requirement_ids
+- service_module
+- name
+- unit
+- quantity or frequency
+- owner
+- acceptance criterion
+- delivery timing
+- dependency
+- revision/approval rule where relevant
+- commercial treatment placeholder
 
-## Neural Handoff Contract
+Vague "ongoing support" is invalid.
 
-When complete, output:
-- `technical_outline`: Comprehensive narrative text (`templates/technical-proposal-outline.md`)
-- `deliverable_map`: Exhaustive deliverable ledger
-- `schedule`: Work plan and milestone calendar
-- `risk_register`: Populated `templates/risk-register.csv`
-- `assumptions_register`: Populated `templates/assumptions-register.csv`
-- Target Continuations: Hand off to **`commercial-modeler`** (for pricing) and **`scope-reconciliation`**
+## Methodology standard
 
-## Progressive Resources
-- `references/technical-proposal-anatomy.md`
-- `references/risk-assumptions-and-governance.md`
-- `references/writing-and-rtl.md`
-- `templates/technical-proposal-outline.md`
-- `templates/risk-register.csv`
-- `templates/assumptions-register.csv`
+A methodology step must contain:
+- input
+- action
+- owner
+- output
+- control/quality check
+- exit condition
+
+Do not use generic Discover, Design, Deliver phases unless the actual work inside each is specific.
+
+## Evidence discipline
+
+Use the bid strategist's evidence plan:
+- claim only verified facts
+- case evidence must be relevant
+- executive-summary promises must be expanded in the body
+- outcome KPIs need baseline/control assumptions
+- unsupported superiority language is removed
+
+## Team and capacity
+
+Map roles to workload:
+- volume
+- coverage hours
+- languages
+- locations
+- response SLA
+- concurrent workstreams
+
+Do not place CV names unless verified bidder evidence supplies them.
+
+## Governance
+
+Define:
+- single accountable project lead
+- client counterpart assumptions
+- meeting cadence
+- approval path
+- urgent path
+- sensitive escalation
+- decision log
+- change control
+- reporting cadence
+
+## Risk engineering
+
+Risk entries need:
+- trigger
+- probability/impact or qualitative severity
+- preventive control
+- contingency
+- owner
+- commercial implication if material
+
+Avoid decorative risk tables with generic items.
+
+## Handoff
+
+Output technical outline, deliverable map, schedule, governance, risk register, and assumptions.
+
+Hand to commercial-modeler and scope-reconciliation.
+
+## Resources
+
+- references/technical-proposal-anatomy.md
+- references/buyer-and-bid-strategy.md
+- references/evaluation-engineering.md
+- references/risk-assumptions-and-governance.md
+- references/writing-and-rtl.md
+- references/service-modules/*.md

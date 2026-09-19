@@ -1,94 +1,26 @@
 {
   "name": "saudi-marcom-proposal",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "agentic-skill-pack",
   "entrypoint": "SKILL.md",
-  "architecture": "atomic-neural-dag",
-  "domain": [
-    "Saudi Arabia",
-    "technical proposals",
-    "financial proposals",
-    "media",
-    "communications",
-    "marketing",
-    "events",
-    "crisis",
-    "digital",
-    "AI",
-    "monitoring"
-  ],
+  "architecture": "state-aware-neural-dag",
+  "domain": ["Saudi Arabia","technical proposals","financial proposals","media","communications","marketing","events","crisis","digital","AI","monitoring"],
+  "routers": ["routers/state-router.yaml","routers/intent-router.yaml","routers/service-router.yaml","routers/source-precedence.yaml"],
   "neural_graph": "neural-links/graph.yaml",
   "skills": [
-    {
-      "name": "source-intake",
-      "path": "skills/source-intake/SKILL.md",
-      "role": "Intake & Source Forensics"
-    },
-    {
-      "name": "rfp-forensics",
-      "path": "skills/rfp-forensics/SKILL.md",
-      "role": "Requirement Extraction & Traceability"
-    },
-    {
-      "name": "regulatory-scout",
-      "path": "skills/regulatory-scout/SKILL.md",
-      "role": "Saudi Regulatory & Freshness Scout"
-    },
-    {
-      "name": "service-router",
-      "path": "skills/service-router/SKILL.md",
-      "role": "MarCom Service Architecture Router"
-    },
-    {
-      "name": "technical-architect",
-      "path": "skills/technical-architect/SKILL.md",
-      "role": "Solution Design & Technical Proposal"
-    },
-    {
-      "name": "commercial-modeler",
-      "path": "skills/commercial-modeler/SKILL.md",
-      "role": "Commercial Modeling & Client BOQ"
-    },
-    {
-      "name": "scope-reconciliation",
-      "path": "skills/scope-reconciliation/SKILL.md",
-      "role": "Bidirectional Technical-Financial Reconciliation"
-    },
-    {
-      "name": "proposal-qc",
-      "path": "skills/proposal-qc/SKILL.md",
-      "role": "Red-Team Review & Quality Gate"
-    },
-    {
-      "name": "artifact-assembler",
-      "path": "skills/artifact-assembler/SKILL.md",
-      "role": "Deliverable Production & Package Assembly"
-    }
+    {"name":"source-intake","path":"skills/source-intake/SKILL.md","role":"Intake & Source Forensics"},
+    {"name":"rfp-forensics","path":"skills/rfp-forensics/SKILL.md","role":"Requirement Extraction & Traceability"},
+    {"name":"regulatory-scout","path":"skills/regulatory-scout/SKILL.md","role":"Saudi Regulatory & Freshness Scout"},
+    {"name":"service-router","path":"skills/service-router/SKILL.md","role":"MarCom Service Architecture Router"},
+    {"name":"bid-strategist","path":"skills/bid-strategist/SKILL.md","role":"Evaluation-Weighted Response Strategy"},
+    {"name":"technical-architect","path":"skills/technical-architect/SKILL.md","role":"Solution Design & Technical Proposal"},
+    {"name":"commercial-modeler","path":"skills/commercial-modeler/SKILL.md","role":"Commercial Modeling & Client BOQ"},
+    {"name":"scope-reconciliation","path":"skills/scope-reconciliation/SKILL.md","role":"Bidirectional Technical-Financial Reconciliation"},
+    {"name":"proposal-qc","path":"skills/proposal-qc/SKILL.md","role":"Red-Team Review & Quality Gate"},
+    {"name":"artifact-assembler","path":"skills/artifact-assembler/SKILL.md","role":"Deliverable Production & Package Assembly"}
   ],
-  "artifacts": [
-    "technical_proposal",
-    "financial_proposal",
-    "requirement_ledger",
-    "compliance_matrix",
-    "risk_register",
-    "assumptions_register",
-    "source_ledger",
-    "qc_report"
-  ],
-  "requires_live_research_for": [
-    "procurement rules",
-    "tax treatment",
-    "data protection",
-    "media regulation",
-    "event permits",
-    "submission platform rules"
-  ],
-  "privacy": {
-    "raw_private_benchmark_data_included": false,
-    "client_identifiers_in_examples": false
-  },
-  "behavioral_eval": {
-    "definitions_included": true,
-    "fresh_harness_run_required_for_maturity_claim": true
-  }
+  "artifacts": ["technical_proposal","financial_proposal","requirement_ledger","compliance_matrix","scoring_coverage_plan","evidence_plan","risk_register","assumptions_register","source_ledger","qc_report"],
+  "requires_live_research_for": ["procurement rules","local content","tax treatment","data protection","media regulation","event permits","digital-government controls","cybersecurity controls","submission platform rules"],
+  "privacy": {"raw_private_benchmark_data_included":false,"client_identifiers_in_examples":false},
+  "behavioral_eval": {"definitions_included":true,"fresh_harness_run_required_for_maturity_claim":true}
 }

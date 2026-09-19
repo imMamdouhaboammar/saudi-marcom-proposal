@@ -1,0 +1,37 @@
+language: "en-US"
+reviews:
+  profile: "assertive"
+  high_level_summary: true
+  auto_review:
+    enabled: true
+    drafts: true
+  path_instructions:
+    - path: "SKILL.md"
+      instructions: |
+        Review this as an agent-control contract, not generic documentation.
+        Check state/evidence precedence, activation boundaries, unsupported completion claims, and consistency with manifest.json and neural-links/graph.yaml.
+    - path: "skills/**/SKILL.md"
+      instructions: |
+        Check frontmatter contracts, trigger overlap, decision depth, handoff outputs, failure modes, and whether the skill can be executed by a blind agent without hidden context.
+        Flag generic checklist behavior and any route that can bypass evidence or pricing gates.
+    - path: "routers/**"
+      instructions: |
+        Check routing for state blindness, keyword capture, unreachable nodes, ambiguous ownership, loops, and bypasses around compliance, strategy, reconciliation, or QC.
+    - path: "neural-links/**"
+      instructions: |
+        Check graph/manifest symmetry, valid edges, recovery ownership, and whether mutations make downstream proof stale.
+    - path: "references/service-modules/**"
+      instructions: |
+        Review domain depth: deliverable units, acceptance criteria, staffing/capacity, pricing drivers, regulatory triggers, cross-module interfaces, and real failure modes.
+    - path: "references/saudi-regulatory-freshness.md"
+      instructions: |
+        Treat regulatory facts as freshness-sensitive. Flag hardcoded claims that need live verification, authority naming errors, consultation material described as final, and rules applied outside their scope.
+    - path: "evals/**"
+      instructions: |
+        Check semantic breadth, adversarial pressure, oracle leakage, duplicate scenarios, critical failure coverage, and whether tests can pass by parroting descriptions.
+    - path: "scripts/**"
+      instructions: |
+        Check validator correctness, fail-open behavior, schema drift, and whether validation claims exceed what the script actually proves.
+    - path: "tests/**"
+      instructions: |
+        Check negative tests and regression coverage for graph, manifest, router, eval, and confidentiality contracts.

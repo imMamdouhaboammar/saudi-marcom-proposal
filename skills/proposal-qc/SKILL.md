@@ -1,109 +1,123 @@
 ---
 name: proposal-qc
-description: "Conduct independent adversarial red-team review and final quality assurance for Saudi MarCom technical and financial proposals. Use when auditing a completed bid package before client submission to falsify compliance, catch ungrounded claims, detect confidential data leakage, verify arithmetic, and prevent disqualifications. Do NOT use for initial drafting, price estimation, or routine spelling fixes."
-version: 0.1.0
+description: "Independently falsify Saudi MarCom proposal readiness across mandatory compliance, evaluation coverage, evidence, technical-commercial parity, arithmetic, confidentiality, and submission integrity. Use for final review or review of existing proposal files. Do NOT create initial scope, invent missing evidence, or silently fix commercial assumptions."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
-inputs:
-  - technical_outline
-  - deliverable_map
-  - client_boq
-  - payment_milestones
-  - requirement_ledger
-  - reconciliation_certificate
-requires:
-  - source_grounding
-produces:
-  - qc_report
-  - submission_status
-  - blocker_log
-gates:
-  - zero_unresolved_blockers
-  - zero_client_data_leakage
-  - compliance_falsification
+inputs: [technical_outline, deliverable_map, client_boq, payment_milestones, requirement_ledger, scoring_coverage_plan, reconciliation_certificate]
+requires: [source_grounding]
+produces: [qc_report, submission_status, blocker_log]
+gates: [mandatory_coverage, scoring_coverage, evidence_integrity, reconciliation_integrity, client_boundary]
 neural_links:
-  precursors:
-    - scope-reconciliation
-  continuations:
-    - artifact-assembler
-  lateral_peers: []
+  precursors: [scope-reconciliation]
+  continuations: [artifact-assembler]
+  on_fail: [rfp-forensics, bid-strategist, technical-architect, commercial-modeler]
   recovery: proposal-qc
 ---
 
-# Proposal Red-Team & Quality Control
+# Proposal QC
 
-Execute independent adversarial falsification before proposal submission.
+Try to disprove readiness.
 
-## Mission
+## Status
 
-Act as an independent client evaluator and legal/commercial red team to challenge and audit the entire proposal package, discovering compliance flaws, ungrounded claims, arithmetic defects, or confidential data leaks before the client sees them.
+Return exactly one:
+- READY
+- REVISIONS_REQUIRED
+- BLOCKED
 
-## Activation Contract
+READY means no unresolved submission-blocking defect was found with the evidence available. It is not a guarantee of award.
 
-Activate when:
-- Conducting final quality assurance on a completed proposal draft
-- Evaluating compliance against RFP evaluation criteria and mandatory qualification gates
-- Auditing the text for residual competitor names, prior client identifiers, or placeholder tags
-- Issuing the formal `qc_report` and go/no-go `submission_status`
+## Review order
 
-Do NOT activate for:
-- Initial requirement analysis (use `rfp-forensics`)
-- Proposal narrative authoring (use `technical-architect`)
-- Packaging documents into final file formats (use `artifact-assembler`)
+### 1. Mandatory compliance
+Check:
+- every pass/fail requirement
+- forms
+- signatures/stamps where required
+- qualifications
+- mandatory attachments
+- submission separation
+- filenames/portal constraints
 
-## Non-Negotiable Invariants
+Any missing pass/fail item is BLOCKED.
 
-1. **Independent Evaluation Lens**: Red-team review must attempt to disqualify or penalize the proposal as a tough government evaluator would. Never rubber-stamp a draft.
-2. **Blocking Finding Veto**: Any critical finding (e.g., missed mandatory clause, arithmetic mismatch, client data leak, missing portal attachment) immediately blocks final release (`STATUS: BLOCKED`).
-3. **Evidence Requirement**: Every assertion of failure or pass must cite exact line numbers, clause references, or formula checks.
+### 2. Evaluation coverage
+For each scored criterion:
+- response exists
+- location is traceable
+- required proof exists
+- weight receives proportionate decision-grade coverage
+- executive summary aligns to detailed answer
 
-## Execution Procedure
+A beautiful proposal with shallow high-weight criteria requires revision.
 
-### Step 1: Compliance Falsification Audit
-Check against `requirement_ledger` and `templates/compliance-matrix.csv`:
-- Is every mandatory requirement explicitly and visibly answered?
-- Are all requested company certifications, licenses, and permits attached?
-- Does the team CV structure satisfy minimum years of experience and Saudization rules?
-- Are mandatory submission forms and signed declarations present?
+### 3. Evidence audit
+Flag:
+- unsupported credentials
+- unverified case statistics
+- copied client facts
+- "leading/best/unique" without proof
+- regulatory statements without fresh source
+- outcome commitments without baseline/control logic
 
-### Step 2: Factual Grounding & Anti-Hallucination Scan
-Audit every factual statement in the technical proposal:
-- Flag ungrounded claims (e.g., "we have 99% reach", "we guarantee zero negative sentiment")
-- Check that all cited case studies are verified and authorized
-- Flag invented dates, fictitious client quotes, or unsupported performance metrics
+### 4. Technical feasibility
+Check:
+- deliverables have units/quantities
+- staffing supports volume/SLA/languages
+- governance has owners
+- dependencies are explicit
+- fallback exists for critical dependencies
+- activated service-module rules are satisfied
 
-### Step 3: Confidentiality & Leakage Scrub
-Execute comprehensive pattern search:
-- Search for names of past clients, unredacted third-party rates, internal cost estimates
-- Search for lingering template markers: `[CLIENT NAME]`, `[DATE]`, `[XXX]`, `TODO`
-- Verify that metadata in source files (author properties, revision history) is scrubbed
+### 5. Commercial integrity
+Check:
+- no unsourced final price
+- mandatory BOQ preserved
+- value-add has commercial treatment
+- supplier-dependent lines have source/validity
+- payment terms are sourced or explicit proposal terms
+- internal cost/margin isolated
 
-### Step 4: Arithmetic & Financial Consistency Check
-Confirm `reconciliation_certificate` validity:
-- Re-verify BOQ totals and VAT line items
-- Verify that no conflicting numbers appear in the executive summary or technical text
+### 6. Reconciliation
+Verify certificate plus spot-check:
+- quantity/unit
+- duration
+- SLA/staffing
+- included/optional/excluded
+- VAT and totals
+- financial-only line has technical purpose
 
-### Step 5: Arabic Language, RTL & Presentation Review
-- Check Arabic grammar, tone (formal official Arabic suitable for Saudi ministries/PIF entities)
-- Ensure bidirectional text (English acronyms embedded in Arabic sentences) renders with correct punctuation and flow
-- Check that table alignments and numbering sequences are consistent
+### 7. Confidentiality and artifact boundary
+Search for:
+- prior client names not intentionally used as verified case evidence
+- bank/account data
+- private contacts
+- internal margins/buy rates
+- comments/tracked changes
+- speaker notes
+- hidden sheets/slides
+- stale versions
 
-### Step 6: Verdict & Blocker Log Generation
-Compile `templates/final-qc-checklist.md` into `qc_report`:
-- **BLOCKING ISSUES**: Disqualifying items that halt release
-- **MAJOR ISSUES**: Significant risks that weaken evaluation score
-- **POLISH ITEMS**: Minor stylistic or aesthetic improvements
-- Set `submission_status`: `READY` | `REVISIONS_REQUIRED` | `BLOCKED`
+## Finding format
 
-## Neural Handoff Contract
+Each finding contains:
+- severity: blocker / major / minor / polish
+- source/evidence
+- affected requirement/criterion
+- failure consequence
+- owner
+- required correction
+- recheck condition
 
-When complete, output:
-- `qc_report`: Detailed audit findings (`templates/final-qc-checklist.md`)
-- `submission_status`: Go / No-Go verdict
-- `blocker_log`: Action items for remediation
-- Target Continuations: Hand off to **`artifact-assembler`** on `READY`; route back to originating skill on `BLOCKED`.
+## Handoff
 
-## Progressive Resources
-- `references/final-qc.md`
-- `references/writing-and-rtl.md`
-- `templates/final-qc-checklist.md`
+READY -> artifact-assembler.
+REVISIONS_REQUIRED or BLOCKED -> earliest owning skill that can resolve the defect.
+
+## Resources
+
+- references/final-qc.md
+- references/evaluation-engineering.md
+- tools/agent-handoff-contract.md
+- templates/final-qc-checklist.md

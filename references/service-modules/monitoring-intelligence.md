@@ -2,53 +2,103 @@
 
 ## Activate for
 
-Media monitoring, social listening, sentiment analysis, reputation intelligence, early warning, topic tracking, executive intelligence reports, and decision-support dashboards.
+Media monitoring, social listening, sentiment analysis, reputation intelligence, early warning, topic tracking, executive intelligence reports, competitor/category monitoring, and decision-support dashboards.
 
-## Define the monitoring universe
+## Monitoring universe
 
-- channels and source types
+Define before pricing:
+- source types
+- named platforms where material
 - languages
 - geographies
-- topics, entities, and keyword logic
+- entities/topics
+- keywords/query logic
 - historical lookback
-- exclusions and noise rules
-- source availability limits
+- exclusions/noise rules
+- refresh/coverage window
+- source-access limitations
+- archive requirement
 
-## Analytical method
+"All media" is not an acceptable technical boundary.
 
-Explain:
+## Analytical pipeline
 
+`collect -> normalize -> deduplicate -> classify relevance -> enrich -> analyze -> human QA -> alert/report -> archive`
+
+Document:
 - collection method
 - deduplication
-- relevance classification
-- sentiment method and human QA
-- issue tagging
-- anomaly / spike detection
+- relevance rules
+- sentiment method
+- human QA sample/rule
+- entity/topic tagging
+- anomaly detection
 - severity threshold
 - source weighting if used
+- correction workflow
 - limitations
 
-## Deliverables
+## Deliverable units
 
-Examples:
+| Deliverable | Unit | Acceptance examples |
+| --- | --- | --- |
+| monitoring setup | setup | approved queries, entities, exclusions |
+| alert | alert | source, timestamp, reason, severity |
+| daily digest | day/report | agreed sections and cutoff |
+| weekly intelligence note | report | trends, evidence, implications |
+| monthly reputation report | report | methodology, themes, sentiment with caveats |
+| crisis flash report | report | verified evidence, uncertainty, recommended action |
+| dashboard | dashboard | metrics, refresh cadence, role access |
+| historical analysis | dataset/report | period, source coverage, limitations |
+| query refinement | cycle | precision/recall issues documented |
 
-- daily alert
-- weekly intelligence note
-- monthly reputation report
-- crisis flash report
-- executive dashboard
-- source archive
-- recommendation log
+## SLA and staffing
 
-## Risks
+Define:
+- monitoring hours
+- analyst validation coverage
+- alert acknowledgement
+- languages per shift
+- escalation recipient
+- weekend/holiday model
+- crisis surge
 
-- false positives
-- missed sources
-- language/sarcasm ambiguity
-- API or platform access changes
-- automated sentiment overconfidence
-- personally identifiable data handling
+24/7 requires commercial staffing or an explicit technology-only boundary plus human-response hours.
 
-## Pricing implications
+## Data and privacy
 
-Separate platform/license cost, analyst effort, reporting cadence, live alert coverage, historical data pulls, custom dashboard, and crisis surge support.
+Activate PDPL review when identifiable personal data is processed beyond ordinary public-source observation or when profiling/retention creates a relevant data-protection obligation.
+
+Never treat public availability as automatic permission for every processing purpose.
+
+## Pricing drivers
+
+Separate:
+- platform/license
+- query/topic capacity
+- historical data
+- analyst hours
+- language coverage
+- alert SLA
+- reporting cadence
+- dashboard
+- custom taxonomy
+- crisis surge
+- archive/export
+
+## Cross-module interfaces
+
+- validated alert -> Crisis & Reputation
+- campaign response -> Marketing & Promotion
+- media narrative insight -> Media & Corporate Comms
+- dashboard/integration -> Digital & AI
+
+## Failure modes
+
+Block or revise when:
+- source universe is undefined
+- automated sentiment is presented without QA/limitations
+- unsupported source access is promised
+- platform license and analyst service are conflated
+- 24/7 is priced as ordinary business hours
+- query limits or historical access are ignored

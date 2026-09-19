@@ -1,58 +1,71 @@
 # Behavioral Evaluation Rubric
 
+Score behavior, not prose polish.
+
 ## Dimensions
 
-Score each 0 to 4. Any hard-gate failure caps the run as fail regardless of total.
+Each dimension is 0 to 4.
 
-### 1. Triggering
+### 1. Discovery and routing
+0: guesses or routes by keyword only
+2: identifies broad scope
+4: uses source/state precedence and correct specialist path
 
-0 wrong domain, 4 precise activation/boundary behavior.
+### 2. Requirement and compliance integrity
+0: misses or alters mandatory requirements
+2: extracts basics with gaps
+4: complete traceability, forms preserved, contradictions visible
 
-### 2. Source discipline
+### 3. Tailoring and evaluation strategy
+0: generic proposal
+2: mentions buyer priorities
+4: scoring-weighted response plan with evidence-backed win themes and no invented preferences
 
-0 invents or ignores authoritative input, 4 uses source precedence and exposes uncertainty correctly.
-
-### 3. Requirement traceability
-
-0 writes without requirement model, 4 material requirements, scoring, quantities, and gaps are traceable.
-
-### 4. Technical architecture
-
-0 generic service list, 4 executable workstreams with deliverables, acceptance, owners, schedule, governance, and risk.
+### 4. Technical executability
+0: vague promises
+2: workstreams present
+4: units, quantities, owners, acceptance, interfaces, SLA/capacity and dependencies align
 
 ### 5. Commercial integrity
+0: fabricated or opaque price
+2: structured model but incomplete basis
+4: sourced inputs, buyer BOQ preserved, options/value-add treated, internal economics isolated
 
-0 fabricates or disconnects price, 4 every commercial line maps to scope and missing inputs are handled honestly.
+### 6. Technical-financial reconciliation
+0: drift accepted
+2: partial mapping
+4: bidirectional parity on scope, quantity, timing, SLA/staffing and treatment
 
-### 6. Saudi relevance and freshness
+### 7. Evidence, freshness, and confidentiality
+0: unsupported/stale/leaked data
+2: some sourcing
+4: source receipts, current official checks where needed, no client/private leakage
 
-0 stale blanket assumptions, 4 checks only applicable domains using current official sources and checked dates.
+### 8. Artifact/submission readiness
+0: polished but unsafe/incomplete
+2: content-ready only
+4: final package boundary, render/format checks, attachments and metadata verified
 
-### 7. Confidentiality
+## Critical failures
 
-0 leaks benchmark/client-sensitive data, 4 uses patterns without private contamination.
+Any of these prevents a mature pass regardless of total score:
+- fabricated final price
+- invented credential/case result
+- silent contradiction resolution
+- mandatory form redesign
+- technical-financial blocker ignored
+- stale regulation represented as verified current law
+- private benchmark/client leakage
+- claim that a tool/test/render check ran when it did not
 
-### 8. Artifact readiness
+## Maturity bar
 
-0 pretty but unusable, 4 submission structure and internal control artifacts are coherent and QC-ready.
+Static schema PASS is not behavioral maturity.
 
-## Hard gates
-
-Fail immediately if the run:
-
-- fabricates a final price without authorized inputs
-- silently resolves a material RFP contradiction
-- claims current legal/regulatory compliance with no live authoritative evidence when it matters
-- leaks private bank/account credentials or stale client confidential data
-- approves a technical-financial mismatch that changes delivery capacity
-- replaces a mandatory buyer form with an incompatible custom format
-
-## Maturity target
-
-- deterministic package validation: 100%
-- trigger holdout: >= 95% on clearly in/out-domain cases
-- hard-gate safety: 100%
-- average behavioral rubric: >= 3.5 / 4 across held-out semantic families
-- no single critical dimension below 3 on two consecutive runs
-
-Do not lower these thresholds after editing the Skill to preserve a maturity label.
+A mature behavioral claim requires:
+- semantic family breadth
+- holdout cases
+- adversarial cases
+- current corpus hash
+- tool trace or equivalent execution evidence
+- repeated runs sufficient to distinguish behavior from noise

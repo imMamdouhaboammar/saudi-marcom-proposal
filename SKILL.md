@@ -1,180 +1,227 @@
 ---
 name: saudi-marcom-proposal
-description: "Master dynamic orchestrator for Saudi MarCom technical and financial proposals across media, corporate communications, marketing, promotion, events, crisis and reputation, digital and AI, monitoring, and adjacent services. Use to orchestrate end-to-end Saudi RFP responses, tenders, pitches, retainers, or commercial proposals across 9 atomic neural-connected skills. Do NOT use for unrelated construction or civil tenders, legal opinions, generic sales decks, or bare price quotes."
-version: 0.2.0
+description: "Orchestrate evidence-grounded Saudi MarCom technical and financial proposals across corporate communications, media, marketing, promotion, events, crisis and reputation, digital and AI, monitoring, production, and adjacent services. Use for Saudi RFP responses, tenders, pitches, retainers, proposal reviews, or bid packages that need requirements, response strategy, technical architecture, commercial modeling, reconciliation, and submission QC. Do NOT use for civil/MEP tenders, legal opinions, generic sales decks, or bare quote formatting."
+version: 0.3.0
 pack: proposal
-inputs:
-  - rfp_documents
-  - organization_context
-  - reference_work
-  - pricing_inputs
-requires:
-  - source_grounding
-produces:
-  - requirement_ledger
-  - compliance_matrix
-  - technical_proposal
-  - financial_proposal
-  - assumptions_register
-  - risk_register
-  - source_ledger
-  - qc_report
-gates:
-  - evidence_before_claims
-  - no_unsourced_pricing
-  - regulatory_freshness
-  - technical_financial_reconciliation
-  - confidentiality
+inputs: [rfp_documents, organization_context, reference_work, pricing_inputs]
+requires: [source_grounding]
+produces: [requirement_ledger, compliance_matrix, response_strategy, scoring_coverage_plan, technical_proposal, financial_proposal, assumptions_register, risk_register, source_ledger, qc_report]
+gates: [evidence_before_claims, no_unsourced_pricing, regulatory_freshness, technical_financial_reconciliation, confidentiality, evaluation_weight_alignment]
 fallback: source-intake
 mutatesWorkspace: false
 parallelSafe: false
 neural_links:
-  architecture: atomic-neural-dag
+  architecture: state-aware-neural-dag
   graph: neural-links/graph.yaml
-  orchestrator: master-dag-engine
-  nodes:
-    - source-intake
-    - rfp-forensics
-    - regulatory-scout
-    - service-router
-    - technical-architect
-    - commercial-modeler
-    - scope-reconciliation
-    - proposal-qc
-    - artifact-assembler
-  precursors: []
-  continuations:
-    - source-intake
-  lateral_peers: []
+  state_router: routers/state-router.yaml
+  nodes: [source-intake, rfp-forensics, regulatory-scout, service-router, bid-strategist, technical-architect, commercial-modeler, scope-reconciliation, proposal-qc, artifact-assembler]
+  continuations: [source-intake]
   recovery: source-intake
 ---
 
-# Saudi MarCom Proposal Master Orchestrator
+# Saudi MarCom Proposal
 
-Master dynamic router and execution DAG engine for tailored Saudi technical and financial proposals.
+Build a bid from evidence and operating decisions, not from a proposal template.
 
-## Mission
+## Core model
 
-Orchestrate end-to-end proposal creation across 9 atomic, neural-connected skills: transforming raw tender packs, briefs, and rate cards into decision-ready Saudi technical proposals (العرض الفني) and financially reconciled commercial offers (العرض المالي).
+`sources -> requirements -> applicability -> service architecture -> bid strategy -> technical design -> commercial model -> reconciliation -> adversarial QC -> artifacts`
 
-$$\text{Tender Input} \xrightarrow{\text{Master Router}} \text{Dynamic DAG (9 Atomic Skills)} \xrightarrow{\text{2-Way Reconciliation}} \text{Red-Team Gate} \xrightarrow{\text{Client Release Package}}$$
+The canonical topology is in `neural-links/graph.yaml`. Final-state routing is controlled by `routers/state-router.yaml`.
 
-## Non-Negotiable Invariants
+## Invariants
 
-1. **Source Before Prose**: Never write a requirement from memory when the supplied RFP or official authority source can answer it.
-2. **Evidence Before Claims**: Never invent credentials, case statistics, audience numbers, or certifications.
-3. **Strict Technical-Financial Reconciliation**: Every client-facing price line must map to a verified technical deliverable, and every deliverable must have commercial basis.
-4. **Zero Unsourced Pricing**: Missing commercial inputs remain marked as `PRICING INPUT REQUIRED`. Never hallucinate costs.
-5. **Separation of Offers**: Keep technical and financial offers in discrete deliverables unless the client explicitly requires a combined submission.
-6. **Mandatory Form Preservation**: Never alter or redesign prescribed government BOQ tables or qualification sheets.
-7. **Relevance-Gated Regulations**: Live-check only Saudi rules that directly govern the active scope.
-8. **Zero Client Leakage**: Isolate past client names, prices, internal margins, and account details.
+1. Source before prose.
+2. Every requirement retains provenance.
+3. Every scored criterion has an explicit response and evidence plan.
+4. No credentials, results, staffing facts, permits, or certifications are invented.
+5. No final price appears without an authorized rate, vendor quote, cost basis, or explicitly approved scenario assumption.
+6. Every technical promise has commercial treatment.
+7. Every client-facing price line has technical purpose.
+8. Technical and financial submissions remain separate unless the buyer says otherwise.
+9. Prescribed BOQ and qualification forms are not redesigned.
+10. Regulatory checks are relevance-gated and current.
+11. Past proposal material is structural reference only unless its facts are independently verified for this bid.
+12. Internal margins, buy rates, bank details, private contacts, comments, tracked changes, and hidden sheets never cross the client boundary.
 
-## Dynamic Execution DAG & Atomic Skills Topology
+## State-first routing
 
-The Master Orchestrator drives execution through 9 specialized atomic skills under `skills/`:
+Before obeying a request such as "final", "ready", "submit", or "finish", read `routers/state-router.yaml`.
 
-```mermaid
-flowchart TD
-    In["RFP / Tender Pack"] --> S1["skills/source-intake"]
-    S1 --> S2["skills/rfp-forensics"]
-    S2 --> S3["skills/regulatory-scout"]
-    S2 --> S4["skills/service-router"]
-    S3 --> S5["skills/technical-architect"]
-    S4 --> S5
-    S3 --> S6["skills/commercial-modeler"]
-    S5 --> S6
-    S5 --> S7["skills/scope-reconciliation"]
-    S6 --> S7
-    S7 --> S8["skills/proposal-qc"]
-    S7 -.->|"Scope / Price Discrepancy"| S5
-    S8 --> S9["skills/artifact-assembler"]
-    S8 -.->|"Critical QC Blocker"| S2
-    S9 --> Out["Final Client Submission Package"]
-```
+Hard blockers outrank intent:
+- source/confidentiality conflict
+- contradictory mandatory requirements
+- stale applicable regulation
+- scored bid with no response strategy
+- missing commercial basis
+- technical-financial mismatch
+- unresolved QC blocker
 
-## Atomic Skill Directory Registry
+Do not reroute a bounded specialist merely because the user's wording changed.
 
-| Node ID | Atomic Skill Directory | Primary Job | Input / Output Contract |
-|---|---|---|---|
-| **`source-intake`** | `skills/source-intake/` | Ingestion, source inventory, confidentiality screening | RFP docs $\to$ `source_inventory`, `situation_classification` |
-| **`rfp-forensics`** | `skills/rfp-forensics/` | Clause extraction, requirement ledger, scoring model | Sources $\to$ `requirement_ledger`, `compliance_matrix` |
-| **`regulatory-scout`** | `skills/regulatory-scout/` | Live Saudi regulatory, tax, and procurement checks | Ledger $\to$ `regulatory_source_ledger`, `applicability_flags` |
-| **`service-router`** | `skills/service-router/` | Scope classification across 6 MarCom service families | Ledger $\to$ `active_service_modules`, `service_boundaries` |
-| **`technical-architect`** | `skills/technical-architect/` | Solution design, methodology, deliverables, governance | Modules $\to$ `technical_outline`, `deliverable_map`, `schedule` |
-| **`commercial-modeler`** | `skills/commercial-modeler/` | Pricing engine, client BOQ, milestones, exclusions | Deliverables $\to$ `pricing_engine`, `client_boq`, `payment_milestones` |
-| **`scope-reconciliation`**| `skills/scope-reconciliation/`| Bidirectional scope-to-price verification & parity | Deliverables + BOQ $\to$ `scope_price_map`, `reconciliation_certificate` |
-| **`proposal-qc`** | `skills/proposal-qc/` | Independent red-team review & disqualification audit | Drafts + Cert $\to$ `qc_report`, `submission_status` (`READY` \| `REVISIONS_REQUIRED` \| `BLOCKED`) |
-| **`artifact-assembler`** | `skills/artifact-assembler/` | Deliverable compilation, Arabic RTL layout, packaging | Approved copy $\to$ Final DOCX, PPTX, XLSX, PDF bundle |
+## Phases
 
-## Orchestration Protocol
+### Phase 1: Source intake
+Use `source-intake`.
 
-### Phase 1: Ingestion & Forensics (Sequential)
-1. Invoke `skills/source-intake/SKILL.md`:
-   - Catalog all incoming tender files and record in `templates/source-ledger.csv`.
-   - Screen out confidential client data.
-   - Output `situation_classification` including `required_output` (`Technical`, `Financial`, or `Both`).
-2. Invoke `skills/rfp-forensics/SKILL.md`:
-   - Decompose RFP clauses into `templates/requirement-ledger.csv`.
-   - Map scoring weights and extract mandatory qualification attachments.
+Output:
+- source inventory
+- buyer and bid classification
+- confidentiality flags
+- missing-input list
+- required output: Technical / Financial / Both
 
-### Phase 2: Domain Context & Service Routing (Parallel DAG)
-3. Invoke `skills/regulatory-scout/SKILL.md`:
-   - Check triggered Saudi regulatory regimes (Etimad GTPL, ZATCA VAT, PDPL, GCAM, GEA, Local Content).
-4. Invoke `skills/service-router/SKILL.md`:
-   - Classify scope into core service modules: Media & Comms, Marketing, Events, Crisis, Digital & AI, Monitoring.
+### Phase 2: RFP forensics
+Use `rfp-forensics`.
 
-### Phase 3: Dual Architecture Generation (Conditional)
-5. **Technical Solution Stream** (executed when `required_output` is `Technical` or `Both`):
-   - Invoke `skills/technical-architect/SKILL.md`:
-     - Author technical solution narrative, discrete deliverable units, RACI governance, work plan, and risk register.
-6. **Commercial Modeling Stream** (executed when `required_output` is `Financial` or `Both`):
-   - Invoke `skills/commercial-modeler/SKILL.md`:
-     - Build financial pricing engine, client BOQ, payment milestones, and commercial assumptions.
+Extract:
+- pass/fail conditions
+- scored criteria and weights
+- quantities and units
+- SLAs
+- mandatory forms
+- qualification evidence
+- submission mechanics
+- contradictions and clarification questions
 
-### Phase 4: Reconciliation & Quality Gate
-7. **Reconciliation Check**:
-   - For `Both`: Invoke `skills/scope-reconciliation/SKILL.md` for bidirectional verification (every deliverable priced $\leftrightarrow$ every BOQ line justified). On pass, issue `reconciliation_certificate`.
-   - For single-stream (`Technical` only or `Financial` only): Verify scope deliverables or pricing BOQ directly against `requirement_ledger` without blocking on missing counterpart files, issuing a single-stream `reconciliation_certificate`.
-8. **Quality Control Audit**:
-   - Invoke `skills/proposal-qc/SKILL.md`:
-     - Red-team audit for compliance gaps, ungrounded claims, arithmetic defects, or leakage.
-     - Enforce `submission_status: READY`. Any blocking issue halts release.
+No silent conflict resolution.
 
-### Phase 5: Production & Artifact Release
-9. Invoke `skills/artifact-assembler/SKILL.md`:
-   - Format and package the requested proposal documents (`technical_proposal_doc`, `financial_proposal_doc`, or both per `required_output`) and required client-facing attachments.
-   - Keep internal ledgers outside `final_handoff` unless the RFP explicitly requires a specific ledger.
+### Phase 3: Parallel context
+Run only applicable branches:
 
-## Self-Healing Recovery Policies
+`regulatory-scout`
+- procurement
+- local content
+- VAT/tax presentation
+- PDPL/data
+- DGA government digital requirements
+- NCA cybersecurity
+- GAMR media/advertising
+- GEA events
 
-| Failure Signal | Detection Point | Automated Recovery Routing |
-|---|---|---|
-| **Missing / Contradictory Clause** | `rfp-forensics` or `proposal-qc` | Route back to `source-intake` $\to$ log in `clarification_log` |
-| **Unverified Regulatory Claim** | `regulatory-scout` or `proposal-qc` | Route to `regulatory-scout` $\to$ live check URL or downgrade claim |
-| **Unpriced Technical Scope** | `scope-reconciliation` | Route to `commercial-modeler` $\to$ add BOQ line or mark client-supplied |
-| **Unsupported BOQ Line Item** | `scope-reconciliation` | Route to `technical-architect` $\to$ define deliverable or prune charge |
-| **Missing Pricing Inputs** | `commercial-modeler` | Tag as `PRICING INPUT REQUIRED` $\to$ prompt user for commercial inputs |
-| **Confidentiality / Leakage Detected**| `source-intake` or `proposal-qc`| Route to `source-intake` $\to$ scrub contaminated entity names |
+`service-router`
+- Media & Corporate Comms
+- Marketing & Promotion
+- Events & Experiences
+- Crisis & Reputation
+- Digital & AI
+- Monitoring & Intelligence
 
-## Accelerated Bid Mode
+### Phase 4: Bid strategy
+For weighted evaluations, executive pitches, or any request for a highly tailored response, use `bid-strategist` before technical drafting.
 
-For critical deadlines (<4 days), compress optional creative ideation but strictly enforce these 6 mandatory gates:
-1. Complete requirement extraction (`rfp-forensics`)
-2. Mandatory form preservation (`commercial-modeler`)
-3. Scope-to-price bidirectional reconciliation (`scope-reconciliation`)
-4. Arithmetic and VAT formulas check (`commercial-modeler`)
-5. Confidentiality & past client leakage scan (`proposal-qc`)
-6. Submission file checklist and packaging (`artifact-assembler`)
+It must produce:
+- scoring coverage plan
+- evidence plan
+- win themes
+- executive message map
+- weak-evidence risks
 
-## Final Submission Verification Checklist
+A win theme must connect buyer priority, mechanism, evidence, and consequence.
 
-A proposal package is certified for submission only when:
-- [ ] Requirement ledger confirms 100% of mandatory RFP clauses are addressed.
-- [ ] Technical deliverable units have explicit quantities, frequencies, and acceptance criteria.
-- [ ] Mandatory government BOQ format is strictly preserved.
-- [ ] Reconciliation certificate confirms zero unpriced scope items and zero ungrounded price lines.
-- [ ] 15% VAT and arithmetic subtotals are verified.
-- [ ] Active Saudi regulatory citations have checked dates and authority sources.
-- [ ] Proposal QC report contains zero unresolved blocking issues.
-- [ ] Artifact assembler has validated the rendered client package and excluded internal ledgers unless explicitly required.
+### Phase 5: Technical architecture
+Use `technical-architect`.
+
+Every deliverable must specify:
+- ID and mapped requirement
+- name
+- unit
+- quantity/frequency
+- owner
+- acceptance criterion
+- timing
+- dependency
+- commercial treatment
+
+Methodology must show decisions and controls, not rephrase the RFP.
+
+### Phase 6: Commercial model
+Use `commercial-modeler`.
+
+Pricing source order:
+1. approved rate card
+2. current vendor quote
+3. approved internal cost basis
+4. authorized normalized historical basis
+5. user-approved planning scenario
+
+Otherwise use `PRICING INPUT REQUIRED`.
+
+Keep internal cost and margin mechanics out of the client BOQ.
+
+### Phase 7: Reconciliation
+Use `scope-reconciliation`.
+
+For Both:
+- technical -> financial
+- financial -> technical
+- quantity/unit parity
+- schedule/duration parity
+- SLA/staffing parity
+- optional/included/excluded treatment
+- VAT arithmetic
+
+For a single-stream request, reconcile against the requirement ledger without inventing the missing counterpart.
+
+### Phase 8: Proposal QC
+Use `proposal-qc`.
+
+QC must falsify:
+- mandatory coverage
+- scoring coverage
+- evidence support
+- client-name leakage
+- stale references
+- arithmetic
+- scope-price parity
+- attachment completeness
+- unfunded value-add
+- hidden document content
+
+Only `READY` may continue to assembly.
+
+### Phase 9: Artifact assembly
+Use `artifact-assembler`.
+
+Generate only requested formats and preserve the buyer's forms. Validate Arabic RTL, filenames, file separation, metadata, comments, notes, hidden sheets/slides, and bundle contents.
+
+## Accelerated bid mode
+
+Deadlines do not remove controls. Compress ideation, not:
+- requirement extraction
+- mandatory forms
+- scoring/evidence plan
+- scope-price reconciliation
+- arithmetic
+- confidentiality
+- final checklist
+
+## Progressive resources
+
+Core:
+- `references/rfp-forensics-and-compliance.md`
+- `references/buyer-and-bid-strategy.md`
+- `references/evaluation-engineering.md`
+- `references/source-and-evidence-policy.md`
+- `references/technical-proposal-anatomy.md`
+- `references/financial-modeling.md`
+- `references/saudi-regulatory-freshness.md`
+- `references/risk-assumptions-and-governance.md`
+- `references/final-qc.md`
+
+Service depth:
+- `references/service-modules/*.md`
+
+## Completion
+
+A polished file is not completion.
+
+Completion requires:
+- mandatory requirements covered
+- scored criteria traceable
+- current applicable regulation checked
+- claims supported
+- price inputs grounded
+- technical/financial parity verified
+- zero blocking QC findings
+- rendered package checked against submission constraints

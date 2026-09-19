@@ -1,0 +1,68 @@
+version: 1
+contract: saudi-marcom-proposal-harness-adapter
+
+required_capabilities:
+  source_search:
+    canonical: source.search
+    required_for: [private_benchmark_discovery, connected_workspace_sources]
+    may_degrade: true
+  source_read:
+    canonical: source.read
+    required_for: [rfp_files, bidder_evidence]
+    may_degrade: false_when_private_sources_are_required
+  web_search:
+    canonical: web.search
+    required_for: [regulatory_discovery, current_public_research]
+    may_degrade: true
+  web_fetch:
+    canonical: web.fetch
+    required_for: [official_source_verification]
+    may_degrade: false_when_current_regulation_is_material
+  spreadsheet_read:
+    canonical: sheet.read
+    required_for: [mandatory_boq, rate_cards]
+    may_degrade: true
+  spreadsheet_write:
+    canonical: sheet.write
+    required_for: [financial_workbook]
+    may_degrade: true
+  spreadsheet_verify:
+    canonical: sheet.verify
+    required_for: [formula_and_total_verification]
+    may_degrade: true
+  artifact_write:
+    canonical: [doc.write, deck.write]
+    required_for: [final_artifacts]
+    may_degrade: true
+  render_inspect:
+    canonical: render.inspect
+    required_for: [visual_qa]
+    may_degrade: true
+  repository_read:
+    canonical: repo.read
+    required_for: [pack_maintenance]
+    may_degrade: true
+  repository_write:
+    canonical: repo.write
+    required_for: [pack_maintenance]
+    may_degrade: true
+  code_test:
+    canonical: code.test
+    required_for: [pack_validation]
+    may_degrade: true
+
+adapter_output:
+  - host_id
+  - model_id
+  - available_capabilities
+  - unavailable_capabilities
+  - artifact_formats
+  - citation_model
+  - tool_receipt_model
+  - limitations
+
+rules:
+  - "Never rename a missing capability as available."
+  - "A degraded adapter must propagate incomplete verification status."
+  - "Provider-specific tool names stay in host adapters, not canonical skills."
+  - "Tool receipts must preserve enough evidence to support downstream claims."

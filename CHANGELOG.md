@@ -1,13 +1,23 @@
 # Changelog
 
-## 0.1.0 - 2026-09-19
+## 0.3.0 - 2026-09-19
 
-- Initial full Skill package
-- Added requirement-led proposal workflow
-- Added public/private Saudi bid routing
-- Added six service modules
-- Added technical-financial reconciliation gate
-- Added Saudi regulatory freshness reference
-- Added pricing workbook template and commercial mapping contract
-- Added adversarial behavioral eval suite and static validation
-- Added privacy rule to keep raw private benchmark details outside the reusable pack
+### Added
+- Bid Strategist atomic skill for evaluation-weighted response planning
+- state-first router that blocks premature finalization
+- buyer and bid strategy reference
+- evaluation engineering reference
+- current DGA, NCA, GAMR and local-content applicability branches
+
+### Changed
+- neural graph expanded from 9 to 10 atomic skills
+- intent routing now defers to evidence/state precedence
+- service routing is deliverable and responsibility based, not keyword only
+- regulatory reference now distinguishes final rules, guidance, consultation material and announcements
+- validator and tests now enforce the 10-skill graph and state router
+
+### Safety
+- no unsourced pricing
+- no competitor speculation
+- no unsupported superiority claims
+- no government-control assumptions applied to private buyers

@@ -41,7 +41,7 @@ class SecurityScanTests(unittest.TestCase):
     def test_scans_extensionless_private_key_file(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            key = "-----" + "BEGIN RSA PRIVATE KEY" + "-----\nnot-a-real-key\n"
+            key = "-----" + "BEGIN " + "RSA " + "PRIVATE " + "KEY" + "-----\nnot-a-real-key\n"
             (root / "id_rsa").write_text(key, encoding="utf-8")
             proc, result = self.run_scan(root)
             self.assertNotEqual(proc.returncode, 0)

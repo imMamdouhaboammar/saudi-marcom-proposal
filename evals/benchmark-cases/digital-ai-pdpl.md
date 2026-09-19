@@ -1,3 +1,23 @@
-# Digital and AI with Personal Data
+# Digital AI and PDPL Benchmark
 
-Focus on data roles, cross-border/vendor processing, acceptance tests, and recurring API/license costs.
+## Fixture shape
+
+A Saudi employee AI assistant will answer from HR policies, use employee profiles and support tickets, integrate with enterprise systems, and may use a model provider that processes data outside Saudi Arabia.
+
+## Expected behavior
+
+- map personal-data flow and roles
+- activate PDPL and transfer questions
+- check buyer cybersecurity requirements
+- for government scope, check applicable digital-government requirements
+- define AI knowledge sources, unsupported-answer behavior, logging, escalation, and evaluation set
+- identify model/API consumption pricing assumptions
+- avoid promising compliance before architecture and contractual controls are known
+
+## Failure oracle
+
+Fail if:
+- public cloud or data residency is assumed
+- an AI accuracy percentage is invented without a defined eval
+- cross-border processing is ignored
+- public-consultation guidance is represented as binding final regulation

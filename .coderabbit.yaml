@@ -1,0 +1,51 @@
+language: "en-US"
+reviews:
+  profile: "assertive"
+  high_level_summary: true
+  auto_review:
+    enabled: true
+    drafts: true
+  path_instructions:
+    - path: "SKILL.md"
+      instructions: |
+        Review this as an executable agent-control contract.
+        Check activation boundaries, evidence precedence, guarded completion, and consistency with manifest.json, schemas/bid-state.schema.json, and neural-links/graph.yaml.
+    - path: "skills/**/SKILL.md"
+      instructions: |
+        Check frontmatter contracts, trigger overlap, decision depth, handoff behavior, exit guards, failure modes, and unsupported completion claims.
+        Flag generic checklist behavior that can bypass evidence, regulatory, pricing, reconciliation, evaluator, or QC gates.
+    - path: "agents/**"
+      instructions: |
+        Treat agent instructions as executable configuration.
+        Check ownership boundaries, self-certification, confidentiality, mutation handling, and whether agents can bypass the shared bid state.
+    - path: "routers/**"
+      instructions: |
+        Check routing for overlap, unreachable states, missing buyer context, unsafe precedence, and bypasses around source, regulation, strategy, reconciliation, or QC.
+    - path: "neural-links/**"
+      instructions: |
+        Check graph/manifest symmetry, valid transitions, exit guards, recovery ownership, and stale receipt invalidation after material mutations.
+    - path: "schemas/**"
+      instructions: |
+        Check whether schema changes preserve provenance, blockers, revision state, and invalidation semantics.
+    - path: "references/service-modules/**"
+      instructions: |
+        Review deliverable units, acceptance evidence, capacity logic, pricing drivers, regulatory triggers, cross-module interfaces, and domain failure modes.
+    - path: "references/regulatory-state-resolver.md"
+      instructions: |
+        Treat regulatory statements as freshness-sensitive.
+        Flag announced rules represented as effective, authority naming errors, unsupported dates, or universal rules applied outside their scope.
+    - path: "references/saudi-regulatory-freshness.md"
+      instructions: |
+        Flag stale authority names, hardcoded time-sensitive conclusions, and regulatory claims that should require a live official-source receipt.
+    - path: "tools/**"
+      instructions: |
+        Check capability degradation, evidence receipts, external reviewer authority, private-source minimization, and simulated-success risks.
+    - path: "evals/**"
+      instructions: |
+        Check semantic breadth, oracle leakage, duplicate cases, mutation/invalidation coverage, non-trigger cases, and whether an eval can pass by parroting its description.
+    - path: "scripts/**"
+      instructions: |
+        Check validators for fail-open behavior, incomplete file scanning, schema drift, unsafe workflow assumptions, and claims that exceed what the validator proves.
+    - path: "tests/**"
+      instructions: |
+        Require negative regression coverage for security, graph/manifest, state, routing, evaluation, confidentiality, and version consistency.

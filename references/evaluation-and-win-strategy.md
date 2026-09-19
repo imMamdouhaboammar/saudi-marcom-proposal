@@ -27,6 +27,29 @@ When no weights exist, use only labeled signals:
 
 Do not invent hidden priorities.
 
+## Criterion coverage states
+
+Use explicit internal states:
+- COMPLETE: answer and required evidence are present
+- PARTIAL: answer exists but evidence, quantity, ownership, or acceptance is incomplete
+- ASSUMPTION: answer depends on an unresolved stated assumption
+- BLOCKED: current evidence cannot support a safe answer
+- NOT_APPLICABLE: source logic supports exclusion
+
+Do not convert these internal states into a fabricated buyer score.
+
+## Evidence strength
+
+Use the scale only as an internal proof-quality control:
+
+- E0: unsupported statement
+- E1: plausible operating statement with no proof
+- E2: verified bidder fact or inspectable operating mechanism
+- E3: directly relevant verified case, credential, or authoritative source
+- E4: multiple independent proof types for a critical criterion
+
+No client-facing factual claim should depend on E0.
+
 ## Win themes
 
 A win theme must satisfy four tests:
@@ -53,6 +76,32 @@ Use a proof plan:
 - caveat
 
 Prefer evidence close to the claim rather than a distant case-study appendix.
+
+## Executive-summary alignment
+
+Every substantive promise in the executive summary must map to:
+- a requirement or buyer objective
+- a detailed proposal section
+- a delivery mechanism
+- evidence or a clearly labeled assumption
+
+The summary may compress the bid. It may not introduce promises absent from the operating model.
+
+## Case selection
+
+Prefer relevance over prestige.
+
+Evaluate candidate cases by:
+- service-model similarity
+- stakeholder complexity
+- operating pressure
+- geography
+- audience/channel
+- duration
+- scale
+- regulatory sensitivity
+
+A smaller comparable case can be stronger evidence than a famous but unrelated one.
 
 ## Bid/no-bid support
 

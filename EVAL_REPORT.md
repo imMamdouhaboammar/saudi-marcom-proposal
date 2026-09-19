@@ -1,37 +1,96 @@
 # Evaluation Report
 
-Date: 2026-09-19
+Version: 0.4.1
+Audit date: 2026-09-19
 
-## Deterministic package validation
+## Current static inventory
 
-Status: PASS
+- atomic skills: 12
+- behavioral scenarios: 23
+- named semantic scenario families: 23
+- guarded shared state contract: present
+- runtime adapter fixture set: present
+- end-to-end government and event fixtures: present
+- golden decision cases: 8
 
-- SKILL.md line count: 412, below the 500-line progressive-disclosure ceiling
-- required routers, neural links, references, templates, agents, evals, and pricing workbook present
-- at least one substantial reference present, with 15 reference files total
-- secret-pattern scan found no IBAN, API-key, or private-key patterns in distributable text artifacts
-- no em dash character in text artifacts
+## Deterministic validation
 
-## Static eval corpus validation
+Repository release gates are:
 
-Status: PASS
+```bash
+python3 scripts/security_scan.py
+python3 scripts/validate_pack.py
+python3 scripts/run_static_evals.py
+python3 scripts/validate_runtime_adapters.py
+python3 -m unittest discover -s tests -p "test_*.py"
+```
 
-- scenarios: 12
-- semantic families: 12
-- includes positive, negative, ambiguous, adversarial, contradictory-source, missing-pricing, scope-price mismatch, accelerated, multilingual, data/AI, and government-procurement cases
+A current revision is considered statically valid only when all five gates pass in CI or an equivalent deterministic environment.
 
-## Spreadsheet verification
+## Security regression scope
 
-Status: PASS
+The focused security gate now checks UTF-8 text content regardless of normal file suffix, including dotfiles and extensionless files such as environment or key-like filenames. Known binary formats are excluded.
 
-- pricing workbook exported successfully
-- Summary range inspected
-- formula error scan found no REF, DIV/0, VALUE, NAME, or N/A errors in the blank baseline model
+It also checks:
+- common credential/private-key patterns
+- Saudi IBAN pattern
+- dangerous pull-request workflow trigger usage
+- pipe-to-shell patterns
+- workflow-level write permissions
+- job-level write permissions
+- required agent/reviewer safety controls
+
+This is repository-focused evidence. It does not replace organization-level secret scanning or platform security controls.
+
+## Static behavior corpus
+
+The scenario bank includes:
+- government RFP compliance
+- fast-turn private events
+- monitoring/crisis SLA capacity
+- AI and personal-data processing
+- influencer regulatory freshness
+- contradictory requirements
+- pricing pressure
+- scope-price drift
+- non-trigger engineering work
+- bare-quote boundaries
+- multilingual seasonal operations
+- vague direct briefs
+- procurement-law transition
+- mandatory-form fidelity
+- proof laundering
+- capacity stress
+- unfunded value-add pressure
+- foreign-supplier tax ambiguity
+- precedent contamination
+- evaluator traceability
+- missing precedent access
+- evaluation mutation
+- opaque private pitch boundaries
 
 ## Behavioral model evaluation
 
-Status: NOT EXECUTED
+Status: NOT EXECUTED FOR MATURITY CLAIM
 
-Reason: a true held-out behavioral run requires a host harness that loads this Skill build, sends only provider-visible prompts, captures tool traces and artifacts, and keeps the oracle private. The package includes `evals/behavior-harness-contract.md` for that runner.
+Static validation does not prove an agent follows these contracts.
 
-Do not label the Skill behaviorally mature until that fresh harness run is completed.
+A behavioral maturity claim requires:
+- current build/revision identifier
+- held-out scenario set
+- private evaluator oracle
+- model and runtime identity
+- tool availability record
+- route and state traces
+- evidence receipts
+- mutation/invalidation evidence
+- artifact metadata
+- repeated runs sufficient to distinguish improvement from variance
+
+See `evals/behavior-harness-contract.md`.
+
+## Release interpretation
+
+The repository may claim that deterministic checks pass when current CI proves them.
+
+It must not claim behavioral maturity, bid quality superiority, or guaranteed proposal outcomes until fresh behavioral evidence exists.

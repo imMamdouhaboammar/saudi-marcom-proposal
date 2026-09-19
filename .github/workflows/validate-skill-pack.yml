@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "feat/**"
+      - "fix/**"
   pull_request:
 
 permissions:
@@ -16,15 +17,18 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
       - name: Install validator dependencies
         run: python -m pip install -r requirements.txt
+
+      - name: Run focused security regression scan
+        run: python scripts/security_scan.py
 
       - name: Validate package
         run: python scripts/validate_pack.py
@@ -35,8 +39,5 @@ jobs:
       - name: Validate runtime adapter compatibility
         run: python scripts/validate_runtime_adapters.py
 
-      - name: Run focused security regression scan
-        run: python scripts/security_scan.py
-
       - name: Run unit tests
-        run: python -m unittest tests/test_validate_pack.py
+        run: python -m unittest discover -s tests -p "test_*.py"

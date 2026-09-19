@@ -103,6 +103,27 @@ except (OSError, json.JSONDecodeError, yaml.YAMLError) as exc:
 
 master_meta, master_content = validate_skill(ROOT / "SKILL.md", "saudi-marcom-proposal", "master skill")
 
+
+current_version = str(manifest.get("version", "")).strip()
+if not current_version:
+    errors.append("manifest missing version")
+elif master_meta and str(master_meta.get("version", "")).strip() != current_version:
+    errors.append(
+        f"master skill version {master_meta.get('version')} does not match manifest {current_version}"
+    )
+
+if current_version:
+    release_tokens = {
+        "README.md": f"Version {current_version}",
+        "CHANGELOG.md": f"## {current_version}",
+        "EVAL_REPORT.md": f"Version: {current_version}",
+        "REVIEW_REPORT.md": f"Version: {current_version}",
+    }
+    for rel, token in release_tokens.items():
+        path = ROOT / rel
+        if path.exists() and token not in path.read_text(encoding="utf-8"):
+            errors.append(f"{rel} does not identify current version {current_version}")
+
 manifest_skills = {
     item.get("name"): item
     for item in manifest.get("skills", [])
@@ -201,6 +222,22 @@ if len(scenarios) < 22:
 families = {item.get("family") for item in scenarios}
 if len(families) < 16:
     errors.append("need at least 16 semantic eval families")
+
+
+try:
+    golden = json.loads((ROOT / "evals/golden-cases.json").read_text(encoding="utf-8")).get("cases", [])
+    golden_ids = [item.get("id") for item in golden]
+    if len(golden) < 8:
+        errors.append("need at least 8 golden decision cases")
+    if len(golden_ids) != len(set(golden_ids)):
+        errors.append("golden decision case IDs must be unique")
+    for item in golden:
+        if not item.get("required_decision"):
+            errors.append(f"golden case {item.get('id')} missing required_decision")
+        if not item.get("forbidden"):
+            errors.append(f"golden case {item.get('id')} missing forbidden decisions")
+except (OSError, json.JSONDecodeError) as exc:
+    errors.append(f"golden case parse failure: {exc}")
 
 secret_patterns = {
     "IBAN": r"\bSA\d{20,24}\b",

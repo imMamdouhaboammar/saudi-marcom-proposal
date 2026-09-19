@@ -25,7 +25,7 @@ gates:
   - regulatory_freshness
   - technical_financial_reconciliation
   - confidentiality
-fallback: proposal-intake
+fallback: source-intake
 mutatesWorkspace: false
 parallelSafe: false
 neural_links:
@@ -46,7 +46,7 @@ neural_links:
   continuations:
     - source-intake
   lateral_peers: []
-  recovery: proposal-recovery
+  recovery: source-intake
 ---
 
 # Saudi MarCom Proposal Master Orchestrator
@@ -140,7 +140,8 @@ flowchart TD
 
 ### Phase 5: Production & Artifact Release
 9. Invoke `skills/artifact-assembler/SKILL.md`:
-   - Format and package separate technical proposal, financial offer, and audit ledger bundle.
+   - Format and package the separate technical proposal, financial offer, and required client-facing attachments.
+   - Keep internal ledgers outside `final_handoff` unless the RFP explicitly requires a specific ledger.
 
 ## Self-Healing Recovery Policies
 
@@ -173,4 +174,4 @@ A proposal package is certified for submission only when:
 - [ ] 15% VAT and arithmetic subtotals are verified.
 - [ ] Active Saudi regulatory citations have checked dates and authority sources.
 - [ ] Proposal QC report contains zero unresolved blocking issues.
-- [ ] Artifact assembler has bundled separate technical, financial, and ledger deliverables.
+- [ ] Artifact assembler has validated the rendered client package and excluded internal ledgers unless explicitly required.

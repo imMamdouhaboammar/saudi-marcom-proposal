@@ -24,7 +24,7 @@ neural_links:
   continuations:
     - rfp-forensics
   lateral_peers: []
-  recovery: proposal-recovery
+  recovery: source-intake
 ---
 
 # Source Intake & Preflight

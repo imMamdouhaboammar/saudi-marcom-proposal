@@ -1,6 +1,6 @@
 ---
 name: artifact-assembler
-description: "Assemble, format, and package final Saudi proposal submission deliverables in DOCX, PPTX, XLSX, PDF, or structured Markdown. Use when compiling validated technical proposals, financial BOQs, compliance matrices, and supporting ledgers into client-ready submission packages adhering to Arabic RTL layouts and portal file caps. Do NOT use for narrative generation, price estimation, or quality auditing."
+description: "Assemble, format, and package final Saudi proposal submission deliverables in DOCX, PPTX, XLSX, PDF, or structured Markdown. Use when compiling validated technical proposals, financial BOQs, and required client-facing attachments into submission packages that meet Arabic RTL and portal constraints. Do NOT use for narrative generation, price estimation, or quality auditing."
 version: 0.2.0
 pack: saudi-marcom-proposal
 role: atomic-skill
@@ -36,7 +36,7 @@ Compile, format, and package client-ready proposal submission deliverables.
 
 ## Mission
 
-Take validated technical copy, reconciled financial models, compliance matrices, and ledgers, and compile them into clean, beautifully formatted submission artifacts adhering to Saudi typography, RTL standards, and portal submission packaging requirements.
+Take validated technical copy, reconciled financial models, and required client-facing attachments, and compile them into submission artifacts that meet Saudi typography, RTL, and portal requirements.
 
 ## Activation Contract
 
@@ -88,15 +88,20 @@ Segregate artifacts at the release boundary:
 
 ### Step 5: Post-Assembly Quality Verification
 Verify the compiled files before marking handoff:
+- Reconfirm that `submission_status` is `READY`.
+- Match every rendered file and attachment against the RFP submission checklist. Reject missing, extra, stale, or incorrectly separated artifacts.
+- Inspect DOCX, PPTX, XLSX, PDF, and archive contents for comments, tracked changes, hidden sheets or slides, speaker notes, embedded files, and document metadata. Remove internal or non-required content.
+- Confirm that prescribed forms, signatures, appendices, filenames, versions, and client-authorized ledger attachments are complete and unchanged.
 - Verify that PDF/DOCX export preserved RTL text alignment and numbering.
 - Verify total bundle file size is within portal limits.
 - Apply clean naming conventions:
   - `[BidderName]_[ProjectName]_Technical_Proposal_v1.0.pdf`
   - `[BidderName]_[ProjectName]_Financial_Proposal_v1.0.pdf`
+- Run the complete final submission checklist against the rendered package. If any check fails, do not emit `final_handoff`; route the defect to its owning skill.
 
 ## Neural Handoff Contract
 
-When complete, output:
+Only after every post-assembly check passes, output:
 - `technical_proposal_doc`: Final technical artifact
 - `financial_proposal_doc`: Final commercial artifact
 - `final_handoff`: Delivery package ready for client/portal submission

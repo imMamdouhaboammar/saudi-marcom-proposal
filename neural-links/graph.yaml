@@ -10,7 +10,7 @@ nodes:
     outputs: [source_inventory, situation_classification, confidentiality_flags]
     precursors: []
     continuations: [rfp-forensics]
-    recovery: proposal-recovery
+    recovery: source-intake
 
   rfp-forensics:
     path: skills/rfp-forensics/SKILL.md

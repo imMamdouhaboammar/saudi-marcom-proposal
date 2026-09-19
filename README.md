@@ -22,7 +22,7 @@ flowchart TD
     S7 -.->|"Scope / Price Discrepancy"| S5
     S8 --> S9["skills/artifact-assembler"]
     S8 -.->|"Critical QC Blocker"| S2
-    S9 --> Out["Submission Package (Technical + Financial + Ledgers)"]
+    S9 --> Out["Submission Package (Technical + Financial)"]
 ```
 
 ## The 9 Atomic Skills Suite
@@ -62,15 +62,16 @@ If inputs are incomplete, the skills produce an assumptions-led draft with an ex
 
 ## Verification & Evaluation Suite
 
-Run the static validation and behavioral evaluation suites locally:
+Install the validator dependency, then run the static validation and behavioral evaluation suites locally:
 
 ```bash
+python3 -m pip install -r requirements.txt
+
 # Validate master orchestrator and all 9 atomic skills (<500 lines, neural links, secrets)
 python3 scripts/validate_pack.py
-
-# Evaluate atomic skills against /skill-evaluator and /omni-skill standards
-python3 scripts/eval_atomic_skills.py
 
 # Run scenario behavioral test bank
 python3 scripts/run_static_evals.py
 ```
+
+Internal ledgers remain outside `final_handoff` unless the RFP explicitly requires a specific ledger.

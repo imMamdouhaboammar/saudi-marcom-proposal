@@ -1,7 +1,7 @@
 ---
 name: technical-architect
 description: "Architect and draft executable Saudi MarCom technical proposals using the requirement ledger, service modules, regulatory evidence, buyer strategy, and bidder proof. Use for methodology, workstreams, deliverables, acceptance criteria, governance, schedule, team model, KPIs, assumptions, and risk. Do NOT use for raw RFP extraction, final price creation, or document formatting."
-version: 0.3.0
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -43,8 +43,10 @@ Before drafting:
 - requirement ledger
 - buyer/evaluation strategy
 - active service modules
+- cross-cutting lenses
 - relevant regulatory implications
-- verified bidder facts and proof gaps
+- evaluation strategy
+- proof plan
 
 If any are materially missing, produce a bounded draft and mark the missing dependency. Do not fill gaps with generic agency prose.
 

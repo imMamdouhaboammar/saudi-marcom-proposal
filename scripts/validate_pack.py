@@ -66,11 +66,16 @@ required_paths = [
     "routers/buyer-context-router.yaml",
     "routers/service-router.yaml",
     "routers/source-precedence.yaml",
+    "routers/precedent-router.yaml",
     "skills/bid-strategist/SKILL.md",
     "references/state-and-handoff-protocol.md",
     "references/regulatory-state-resolver.md",
     "references/commercial-unit-library.md",
     "references/evaluation-and-win-strategy.md",
+    "references/precedent-retrieval-and-learning.md",
+    "references/evaluator-simulation.md",
+    "references/benchmark-provenance.md",
+    "references/saudi-authority-map.md",
     "tools/tool-registry.yaml",
     "tools/reviewer-adapter-contract.md",
     "evals/scenarios.json",
@@ -79,6 +84,10 @@ required_paths = [
     "templates/capacity-model.csv",
     "templates/evidence-plan.csv",
     "templates/change-impact-log.csv",
+    "templates/precedent-ledger.csv",
+    "templates/evaluator-questions.csv",
+    "evals/fixtures/end-to-end-government.json",
+    "evals/fixtures/end-to-end-event.json",
 ]
 for rel in required_paths:
     if not (ROOT / rel).exists():
@@ -106,8 +115,8 @@ if set(manifest_skills) != set(graph_nodes):
         f"manifest/graph skill mismatch: manifest={sorted(manifest_skills)} graph={sorted(graph_nodes)}"
     )
 
-if len(graph_nodes) < 10:
-    errors.append("guarded DAG must contain at least 10 atomic skills")
+if len(graph_nodes) < 12:
+    errors.append("guarded DAG must contain at least 12 atomic skills")
 
 for node_id, node in graph_nodes.items():
     if not isinstance(node, dict):
@@ -187,11 +196,11 @@ if missing_caps:
     errors.append(f"tool registry missing capabilities {sorted(missing_caps)}")
 
 scenarios = json.loads((ROOT / "evals/scenarios.json").read_text(encoding="utf-8")).get("scenarios", [])
-if len(scenarios) < 16:
-    errors.append("need at least 16 behavioral scenarios")
+if len(scenarios) < 22:
+    errors.append("need at least 22 behavioral scenarios")
 families = {item.get("family") for item in scenarios}
-if len(families) < 12:
-    errors.append("need at least 12 semantic eval families")
+if len(families) < 16:
+    errors.append("need at least 16 semantic eval families")
 
 secret_patterns = {
     "IBAN": r"\bSA\d{20,24}\b",

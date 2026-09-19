@@ -1,7 +1,7 @@
 ---
 name: saudi-marcom-proposal
 description: "Agentic operating system for tailored Saudi technical and financial proposals across corporate communications, media, marketing, promotion, events, crisis and reputation, digital products, AI, monitoring, production, and adjacent MarCom services. Use for Saudi RFP responses, tenders, pitches, retainers, proposal reviews, and bid package assembly. Do NOT use for civil/MEP/construction engineering tenders, legal opinions, generic sales decks, or bare price formatting."
-version: 0.3.0
+version: 0.4.0
 pack: proposal
 inputs:
   - rfp_documents
@@ -40,10 +40,12 @@ neural_links:
     - rfp-forensics
     - regulatory-scout
     - service-router
+    - precedent-miner
     - bid-strategist
     - technical-architect
     - commercial-modeler
     - scope-reconciliation
+    - evaluator-simulator
     - proposal-qc
     - artifact-assembler
   recovery: source-intake
@@ -126,14 +128,14 @@ Exit only when:
 - scoring criteria are extracted when available
 - unresolved contradictions are visible
 
-### Stage 2: parallel context resolution
+### Stage 2: context resolution and precedent mining
 
-After forensics, three nodes may run in parallel:
+After forensics, run in parallel:
 - `regulatory-scout`
 - `service-router`
-- `bid-strategist`
+- `precedent-miner`
 
-Their outputs converge before solution drafting.
+Then run `bid-strategist` using the evaluation map plus sanitized precedent signals. If no prior library is connected, record an empty precedent result and continue. Never promote an old client claim into current bidder evidence without fresh verification.
 
 ### Stage 3: technical architecture
 
@@ -175,7 +177,11 @@ A passing reconciliation proves:
 - quantity, unit, timing, SLA, language, geography, acceptance, rights, and capacity are consistent
 - changes propagate to dependent artifacts
 
-### Stage 6: independent proposal QC
+### Stage 6: evaluator simulation
+
+Run `evaluator-simulator` after reconciliation. It checks whether disclosed criteria and mandatory requirements are easy to locate and backed by proof. It must not invent hidden weights, predict award, or manufacture evaluator intent.
+
+### Stage 7: independent proposal QC
 
 Run `proposal-qc`.
 
@@ -186,7 +192,7 @@ Release states:
 
 Only `READY` may proceed to final client packaging.
 
-### Stage 7: artifact assembly
+### Stage 8: artifact assembly
 
 Run `artifact-assembler` after QC.
 

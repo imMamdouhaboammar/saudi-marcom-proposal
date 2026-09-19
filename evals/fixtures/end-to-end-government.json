@@ -1,0 +1,33 @@
+{
+  "fixture_id": "F-GOV-001",
+  "buyer_context": {
+    "type": "government",
+    "country": "Saudi Arabia"
+  },
+  "sources": [
+    {
+      "source_id": "RFP-1",
+      "kind": "buyer_rfp",
+      "status": "CURRENT"
+    }
+  ],
+  "requirements": [
+    {
+      "req_id": "R-01",
+      "status": "MANDATORY",
+      "statement": "Preserve buyer BOQ"
+    },
+    {
+      "req_id": "R-02",
+      "status": "SCORED",
+      "statement": "Provide staffing and governance model"
+    }
+  ],
+  "expected_gates": [
+    "material_requirements_traceable",
+    "buyer_strategy_grounded",
+    "semantic_parity_pass",
+    "evaluator_questions_resolved_or_logged",
+    "submission_status_ready"
+  ]
+}

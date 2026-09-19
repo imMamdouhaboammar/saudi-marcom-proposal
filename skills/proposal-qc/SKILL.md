@@ -1,7 +1,7 @@
 ---
 name: proposal-qc
 description: "Independently red-team Saudi MarCom proposal packages for compliance, evidence, evaluator usability, technical-commercial consistency, confidentiality, arithmetic, and submission readiness. Use for final reviews, audit requests, finished-file checks, or pre-submission gates. Do NOT use as the primary drafting or pricing skill."
-version: 0.3.0
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -9,6 +9,7 @@ inputs:
   - technical_outline
   - client_boq
   - reconciliation_certificate
+  - evaluator_readability_report
 requires:
   - source_grounding
 produces:
@@ -20,7 +21,7 @@ gates:
   - evaluator_navigation
   - client_boundary
 neural_links:
-  precursors: [scope-reconciliation]
+  precursors: [evaluator-simulator]
   continuations: [artifact-assembler]
   recovery: proposal-qc
 ---
@@ -28,6 +29,8 @@ neural_links:
 # Proposal QC and Red Team
 
 Try to disqualify, misunderstand, or break the proposal before the evaluator can.
+
+Evaluator-simulation findings are advisory evidence. An unresolved mandatory-requirement gap remains a blocker even if the simulator labels it only as a question.
 
 ## Review order
 

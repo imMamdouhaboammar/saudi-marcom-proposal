@@ -1,6 +1,6 @@
 {
   "name": "saudi-marcom-proposal",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "type": "agentic-skill-pack",
   "entrypoint": "SKILL.md",
   "architecture": "guarded-state-dag",
@@ -41,6 +41,11 @@
       "role": "Service Architecture Router"
     },
     {
+      "name": "precedent-miner",
+      "path": "skills/precedent-miner/SKILL.md",
+      "role": "Sanitized Precedent and Benchmark Mining"
+    },
+    {
       "name": "bid-strategist",
       "path": "skills/bid-strategist/SKILL.md",
       "role": "Buyer and Evaluation Strategy"
@@ -61,6 +66,11 @@
       "role": "Semantic Technical-Financial Reconciliation"
     },
     {
+      "name": "evaluator-simulator",
+      "path": "skills/evaluator-simulator/SKILL.md",
+      "role": "Evaluator Traceability Simulation"
+    },
+    {
       "name": "proposal-qc",
       "path": "skills/proposal-qc/SKILL.md",
       "role": "Independent Bid QC"
@@ -79,13 +89,16 @@
     "technical_proposal",
     "financial_proposal",
     "reconciliation_certificate",
-    "qc_report"
+    "qc_report",
+    "precedent_ledger",
+    "evaluator_readability_report"
   ],
   "routers": [
     "routers/intent-router.yaml",
     "routers/buyer-context-router.yaml",
     "routers/service-router.yaml",
-    "routers/source-precedence.yaml"
+    "routers/source-precedence.yaml",
+    "routers/precedent-router.yaml"
   ],
   "tool_registry": "tools/tool-registry.yaml",
   "privacy": {

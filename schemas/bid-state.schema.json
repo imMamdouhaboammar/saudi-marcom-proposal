@@ -233,6 +233,91 @@
         "type": "object",
         "additionalProperties": true
       }
+    },
+    "precedent_signals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "signal_id",
+          "pattern",
+          "provenance",
+          "reuse_status"
+        ],
+        "properties": {
+          "signal_id": {
+            "type": "string"
+          },
+          "pattern": {
+            "type": "string"
+          },
+          "provenance": {
+            "type": "string"
+          },
+          "reuse_status": {
+            "enum": [
+              "STRUCTURAL_ONLY",
+              "BIDDER_OWNED_VERIFIED",
+              "PUBLIC_BENCHMARK",
+              "DO_NOT_REUSE"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "caveat": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "evaluator_reviews": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "review_id",
+          "basis",
+          "status"
+        ],
+        "properties": {
+          "review_id": {
+            "type": "string"
+          },
+          "basis": {
+            "enum": [
+              "DISCLOSED_CRITERIA",
+              "MANDATORY_REQUIREMENTS",
+              "LABELED_HEURISTIC"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PASS",
+              "QUESTION",
+              "BLOCKER"
+            ]
+          },
+          "criterion_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "finding": {
+            "type": "string"
+          },
+          "state_revision": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": true
+      }
     }
   },
   "$defs": {

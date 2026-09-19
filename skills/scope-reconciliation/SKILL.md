@@ -1,7 +1,7 @@
 ---
 name: scope-reconciliation
 description: "Falsify and reconcile technical scope against commercial scope for Saudi proposals. Use when checking that every promise has a commercial treatment, every charge has a technical purpose, and quantity, SLA, timing, language, geography, rights, revisions, operating coverage, and capacity agree. Do NOT use for initial solution design, price invention, or formatting."
-version: 0.3.0
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -25,7 +25,7 @@ gates:
   - change_propagation
 neural_links:
   precursors: [technical-architect, commercial-modeler]
-  continuations: [proposal-qc]
+  continuations: [evaluator-simulator]
   recovery: scope-reconciliation
 ---
 
@@ -109,4 +109,4 @@ Otherwise issue `FAIL` with machine-readable mismatch IDs.
 
 ## Handoff
 
-Only a passing certificate continues to `proposal-qc`.
+Only a passing certificate continues to `evaluator-simulator`.

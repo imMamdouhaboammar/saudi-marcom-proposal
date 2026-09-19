@@ -1,7 +1,7 @@
 ---
 name: bid-strategist
 description: "Build the buyer, evaluation, proof, and response strategy for Saudi MarCom bids after requirements are extracted. Use when a proposal needs bid/no-bid evidence, evaluation-weight prioritization, proof placement, differentiator substantiation, decision-role mapping, or a response strategy before drafting. Do NOT use for raw clause extraction, final pricing, visual design, or unsupported persuasion claims."
-version: 0.3.0
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -9,6 +9,8 @@ inputs:
   - evaluation_map
   - requirement_ledger
   - bidder_evidence
+  - benchmark_signals
+  - reuse_constraints
 requires:
   - source_grounding
 produces:
@@ -21,7 +23,7 @@ gates:
   - differentiators_substantiated
   - human_owned_bid_decision
 neural_links:
-  precursors: [rfp-forensics]
+  precursors: [rfp-forensics, precedent-miner]
   continuations: [technical-architect]
   lateral_peers: [service-router, regulatory-scout]
   recovery: rfp-forensics
@@ -82,6 +84,8 @@ For every scored criterion:
 When weights are absent, do not invent them. Use mandatory requirements, repetition, buyer emphasis, clarification questions, and source structure only as labeled signals.
 
 ### 3. Proof plan
+
+Precedent signals may shape structure and proof discovery only within their reuse constraints. A prior-proposal claim becomes bidder proof only after fresh bidder-owned verification.
 
 Separate:
 - buyer requirements

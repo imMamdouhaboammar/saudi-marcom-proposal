@@ -16,7 +16,7 @@ Classify:
 - STRUCTURAL_PATTERN_ONLY
 
 ## Block
-- unsupported performance numbers
+- unsupported performance numbers, superlatives or positioning claims such as "leading", "first", or "largest", and unsupported response-time promises
 - credentials/certifications without bidder evidence
 - current compliance claims with no effective-state receipt
 - client names or facts imported from private benchmarks without authorization

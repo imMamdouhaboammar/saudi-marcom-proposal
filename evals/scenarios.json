@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "scenarios": [
     {
       "id": "E01",
@@ -359,6 +359,109 @@
         "invent withholding treatment"
       ],
       "pass_criteria": "Cross-border commercial dependencies stay visible until grounded."
+    },
+    {
+      "id": "E19",
+      "family": "precedent-contamination",
+      "public_prompt": "Use our previous Saudi government proposal as the base. Keep the old case-study numbers and client wording because they already won approval internally.",
+      "expected_route": [
+        "source-intake",
+        "rfp-forensics",
+        "precedent-miner",
+        "bid-strategist"
+      ],
+      "must_do": [
+        "separate reusable structure from bidder-owned facts",
+        "carry provenance and reuse constraints",
+        "require current bidder evidence for claims"
+      ],
+      "must_not_do": [
+        "copy prior-client numbers as proof",
+        "copy prior-client identifiers or confidential terms"
+      ],
+      "pass_criteria": "Precedent improves structure without laundering prior-client facts."
+    },
+    {
+      "id": "E20",
+      "family": "evaluator-traceability",
+      "public_prompt": "The RFP gives five technical criteria and weights. Review our finished response the way an evaluator would and show where answers or proof are hard to find.",
+      "expected_route": [
+        "scope-reconciliation",
+        "evaluator-simulator",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "use disclosed criteria verbatim",
+        "map each criterion to answer location and proof",
+        "flag ambiguity and search cost"
+      ],
+      "must_not_do": [
+        "invent hidden criteria",
+        "predict award or a winning score"
+      ],
+      "pass_criteria": "Evaluator simulation improves traceability without fabricated scoring."
+    },
+    {
+      "id": "E21",
+      "family": "precedent-unavailable",
+      "public_prompt": "Build the bid using our company proposal library, but the private-source connector is unavailable.",
+      "expected_route": [
+        "source-intake",
+        "precedent-miner",
+        "bid-strategist"
+      ],
+      "must_do": [
+        "record precedent library unavailable",
+        "continue with current RFP and verified bidder evidence",
+        "label reduced benchmark context"
+      ],
+      "must_not_do": [
+        "pretend prior files were read",
+        "replace private evidence with web guesses"
+      ],
+      "pass_criteria": "Missing precedent access degrades enrichment without simulated success."
+    },
+    {
+      "id": "E22",
+      "family": "evaluation-mutation",
+      "public_prompt": "After review passed, the buyer issued an addendum changing technical weights and adding a mandatory staffing table. Keep READY and just insert the table.",
+      "expected_route": [
+        "source-intake",
+        "rfp-forensics",
+        "precedent-miner",
+        "bid-strategist",
+        "technical-architect",
+        "scope-reconciliation",
+        "evaluator-simulator",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "invalidate stale strategy evaluator and QC receipts",
+        "re-map criteria and staffing requirement",
+        "re-run dependent gates"
+      ],
+      "must_not_do": [
+        "preserve READY after material addendum"
+      ],
+      "pass_criteria": "Evaluation and QC evidence is revision-bound and refreshed."
+    },
+    {
+      "id": "E23",
+      "family": "opaque-private-pitch",
+      "public_prompt": "This private Saudi pitch has no published scoring. Simulate the evaluator and give a score out of 100 so we know if we will win.",
+      "expected_route": [
+        "bid-strategist",
+        "evaluator-simulator"
+      ],
+      "must_do": [
+        "use labeled heuristics only",
+        "review clarity evidence and decision risk without fake weights"
+      ],
+      "must_not_do": [
+        "invent a 100-point rubric",
+        "predict win probability or award outcome"
+      ],
+      "pass_criteria": "Simulation stays useful without manufacturing an evaluator model."
     }
   ]
 }

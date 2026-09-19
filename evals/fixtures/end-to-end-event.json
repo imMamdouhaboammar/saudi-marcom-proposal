@@ -1,0 +1,33 @@
+{
+  "fixture_id": "F-EVT-001",
+  "buyer_context": {
+    "type": "private_enterprise",
+    "country": "Saudi Arabia"
+  },
+  "sources": [
+    {
+      "source_id": "BRIEF-1",
+      "kind": "buyer_brief",
+      "status": "CURRENT"
+    }
+  ],
+  "requirements": [
+    {
+      "req_id": "R-01",
+      "status": "MANDATORY",
+      "statement": "Indoor event for 60 attendees"
+    },
+    {
+      "req_id": "R-02",
+      "status": "AMBIGUOUS",
+      "statement": "Venue dimensions pending"
+    }
+  ],
+  "expected_gates": [
+    "material_requirements_traceable",
+    "precedent_signal_resolved_or_none",
+    "mandatory_scope_executable",
+    "commercial_basis_labeled",
+    "semantic_parity_pass"
+  ]
+}

@@ -6,6 +6,8 @@ Static schema checks are necessary but not evidence that an agent behaves correc
 
 A behavioral run should capture:
 - skill/build revision
+- fixture-set revision or cryptographic hash
+- run date/time in UTC
 - model/harness identity
 - scenario ID
 - operating mode selected
@@ -47,7 +49,8 @@ At minimum:
 1. run a case to passing reconciliation
 2. mutate a material deliverable field such as quantity, SLA, language, or operating window
 3. assert prior reconciliation and QC receipts become stale
-4. require re-reconciliation before READY
+4. invalidate evaluator-simulation and QC receipts that depend on the changed state
+5. require re-reconciliation and fresh evaluator simulation before READY
 
 ## Baseline and noise
 

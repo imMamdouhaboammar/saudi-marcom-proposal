@@ -23,8 +23,8 @@ class PackValidationTests(unittest.TestCase):
     def test_pack_validator_passes(self):
         result = self.run_json_script("scripts/validate_pack.py")
         self.assertEqual(result["status"], "PASS")
-        self.assertGreaterEqual(result["atomic_skills"], 10)
-        self.assertGreaterEqual(result["scenarios"], 16)
+        self.assertGreaterEqual(result["atomic_skills"], 12)
+        self.assertGreaterEqual(result["scenarios"], 22)
 
     def test_static_eval_validator_passes(self):
         result = self.run_json_script("scripts/run_static_evals.py")
@@ -38,6 +38,8 @@ class PackValidationTests(unittest.TestCase):
         manifest_names = {item["name"] for item in manifest["skills"]}
         self.assertEqual(manifest_names, set(graph["nodes"]))
         self.assertIn("bid-strategist", manifest_names)
+        self.assertIn("precedent-miner", manifest_names)
+        self.assertIn("evaluator-simulator", manifest_names)
 
     def test_every_graph_node_has_guard(self):
         graph = yaml.safe_load((ROOT / "neural-links/graph.yaml").read_text(encoding="utf-8"))
@@ -58,6 +60,8 @@ class PackValidationTests(unittest.TestCase):
         self.assertIn("procurement-law-transition", families)
         self.assertIn("capacity-stress", families)
         self.assertIn("proof-laundering", families)
+        self.assertIn("precedent-contamination", families)
+        self.assertIn("evaluator-traceability", families)
 
 
 if __name__ == "__main__":

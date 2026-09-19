@@ -1,7 +1,7 @@
 ---
 name: rfp-forensics
 description: "Forensically extract Saudi MarCom RFP requirements, mandatory forms, evaluation criteria, quantities, SLAs, qualifications, submission rules, and contradictions into traceable ledgers. Use after source intake or when reconstructing requirements for a proposal review. Do NOT use for solution prose, final pricing, legal opinions, or generic document summarization."
-version: 0.3.0
+version: 0.4.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -20,7 +20,7 @@ gates:
   - zero_silent_contradiction
 neural_links:
   precursors: [source-intake]
-  continuations: [regulatory-scout, service-router, bid-strategist]
+  continuations: [regulatory-scout, service-router, precedent-miner]
   lateral_peers: [regulatory-scout]
   recovery: source-intake
 ---
@@ -116,4 +116,4 @@ Extract:
 
 Append requirement ledger, compliance matrix, evaluation map, form registry, and clarification log to bid_state.
 
-Continue in parallel to regulatory-scout, service-router, and bid-strategist.
+Continue in parallel to regulatory-scout, service-router, and precedent-miner. Bid strategy follows once precedent signals or an explicit empty-precedent result exist.

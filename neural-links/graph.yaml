@@ -1,4 +1,4 @@
-version: 3
+version: 4
 pack: saudi-marcom-proposal
 architecture: guarded-state-dag
 state_contract: schemas/bid-state.schema.json
@@ -17,7 +17,7 @@ nodes:
     inputs: [source_inventory, rfp_documents]
     outputs: [requirement_ledger, compliance_matrix, evaluation_map, clarification_log]
     precursors: [source-intake]
-    continuations: [regulatory-scout, service-router, bid-strategist]
+    continuations: [regulatory-scout, service-router, precedent-miner]
     recovery: source-intake
     exit_guard: material_requirements_traceable
 
@@ -39,11 +39,20 @@ nodes:
     recovery: rfp-forensics
     exit_guard: material_scope_owned
 
+  precedent-miner:
+    path: skills/precedent-miner/SKILL.md
+    inputs: [source_inventory, requirement_ledger, situation_classification]
+    outputs: [precedent_ledger, benchmark_signals, reuse_constraints]
+    precursors: [rfp-forensics]
+    continuations: [bid-strategist]
+    recovery: precedent-miner
+    exit_guard: precedent_signal_resolved_or_none
+
   bid-strategist:
     path: skills/bid-strategist/SKILL.md
-    inputs: [situation_classification, evaluation_map, requirement_ledger, bidder_evidence]
+    inputs: [situation_classification, evaluation_map, requirement_ledger, bidder_evidence, benchmark_signals, reuse_constraints]
     outputs: [bid_posture, evaluation_strategy, proof_plan, response_strategy]
-    precursors: [rfp-forensics]
+    precursors: [rfp-forensics, precedent-miner]
     continuations: [technical-architect]
     recovery: rfp-forensics
     exit_guard: buyer_strategy_grounded
@@ -71,15 +80,24 @@ nodes:
     inputs: [requirement_ledger, deliverable_map, acceptance_map, capacity_model, pricing_basis_ledger, client_boq]
     outputs: [scope_price_map, mismatch_report, reconciliation_certificate, change_impact_log]
     precursors: [technical-architect, commercial-modeler]
-    continuations: [proposal-qc]
+    continuations: [evaluator-simulator]
     recovery: scope-reconciliation
     exit_guard: semantic_parity_pass
 
+  evaluator-simulator:
+    path: skills/evaluator-simulator/SKILL.md
+    inputs: [evaluation_map, requirement_ledger, technical_outline, client_boq, reconciliation_certificate, proof_plan]
+    outputs: [evaluator_readability_report, criterion_coverage_report, ambiguity_questions]
+    precursors: [scope-reconciliation]
+    continuations: [proposal-qc]
+    recovery: technical-architect
+    exit_guard: evaluator_questions_resolved_or_logged
+
   proposal-qc:
     path: skills/proposal-qc/SKILL.md
-    inputs: [bid_state, technical_outline, client_boq, reconciliation_certificate]
+    inputs: [bid_state, technical_outline, client_boq, reconciliation_certificate, evaluator_readability_report]
     outputs: [qc_report, submission_status]
-    precursors: [scope-reconciliation]
+    precursors: [evaluator-simulator]
     continuations: [artifact-assembler]
     recovery: proposal-qc
     exit_guard: submission_status_ready
@@ -98,7 +116,9 @@ recovery:
   conflicting_requirement: rfp-forensics
   unresolved_regulatory_state: regulatory-scout
   service_boundary_gap: service-router
+  weak_precedent_signal: precedent-miner
   weak_bid_evidence: bid-strategist
+  evaluator_traceability_gap: evaluator-simulator
   unsupported_claim: technical-architect
   missing_price_basis: commercial-modeler
   mismatched_scope: scope-reconciliation

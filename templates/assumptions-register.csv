@@ -1,0 +1,2 @@
+assumption_id,assumption,reason,owner_to_confirm,confirmation_deadline,technical_effect_if_false,financial_effect_if_false,status
+A-001,,,,,,,OPEN

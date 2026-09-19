@@ -1,0 +1,14 @@
+version: 1
+precedence:
+  - current_user_instruction
+  - current_rfp_and_addenda
+  - official_saudi_authority_source
+  - verified_bidder_owned_fact
+  - approved_internal_template_pattern
+  - credible_current_public_benchmark
+  - labeled_assumption
+conflict_rules:
+  - "Newer issued addendum overrides older RFP text when explicitly stated."
+  - "Mandatory portal form overrides an internal template."
+  - "A private prior proposal never overrides the current brief."
+  - "If two current authoritative sources materially conflict, record the contradiction and seek clarification rather than silently choosing."

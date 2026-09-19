@@ -1,0 +1,37 @@
+version: 1
+routes:
+  - id: rfp-forensics
+    when:
+      any: ["rfp", "tender", "كراسة", "منافسة", "requirements", "compliance matrix", "evaluation criteria"]
+    owns: [source_inventory, requirement_ledger, evaluation_map, clarification_log]
+  - id: technical-architect
+    when:
+      any: ["عرض فني", "technical proposal", "scope", "methodology", "deliverables", "operating model"]
+    owns: [technical_solution, deliverable_map, governance, schedule, kpis, risk]
+  - id: commercial-modeler
+    when:
+      any: ["عرض مالي", "financial proposal", "pricing", "boq", "commercial", "rate card"]
+    owns: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
+  - id: regulatory-scout
+    when:
+      any: ["government", "Etimad", "VAT", "personal data", "PDPL", "influencer", "event permit", "media license"]
+    owns: [applicability_check, official_source_ledger, checked_dates]
+  - id: proposal-qc
+    when:
+      any: ["review", "audit", "final check", "submission ready", "compliance check"]
+    owns: [coverage_audit, arithmetic_audit, leakage_scan, claim_audit, final_status]
+  - id: artifact-assembler
+    when:
+      any: ["pptx", "docx", "xlsx", "pdf", "google slides", "google docs", "google sheets"]
+    owns: [final_file_assembly, format_integrity, rtl_ltr_rendering]
+precedence:
+  - rfp-forensics
+  - regulatory-scout
+  - technical-architect
+  - commercial-modeler
+  - proposal-qc
+  - artifact-assembler
+rules:
+  - "If the user asks for both technical and financial outputs, create one shared scope model and route to both architects."
+  - "If critical RFP facts are missing, route to intake mode instead of fabricating them."
+  - "If a review request provides finished files, start at proposal-qc but reconstruct enough of the requirement ledger to judge them."

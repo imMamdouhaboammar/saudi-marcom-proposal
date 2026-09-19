@@ -1,0 +1,27 @@
+proposal:
+  buyer: ""
+  project: ""
+  buyer_type: government|semi-government|private|unknown
+  opportunity_type: rfp|tender|direct_brief|retainer|pitch|unknown
+  submission_deadline: ""
+  submission_method: ""
+  language: ar|en|bilingual
+  output_formats: []
+  technical_financial_structure: separate|combined|unknown
+sources:
+  rfp_files: []
+  addenda: []
+  clarification_responses: []
+  buyer_templates: []
+  bidder_approved_facts: []
+  prior_reference_work: []
+commercial:
+  rate_card_available: false
+  vendor_quotes_available: false
+  media_budget_in_scope: unknown
+  pass_through_costs: []
+confidentiality:
+  nda: unknown
+  sensitive_data: []
+known_constraints: []
+open_questions: []

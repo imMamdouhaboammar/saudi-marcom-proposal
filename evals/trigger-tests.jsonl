@@ -1,0 +1,8 @@
+{"prompt": "جهز عرض فني ومالي لمشروع إدارة التواصل المؤسسي في جهة سعودية", "should_trigger": true}
+{"prompt": "راجع كراسة منافسة سعودية واستخرج compliance matrix للعرض الفني", "should_trigger": true}
+{"prompt": "Build a Saudi event technical proposal and BOQ", "should_trigger": true}
+{"prompt": "اعمل financial proposal لخدمة الرصد الإعلامي وإدارة السمعة", "should_trigger": true}
+{"prompt": "اكتب كابشن إنستجرام لصورة قهوة", "should_trigger": false}
+{"prompt": "صمم BOQ خرسانة وتسليح لمبنى إداري", "should_trigger": false}
+{"prompt": "راجع عقد قانوني واديني رأي قانوني ملزم", "should_trigger": false}
+{"prompt": "format this single price line only, no proposal", "should_trigger": false}

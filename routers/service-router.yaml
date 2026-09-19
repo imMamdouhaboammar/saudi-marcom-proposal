@@ -1,0 +1,22 @@
+version: 1
+service_routes:
+  media-corporate-comms:
+    triggers: ["corporate communications", "PR", "media relations", "content", "production", "التواصل المؤسسي", "الإعلام", "العلاقات العامة"]
+    reference: references/service-modules/media-corporate-comms.md
+  marketing-promotion:
+    triggers: ["marketing", "campaign", "promotion", "paid media", "influencer", "التسويق", "الترويج", "الحملات"]
+    reference: references/service-modules/marketing-promotion.md
+  events-experiences:
+    triggers: ["event", "conference", "exhibition", "activation", "gathering", "فعالية", "مؤتمر", "معرض"]
+    reference: references/service-modules/events-experiences.md
+  crisis-reputation:
+    triggers: ["crisis", "reputation", "issues management", "war room", "أزمة", "سمعة", "إدارة الأزمات"]
+    reference: references/service-modules/crisis-reputation.md
+  digital-ai:
+    triggers: ["digital", "website", "app", "platform", "AI", "automation", "chatbot", "خدمات رقمية", "ذكاء اصطناعي"]
+    reference: references/service-modules/digital-ai.md
+  monitoring-intelligence:
+    triggers: ["monitoring", "social listening", "media intelligence", "sentiment", "early warning", "رصد", "تحليل", "إنذار مبكر"]
+    reference: references/service-modules/monitoring-intelligence.md
+multi_route: true
+rule: "A proposal can activate multiple modules. Keep one shared deliverable map and one commercial model to prevent duplicated scope."

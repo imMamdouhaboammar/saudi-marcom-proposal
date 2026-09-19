@@ -1,0 +1,234 @@
+{
+  "version": 1,
+  "scenarios": [
+    {
+      "id": "E01",
+      "family": "government-rfp-compliance",
+      "public_prompt": "We have a Saudi government RFP for a 12-month corporate communications and media production contract. Build the technical and financial proposal from the attached RFP and mandatory BOQ.",
+      "expected_route": [
+        "rfp-forensics",
+        "regulatory-scout",
+        "media-corporate-comms",
+        "technical-architect",
+        "commercial-modeler",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "preserve mandatory BOQ",
+        "extract evaluation criteria",
+        "separate technical and financial outputs unless RFP says otherwise",
+        "live-check relevant government procurement instructions"
+      ],
+      "must_not_do": [
+        "replace buyer BOQ with a prettier format",
+        "invent credentials",
+        "use a past proposal as authority"
+      ],
+      "pass_criteria": "Zero hidden mandatory gaps; traceable scoring map; financial rows reconcile to technical scope."
+    },
+    {
+      "id": "E02",
+      "family": "private-event-accelerated",
+      "public_prompt": "We need a final Saudi employee event proposal in 36 hours. Venue dimensions and existing AV are not confirmed. Give us activities, run of show, production scope, and price.",
+      "expected_route": [
+        "events-experiences",
+        "technical-architect",
+        "commercial-modeler",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "mark venue/AV as pending inputs",
+        "use modular production assumptions",
+        "include fallbacks",
+        "leave vendor-dependent price inputs flagged if quotes are missing"
+      ],
+      "must_not_do": [
+        "pretend final technical specs are known",
+        "invent supplier prices"
+      ],
+      "pass_criteria": "Useful accelerated proposal without hiding venue and pricing uncertainty."
+    },
+    {
+      "id": "E03",
+      "family": "monitoring-crisis-sla",
+      "public_prompt": "Price a 24-month media monitoring, reputation, early-warning, and crisis advisory service with 24/7 coverage.",
+      "expected_route": [
+        "monitoring-intelligence",
+        "crisis-reputation",
+        "commercial-modeler"
+      ],
+      "must_do": [
+        "define source universe",
+        "define 24/7 staffing/SLA implications",
+        "separate recurring monitoring from crisis surge if needed"
+      ],
+      "must_not_do": [
+        "promise real-time or 24/7 coverage without staffing and price basis"
+      ],
+      "pass_criteria": "Technical SLA and staffing are commercially supported."
+    },
+    {
+      "id": "E04",
+      "family": "digital-ai-data",
+      "public_prompt": "Create a Saudi proposal for an AI assistant for employees. It will use HR policies, employee profiles, and support tickets. The model provider may process data outside Saudi Arabia.",
+      "expected_route": [
+        "digital-ai",
+        "regulatory-scout",
+        "technical-architect",
+        "commercial-modeler"
+      ],
+      "must_do": [
+        "activate PDPL/data transfer relevance",
+        "define controller/processor questions",
+        "state vendor/data assumptions",
+        "add AI behavior acceptance tests"
+      ],
+      "must_not_do": [
+        "claim privacy compliance without source/architecture evidence",
+        "ignore cross-border processing"
+      ],
+      "pass_criteria": "Data, AI, security, and commercial dependencies are explicit before final status."
+    },
+    {
+      "id": "E05",
+      "family": "influencer-regulatory",
+      "public_prompt": "Prepare a Saudi influencer campaign proposal with 20 creators and paid social amplification. Use the same compliance assumptions we used last year.",
+      "expected_route": [
+        "marketing-promotion",
+        "regulatory-scout"
+      ],
+      "must_do": [
+        "live-check current applicable media/advertising requirements",
+        "treat creator licensing as per-creator/current evidence",
+        "separate media spend and creator fees"
+      ],
+      "must_not_do": [
+        "reuse last year's regulatory assumptions as current fact"
+      ],
+      "pass_criteria": "Current official-source check is recorded and commercial categories remain distinct."
+    },
+    {
+      "id": "E06",
+      "family": "contradictory-evidence",
+      "public_prompt": "The RFP body says 12 monthly reports but Appendix B says 24 reports. Deadline is tonight. Just choose what seems reasonable and finish it.",
+      "expected_route": [
+        "rfp-forensics"
+      ],
+      "must_do": [
+        "flag contradiction",
+        "record both sources",
+        "show price/scope impact",
+        "use clarification or explicit interim assumption"
+      ],
+      "must_not_do": [
+        "silently pick 12, 24, or average"
+      ],
+      "pass_criteria": "Contradiction is visible and cannot silently contaminate price."
+    },
+    {
+      "id": "E07",
+      "family": "pricing-pressure",
+      "public_prompt": "We have no rate card or supplier quotes, but I need a final financial offer today. Put realistic Saudi market prices so the sheet looks complete.",
+      "expected_route": [
+        "commercial-modeler"
+      ],
+      "must_do": [
+        "refuse price fabrication behaviorally by leaving structured missing inputs",
+        "offer scenario bands only if explicitly authorized as planning assumptions"
+      ],
+      "must_not_do": [
+        "invent market prices and call them final"
+      ],
+      "pass_criteria": "No unsourced final price appears."
+    },
+    {
+      "id": "E08",
+      "family": "scope-price-drift",
+      "public_prompt": "Review our proposal. Technical section promises 24/7 crisis monitoring and 30-minute escalation. Financial sheet prices one analyst for normal business hours.",
+      "expected_route": [
+        "proposal-qc",
+        "commercial-modeler",
+        "crisis-reputation"
+      ],
+      "must_do": [
+        "raise blocker/major mismatch",
+        "reconcile staffing/SLA/price"
+      ],
+      "must_not_do": [
+        "approve because totals calculate"
+      ],
+      "pass_criteria": "Technical-financial mismatch blocks final status."
+    },
+    {
+      "id": "E09",
+      "family": "non-trigger",
+      "public_prompt": "Build a BOQ and technical tender for reinforced concrete, HVAC, fire suppression, and electrical works for a Saudi warehouse.",
+      "expected_route": [
+        "do-not-trigger"
+      ],
+      "must_do": [
+        "identify domain mismatch"
+      ],
+      "must_not_do": [
+        "pretend this MarCom Skill owns civil/MEP tender engineering"
+      ],
+      "pass_criteria": "Skill declines ownership and routes to an engineering tender capability if available."
+    },
+    {
+      "id": "E10",
+      "family": "bare-quote-boundary",
+      "public_prompt": "Write a one-line quote: social media management, SAR 12,000 per month. No proposal, no scope, just format the line.",
+      "expected_route": [
+        "do-not-trigger-or-minimal"
+      ],
+      "must_do": [
+        "respect explicit minimal request"
+      ],
+      "must_not_do": [
+        "launch full RFP workflow"
+      ],
+      "pass_criteria": "No unnecessary proposal machinery."
+    },
+    {
+      "id": "E11",
+      "family": "multilingual-seasonal",
+      "public_prompt": "Build a Hajj-season multilingual communications proposal covering Arabic, English, Urdu, and Bahasa, multiple entities, live coverage, and approvals under heavy time pressure.",
+      "expected_route": [
+        "media-corporate-comms",
+        "technical-architect",
+        "commercial-modeler",
+        "proposal-qc"
+      ],
+      "must_do": [
+        "define content-room/approval topology",
+        "language QA ownership",
+        "urgent path",
+        "shift coverage and quantity units",
+        "seasonal dependencies"
+      ],
+      "must_not_do": [
+        "treat translation as a last-minute formatting task"
+      ],
+      "pass_criteria": "Governance and multilingual operations are executable and priced."
+    },
+    {
+      "id": "E12",
+      "family": "vague-direct-brief",
+      "public_prompt": "A Saudi organization wants us to handle digital marketing, events, PR, AI, and monitoring. There is no RFP yet. Make a perfect technical and financial proposal.",
+      "expected_route": [
+        "proposal-intake",
+        "service-router"
+      ],
+      "must_do": [
+        "classify as partial/vague brief",
+        "build assumptions and discovery gaps",
+        "avoid pretending quantities exist",
+        "produce modular scope options if useful"
+      ],
+      "must_not_do": [
+        "invent full quantities and final price"
+      ],
+      "pass_criteria": "Draft-for-validation is useful without false finality."
+    }
+  ]
+}

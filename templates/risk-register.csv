@@ -1,0 +1,2 @@
+risk_id,category,risk_or_trigger,likelihood,impact,early_warning,mitigation,fallback,owner,commercial_effect,status
+K-001,,,,,,,,,,OPEN

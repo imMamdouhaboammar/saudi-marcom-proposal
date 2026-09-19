@@ -1,0 +1,39 @@
+version: 1
+nodes:
+  source-intake:
+    outputs: [source_inventory, confidentiality_flags]
+    next: [rfp-forensics]
+  rfp-forensics:
+    outputs: [requirement_ledger, evaluation_map, clarification_log]
+    next: [regulatory-scout, service-router]
+  regulatory-scout:
+    outputs: [regulatory_source_ledger, applicability_flags]
+    next: [technical-architect, commercial-modeler]
+  service-router:
+    outputs: [active_service_modules]
+    next: [technical-architect]
+  technical-architect:
+    outputs: [technical_outline, deliverable_map, schedule, governance, risk_register]
+    next: [commercial-modeler, proposal-qc]
+  commercial-modeler:
+    outputs: [pricing_engine, client_boq, payment_milestones]
+    next: [reconciliation]
+  reconciliation:
+    outputs: [scope_price_map, mismatch_report]
+    on_pass: [proposal-qc]
+    on_fail: [technical-architect, commercial-modeler]
+  proposal-qc:
+    outputs: [qc_report, submission_status]
+    on_pass: [artifact-assembler]
+    on_fail: [rfp-forensics, technical-architect, commercial-modeler]
+  artifact-assembler:
+    outputs: [submission_artifacts]
+    next: [submission-check]
+  submission-check:
+    outputs: [final_handoff]
+recovery:
+  stale_source: regulatory-scout
+  conflicting_requirement: rfp-forensics
+  missing_price: commercial-modeler
+  mismatched_scope: reconciliation
+  copied_client_data: proposal-qc

@@ -1,0 +1,45 @@
+{
+  "name": "saudi-marcom-proposal",
+  "version": "0.1.0",
+  "type": "agentic-skill-pack",
+  "entrypoint": "SKILL.md",
+  "domain": [
+    "Saudi Arabia",
+    "technical proposals",
+    "financial proposals",
+    "media",
+    "communications",
+    "marketing",
+    "events",
+    "crisis",
+    "digital",
+    "AI",
+    "monitoring"
+  ],
+  "artifacts": [
+    "technical_proposal",
+    "financial_proposal",
+    "requirement_ledger",
+    "compliance_matrix",
+    "risk_register",
+    "assumptions_register",
+    "source_ledger",
+    "qc_report"
+  ],
+  "requires_live_research_for": [
+    "procurement rules",
+    "tax treatment",
+    "data protection",
+    "media regulation",
+    "event permits",
+    "submission platform rules"
+  ],
+  "privacy": {
+    "raw_private_benchmark_data_included": false,
+    "client_identifiers_in_examples": false
+  },
+  "behavioral_eval": {
+    "definitions_included": true,
+    "fresh_harness_run_required_for_maturity_claim": true
+  }
+}

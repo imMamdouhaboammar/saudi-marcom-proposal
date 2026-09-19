@@ -1,0 +1,2 @@
+price_line_id,requirement_id,deliverable,unit,quantity,unit_price_sar,total_ex_vat_sar,vat_sar,total_inc_vat_sar,included_optional_excluded,pricing_source_ref,notes
+P-001,,,,,,,,,INCLUDED,,

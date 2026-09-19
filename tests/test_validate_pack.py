@@ -38,6 +38,17 @@ class TestSkillPackValidation(unittest.TestCase):
         self.assertIn('missing_strategy_for_scored_bid',state['states'])
         self.assertEqual(state['states']['quality_blocker']['route'],'proposal-qc')
 
+    def test_harness_adapter_has_core_capabilities(self):
+        adapter=yaml.safe_load((ROOT/'harness'/'adapter-contract.yaml').read_text(encoding='utf-8'))
+        caps=adapter['required_capabilities']
+        self.assertIn('web_fetch',caps)
+        self.assertIn('spreadsheet_verify',caps)
+        self.assertIn('render_inspect',caps)
+
+    def test_golden_decision_cases_present(self):
+        data=json.loads((ROOT/'evals'/'golden-cases.json').read_text(encoding='utf-8'))
+        self.assertGreaterEqual(len(data['cases']),6)
+
     def test_rejects_manifest_graph_membership_drift(self):
         def mutate(root):
             p=root/'manifest.json'

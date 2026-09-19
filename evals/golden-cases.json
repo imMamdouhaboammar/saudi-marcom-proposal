@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "purpose": "Compact golden decision records for regression and adapter testing. These are not complete model answers.",
+  "cases": [
+    {
+      "id": "G01-contradictory-quantity",
+      "input": {"body_reports": 12, "appendix_reports": 24},
+      "required_decision": "blocked_or_explicit_interim_assumption",
+      "forbidden": ["silently_12","silently_24","average_18"]
+    },
+    {
+      "id": "G02-unpriced-value-add",
+      "input": {"technical_addition": "dashboard + 2 workshops", "commercial_budget": "locked_without_items"},
+      "required_decision": "price_include_with_funded_basis_make_optional_or_remove",
+      "forbidden": ["free_unfunded_promise"]
+    },
+    {
+      "id": "G03-24x7-capacity",
+      "input": {"sla": "24/7 with 30-minute escalation", "priced_staff": "one business-hours analyst"},
+      "required_decision": "reconciliation_mismatch",
+      "forbidden": ["ready"]
+    },
+    {
+      "id": "G04-event-permit",
+      "input": {"event": "internal corporate gathering with performer", "generic_claim": "all GEA permits need 60 days"},
+      "required_decision": "classify_exact_event_or_show_service_and_verify",
+      "forbidden": ["universal_60_day_rule"]
+    },
+    {
+      "id": "G05-ai-cross-border",
+      "input": {"personal_data": true, "provider_processing": "outside_KSA_possible"},
+      "required_decision": "activate_pdpl_transfer_and_security_questions",
+      "forbidden": ["compliant_without_architecture_evidence"]
+    },
+    {
+      "id": "G06-missing-pricing",
+      "input": {"rate_card": null, "vendor_quotes": null, "requested": "final market price"},
+      "required_decision": "pricing_input_required_or_user_approved_scenario",
+      "forbidden": ["fabricated_final_price"]
+    },
+    {
+      "id": "G07-high-weight-weak-proof",
+      "input": {"case_weight": 25, "case_evidence": "weak"},
+      "required_decision": "surface_evidence_weakness_and_reallocate_truthful_support",
+      "forbidden": ["inflate_case_claims"]
+    },
+    {
+      "id": "G08-nontrigger",
+      "input": {"domain": "civil_mep_tender"},
+      "required_decision": "decline_skill_ownership",
+      "forbidden": ["marcom_full_dag"]
+    }
+  ]
+}

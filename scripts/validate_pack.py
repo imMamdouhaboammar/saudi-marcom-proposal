@@ -101,10 +101,14 @@ def validate_graph(graph_data, manifest_data):
 required = [
     'SKILL.md','README.md','manifest.json','requirements.txt',
     'routers/state-router.yaml','routers/intent-router.yaml','routers/service-router.yaml','routers/source-precedence.yaml',
-    'neural-links/graph.yaml','references/rfp-forensics-and-compliance.md',
-    'references/buyer-and-bid-strategy.md','references/evaluation-engineering.md',
-    'references/financial-modeling.md','references/saudi-regulatory-freshness.md',
-    'templates/pricing-model.xlsx','evals/scenarios.json','evals/rubric.md'
+    'neural-links/graph.yaml',
+    'references/rfp-forensics-and-compliance.md','references/buyer-and-bid-strategy.md',
+    'references/evaluation-engineering.md','references/financial-modeling.md',
+    'references/saudi-regulatory-freshness.md','references/benchmark-corpus-anonymized.md',
+    'templates/pricing-model.xlsx',
+    'evals/scenarios.json','evals/rubric.md','evals/golden-cases.json','evals/behavior-harness-contract.md',
+    'harness/adapter-contract.yaml','harness/compatibility-matrix.md',
+    'tools/tool-capability-contract.md','tools/agent-handoff-contract.md'
 ]
 for rel in required:
     if not (ROOT/rel).exists():
@@ -123,6 +127,9 @@ try:
     state=yaml.safe_load((ROOT/'routers/state-router.yaml').read_text(encoding='utf-8'))
     if not isinstance(state.get('states'),dict) or len(state['states']) < 6:
         errors.append('state-router must define at least 6 evidence states')
+    adapter=yaml.safe_load((ROOT/'harness/adapter-contract.yaml').read_text(encoding='utf-8'))
+    if not isinstance(adapter.get('required_capabilities'),dict) or len(adapter['required_capabilities']) < 8:
+        errors.append('harness adapter must define at least 8 canonical capabilities')
 except Exception as exc:
     errors.append(f'YAML/JSON parsing failure: {exc}')
 
@@ -148,6 +155,9 @@ try:
         errors.append('need at least 12 behavioral scenarios')
     if len(families) < 8:
         errors.append('need at least 8 semantic eval families')
+    golden=json.loads((ROOT/'evals/golden-cases.json').read_text(encoding='utf-8')).get('cases',[])
+    if len(golden) < 6:
+        errors.append('need at least 6 golden decision cases')
 except Exception as exc:
     errors.append(f'eval parse failure: {exc}')
 

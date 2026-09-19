@@ -1,6 +1,7 @@
-version: 2
+version: 3
 pack: saudi-marcom-proposal
-architecture: atomic-neural-dag
+architecture: state-aware-neural-dag
+state_router: routers/state-router.yaml
 
 nodes:
   source-intake:
@@ -18,7 +19,7 @@ nodes:
     inputs: [source_inventory, rfp_documents]
     outputs: [requirement_ledger, compliance_matrix, evaluation_map, clarification_log]
     precursors: [source-intake]
-    continuations: [regulatory-scout, service-router]
+    continuations: [regulatory-scout, service-router, bid-strategist]
     recovery: source-intake
 
   regulatory-scout:
@@ -27,36 +28,46 @@ nodes:
     inputs: [requirement_ledger, situation_classification]
     outputs: [regulatory_source_ledger, applicability_flags, compliance_citations]
     precursors: [rfp-forensics]
-    continuations: [technical-architect, commercial-modeler]
-    lateral_peers: [rfp-forensics]
+    continuations: [bid-strategist, technical-architect, commercial-modeler]
+    lateral_peers: [service-router]
     recovery: regulatory-scout
 
   service-router:
     path: skills/service-router/SKILL.md
     role: "MarCom Service Architecture Router"
     inputs: [requirement_ledger]
-    outputs: [active_service_modules, service_boundaries]
+    outputs: [active_service_modules, service_boundaries, cross_module_interfaces]
     precursors: [rfp-forensics]
-    continuations: [technical-architect]
+    continuations: [bid-strategist, technical-architect]
+    lateral_peers: [regulatory-scout]
+    recovery: rfp-forensics
+
+  bid-strategist:
+    path: skills/bid-strategist/SKILL.md
+    role: "Evaluation-Weighted Response Strategy"
+    inputs: [requirement_ledger, evaluation_map, situation_classification, active_service_modules, bidder_evidence]
+    outputs: [response_strategy, scoring_coverage_plan, evidence_plan, win_theme_register, executive_message_map]
+    precursors: [rfp-forensics, service-router]
+    continuations: [technical-architect, commercial-modeler]
     lateral_peers: [regulatory-scout]
     recovery: rfp-forensics
 
   technical-architect:
     path: skills/technical-architect/SKILL.md
     role: "Solution Design & Technical Proposal"
-    inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger]
+    inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger, response_strategy, evidence_plan]
     outputs: [technical_outline, deliverable_map, schedule, governance_model, risk_register, assumptions_register]
-    precursors: [service-router, regulatory-scout]
+    precursors: [service-router, bid-strategist, regulatory-scout]
     continuations: [commercial-modeler, scope-reconciliation]
     lateral_peers: [commercial-modeler]
-    recovery: rfp-forensics
+    recovery: bid-strategist
 
   commercial-modeler:
     path: skills/commercial-modeler/SKILL.md
     role: "Commercial Modeling & Client BOQ"
-    inputs: [deliverable_map, boq_templates, pricing_inputs, regulatory_source_ledger]
+    inputs: [deliverable_map, boq_templates, pricing_inputs, regulatory_source_ledger, response_strategy]
     outputs: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
-    precursors: [technical-architect, regulatory-scout]
+    precursors: [technical-architect, regulatory-scout, bid-strategist]
     continuations: [scope-reconciliation]
     lateral_peers: [technical-architect]
     recovery: commercial-modeler
@@ -74,11 +85,11 @@ nodes:
   proposal-qc:
     path: skills/proposal-qc/SKILL.md
     role: "Red-Team Review & Quality Gate"
-    inputs: [technical_outline, deliverable_map, client_boq, payment_milestones, requirement_ledger, reconciliation_certificate]
+    inputs: [technical_outline, deliverable_map, client_boq, payment_milestones, requirement_ledger, scoring_coverage_plan, reconciliation_certificate]
     outputs: [qc_report, submission_status, blocker_log]
     precursors: [scope-reconciliation]
     continuations: [artifact-assembler]
-    on_fail: [rfp-forensics, technical-architect, commercial-modeler]
+    on_fail: [rfp-forensics, bid-strategist, technical-architect, commercial-modeler]
     recovery: proposal-qc
 
   artifact-assembler:
@@ -93,7 +104,9 @@ nodes:
 recovery:
   stale_source: regulatory-scout
   conflicting_requirement: rfp-forensics
+  missing_strategy: bid-strategist
   missing_price: commercial-modeler
   mismatched_scope: scope-reconciliation
-  copied_client_data: proposal-qc
+  copied_client_data: source-intake
+  unsupported_claim: proposal-qc
   layout_formatting_defect: artifact-assembler

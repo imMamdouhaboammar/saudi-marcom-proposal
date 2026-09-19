@@ -1,141 +1,158 @@
 # Saudi Regulatory Freshness Gate
 
-Baseline research date: 2026-09-19
+Baseline research date: 2026-09-19.
 
-This file is a routing guide, not a substitute for a fresh official-source check. Rules, forms, thresholds, services, and implementation dates can change.
+This file is a routing guide. It is not a substitute for a fresh official-source check. Regulations, implementation dates, thresholds, permit categories, forms, and buyer instructions can change.
 
-## 1. Government procurement and Etimad
+## Applicability matrix
 
-Activate when the buyer is a Saudi government entity or the RFP routes submission through Etimad.
+| Trigger | Primary authority / source family | Proposal implication |
+| --- | --- | --- |
+| Saudi government procurement | Ministry of Finance, Etimad, current RFP/addenda | eligibility, submission, evaluation, forms |
+| local-content mechanism | LCGPA plus current RFP | eligibility, financial evaluation, certificates, reporting |
+| VAT/tax presentation | ZATCA | BOQ tax rows, inclusive/exclusive presentation |
+| personal data | SDAIA / National Data Governance Platform | roles, notices, minimization, transfer, retention |
+| government digital service | DGA | digital standards, accessibility, project controls where applicable |
+| cybersecurity requirement | NCA plus buyer security standards | controls, security deliverables, supplier obligations |
+| AI system with cyber/data risk | SDAIA, NCA, buyer policy | data, model, logging, evaluation, third-party risk |
+| regulated media/advertising | General Authority of Media Regulation (GAMR) | licenses, clearances, creator/advertising obligations |
+| entertainment event/show | GEA plus venue/municipality/other authorities | permit lead time, content, site, supplier responsibilities |
 
-Baseline facts:
+## 1. Government procurement
 
-- The Saudi Ministry of Finance describes Etimad as the government platform for tender offering, bid submission, bid examination, technical evaluation, and awarding.
-- On 2026-08-05, the Ministry of Finance announced Cabinet approval of a new Government Tenders and Procurement Law.
+On 2026-08-05 the Ministry of Finance announced Cabinet approval of a new Government Tenders and Procurement Law. Do not hardcode procedures from the previous law as current without checking effective status and executive regulations.
 
-Because that approval is recent relative to this pack, never hardcode old-law thresholds or procedures as current. Before making a compliance statement, verify:
-
-- current effective law text and implementation date
-- current executive regulations
-- current Etimad submission instructions
-- the specific RFP and issued addenda
-- any buyer-specific forms
+Verify for every applicable bid:
+- current effective law and executive regulations
+- Etimad submission instructions
+- tender-specific terms
+- addenda and clarification Q&A
+- required forms and guarantees
+- technical and financial separation rules
 
 Official starting points:
-
-- https://www.mof.gov.sa/en/eservices/Pages/Etimad.aspx
 - https://www.mof.gov.sa/en/MediaCenter/news/Pages/News_05082026.aspx
+- https://www.mof.gov.sa/en/eservices/Pages/Etimad.aspx
 - https://mof.gov.sa/en/tenders/Pages/default.aspx
 
 ## 2. Local content
 
-Activate only when the RFP, procurement mechanism, or buyer requires it.
+Never assume one mechanism applies to all service procurements.
 
-Check the current Local Content and Government Procurement Authority material and the exact RFP mechanism. Do not assume every service bid uses the same local-content method.
+As of the baseline research, LCGPA has announced new mechanisms affecting selected categories, including management consulting and IT services with future effective dates and thresholds. This makes service classification and effective-date verification mandatory.
 
-Record whether the requirement affects:
+Check:
+- service category
+- estimated tender value where relevant
+- effective date
+- certificate requirement
+- technical-envelope requirement
+- financial evaluation weighting
+- mandatory list applicability
 
-- eligibility
-- evaluation
-- mandatory certificate or form
-- price preference or calculation
-- supplier selection
-- reporting during delivery
+Do not copy a local-content rule from another tender.
 
-## 3. VAT and tax presentation
+## 3. VAT
 
-Activate for every financial offer, but keep the check proportional.
+ZATCA states a 15% standard VAT rate at the baseline date. Keep the workbook rate editable and verify the tender's required presentation.
 
-Baseline: ZATCA states the standard VAT rate is 15% as of the baseline date.
+Check:
+- exclusive vs inclusive prices
+- specific BOQ VAT rows
+- pass-through treatment
+- any unusual tax implications requiring qualified tax confirmation
 
-Official starting points:
-
+Official:
 - https://zatca.gov.sa/en/RulesRegulations/VAT/Pages/default.aspx
-- https://zatca.gov.sa/en/RulesRegulations/Taxes/Pages/VATImplementingRegulations.aspx
-
-Verify:
-
-- rate and applicable treatment
-- whether the buyer requires inclusive or exclusive prices
-- whether the mandatory BOQ has a specific VAT row or tax presentation
-- any relevant invoice or pass-through treatment
-
-Do not provide tax advice beyond the source-supported bid implication.
 
 ## 4. Personal data and AI
 
-Activate when the service touches personal data, CRM/contact lists, audience research, social listening tied to identifiable persons, employee data, event registration, biometrics, recordings, AI systems using personal data, or cross-border processing.
+Activate for employee data, CRM/contact data, event registration, identifiable monitoring data, profiling, recordings, biometrics, or AI using personal data.
 
-Official SDAIA starting points:
-
-- https://dgp.sdaia.gov.sa/
-- https://sdaia.gov.sa/en/SDAIA/about/Pages/RegulationsAndPolicies.aspx
-
-Baseline: the Saudi Personal Data Protection Law is supervised by SDAIA, with current guidance and regulations available through the National Data Governance Platform.
-
-Proposal questions may include:
-
-- controller / processor roles
-- lawful basis and notices
-- data minimization
-- retention and deletion
-- access control
+Check:
+- controller and processor roles
+- purpose and lawful basis
+- minimization
+- retention/deletion
 - sub-processors
-- data transfer outside the Kingdom
-- incident handling
-- AI vendor data use
-- whether a privacy impact assessment is required
+- access
+- cross-border transfer
+- impact assessment where applicable
+- buyer security requirements
 
-Do not promise a data architecture that has not been verified with the buyer's IT/security requirements.
+Official:
+- https://sdaia.gov.sa/en/SDAIA/about/Pages/RegulationsAndPolicies.aspx
+- https://dgp.sdaia.gov.sa/
 
-## 5. Social media advertising and influencers
+## 5. Government digital services
 
-Activate when the scope includes paid or sponsored creator content, influencer activations, or regulated media activity.
+For government websites, portals, applications, and digital-service work, check DGA's current regulatory framework, digital transformation standards, project guidance, and accessibility requirements where applicable.
+
+Baseline official sources include:
+- https://dga.gov.sa/en/regulatory-framework
+- https://dga.gov.sa/en/Standards_Of_Digital_Transformation
+- https://dga.gov.sa/en/digital-accessibility-policy
+
+Do not automatically impose government-only controls on private buyers.
+
+## 6. Cybersecurity
+
+When the buyer, hosting model, integration, personal data, or AI scope triggers cybersecurity obligations, check NCA controls and buyer-specific policies.
+
+Baseline:
+- NCA ECC 2-2024 is published as current Essential Cybersecurity Controls.
+- NCA published AI Cybersecurity Guidelines for public consultation in 2026. Treat draft/public-consultation material as non-final unless current status is freshly verified.
+
+Official:
+- https://nca.gov.sa/en/regulatory-documents/controls-list/ecc
+- https://nca.gov.sa/en/public-consultations/ai-cybersecurity-guidelines
+
+## 7. Media and advertising
+
+Use the current authority name: General Authority of Media Regulation (GAMR).
+
+Check applicability for:
+- advertising agencies
+- commercial advertisement clearance
+- filming/content permits
+- sponsored creator activity
+- individual social-media advertising content provider requirements
 
 Official starting point:
+- https://gmedia.gov.sa/en/services
 
-- https://my.gov.sa/en/services/21449
+## 8. Events and entertainment
 
-The National Platform lists the General Authority of Media Regulation service for the social media advertising content provider license commonly known as "Trusted". Verify current applicability, eligibility, and who is responsible for compliance for the exact campaign.
+Do not treat all events as one permit category.
 
-Never assume an influencer is licensed because they appeared in a prior campaign.
+GEA publishes separate event/show services with different requirements and lead times. Identify the exact event type before quoting permit timing or responsibility.
 
-## 6. Events and entertainment
-
-Activate when the scope includes public or private entertainment shows, performers, live acts, or activities that require authority approval.
-
-Official GEA starting point:
-
+Official starting points:
+- https://www.gea.gov.sa/en/services/entertainment-event-permit-new-request
 - https://www.gea.gov.sa/en/services/entertainment-show-permit
 
-The baseline service page states that certain entertainment show permit requests should be submitted at least 10 working days before the show and lists requirements including site approval and show-content details. Verify the current service and whether it applies to the exact event category.
+Also check when relevant:
+- venue conditions
+- municipality
+- Civil Defense/safety
+- GAMR filming
+- drone/aviation approval
+- customs/import of temporary equipment
+- performer/talent requirements
 
-Also identify other responsibility areas when relevant:
+## Freshness record
 
-- venue and municipality requirements
-- Civil Defense or safety requirements
-- filming and drone permissions
-- talent / performer approvals
-- customs for imported event equipment
-- access badges and security
-
-Do not state that a permit is secured until there is evidence.
-
-## Freshness record format
-
-Every material regulatory check should generate:
-
-| Field | Value |
-| --- | --- |
-| Domain | procurement / VAT / PDPL / media / event / other |
-| Authority | official authority name |
-| URL | source |
-| Checked | ISO date-time |
-| Applies? | yes / no / uncertain |
-| Bid implication | exact requirement or risk |
-| Owner | party responsible for confirmation/action |
-| Status | verified / clarification / legal confirmation needed |
+Record:
+- domain
+- authority
+- exact URL
+- checked timestamp
+- source status: final / guidance / consultation / announcement
+- applicability: yes / no / uncertain
+- bid implication
+- owner
+- unresolved confirmation
 
 ## Stop rule
 
-If an uncertain rule can disqualify the bid, materially alter price, or make the proposed service unlawful or infeasible, the proposal cannot be marked final until the uncertainty is resolved or explicitly assigned to qualified legal/compliance confirmation.
+If uncertainty can disqualify the bid, materially change price, or make delivery unlawful or infeasible, final status is blocked until resolved or explicitly assigned for qualified confirmation.

@@ -1,37 +1,56 @@
-version: 1
+version: 2
+mode: state_first_then_intent
+state_router: routers/state-router.yaml
+
 routes:
+  - id: source-intake
+    when:
+      any: ["new rfp", "new brief", "attachments", "proposal inputs", "meeting notes", "rate card"]
+    owns: [source_inventory, situation_classification, confidentiality_flags]
+
   - id: rfp-forensics
     when:
       any: ["rfp", "tender", "كراسة", "منافسة", "requirements", "compliance matrix", "evaluation criteria"]
-    owns: [source_inventory, requirement_ledger, evaluation_map, clarification_log]
+    owns: [requirement_ledger, evaluation_map, clarification_log]
+
+  - id: service-router
+    when:
+      any: ["workstreams", "service scope", "multi-service", "scope architecture"]
+    owns: [active_service_modules, service_boundaries]
+
+  - id: bid-strategist
+    when:
+      any: ["win strategy", "response strategy", "tailored proposal", "scoring strategy", "win themes", "evaluation weights", "how do we win"]
+    owns: [response_strategy, scoring_coverage_plan, evidence_plan, win_theme_register, executive_message_map]
+
   - id: technical-architect
     when:
-      any: ["عرض فني", "technical proposal", "scope", "methodology", "deliverables", "operating model"]
+      any: ["عرض فني", "technical proposal", "methodology", "deliverables", "operating model", "governance"]
     owns: [technical_solution, deliverable_map, governance, schedule, kpis, risk]
+
   - id: commercial-modeler
     when:
       any: ["عرض مالي", "financial proposal", "pricing", "boq", "commercial", "rate card"]
     owns: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
+
   - id: regulatory-scout
     when:
-      any: ["government", "Etimad", "VAT", "personal data", "PDPL", "influencer", "event permit", "media license"]
+      any: ["government", "Etimad", "VAT", "personal data", "PDPL", "influencer", "event permit", "media license", "DGA", "NCA", "local content"]
     owns: [applicability_check, official_source_ledger, checked_dates]
+
   - id: proposal-qc
     when:
       any: ["review", "audit", "final check", "submission ready", "compliance check"]
     owns: [coverage_audit, arithmetic_audit, leakage_scan, claim_audit, final_status]
+
   - id: artifact-assembler
     when:
       any: ["pptx", "docx", "xlsx", "pdf", "google slides", "google docs", "google sheets"]
     owns: [final_file_assembly, format_integrity, rtl_ltr_rendering]
-precedence:
-  - rfp-forensics
-  - regulatory-scout
-  - technical-architect
-  - commercial-modeler
-  - proposal-qc
-  - artifact-assembler
+
 rules:
-  - "If the user asks for both technical and financial outputs, create one shared scope model and route to both architects."
-  - "If critical RFP facts are missing, route to intake mode instead of fabricating them."
-  - "If a review request provides finished files, start at proposal-qc but reconstruct enough of the requirement ledger to judge them."
+  - "Read routers/state-router.yaml before resolving a final, submit, ship, or ready request."
+  - "If both technical and financial outputs are requested, use one shared requirement and deliverable model."
+  - "If critical facts are missing, keep the output explicitly draft or assumptions-led."
+  - "If a scored bid lacks a response strategy, route through bid-strategist before technical drafting."
+  - "A bare quote or formatting-only task should not launch the full DAG."

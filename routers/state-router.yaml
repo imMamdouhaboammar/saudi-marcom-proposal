@@ -1,0 +1,55 @@
+version: 1
+purpose: "Route from evidence and work state before keyword intent."
+
+precedence:
+  - confidentiality_or_source_conflict
+  - missing_or_contradictory_requirements
+  - stale_regulatory_fact
+  - missing_strategy_for_scored_bid
+  - missing_technical_architecture
+  - missing_commercial_basis
+  - scope_price_mismatch
+  - quality_blocker
+  - artifact_assembly
+
+states:
+  confidentiality_or_source_conflict:
+    signals: [quarantined_source, leaked_client_identifier, unresolved_source_precedence]
+    route: source-intake
+
+  missing_or_contradictory_requirements:
+    signals: [missing_mandatory_clause, contradictory_quantity, ambiguous_submission_rule]
+    route: rfp-forensics
+
+  stale_regulatory_fact:
+    signals: [government_bid_unchecked, pdpl_trigger_unchecked, vat_unchecked, permit_dependency_unchecked]
+    route: regulatory-scout
+
+  missing_strategy_for_scored_bid:
+    signals: [weighted_evaluation_without_coverage_plan, executive_pitch_without_message_map]
+    route: bid-strategist
+
+  missing_technical_architecture:
+    signals: [requirements_verified_but_deliverables_missing, service_interfaces_unowned]
+    route: technical-architect
+
+  missing_commercial_basis:
+    signals: [unpriced_deliverable, missing_rate_card, pending_vendor_quote]
+    route: commercial-modeler
+
+  scope_price_mismatch:
+    signals: [quantity_drift, sla_staffing_drift, unsupported_boq_line]
+    route: scope-reconciliation
+
+  quality_blocker:
+    signals: [claim_without_evidence, arithmetic_error, mandatory_attachment_missing]
+    route: proposal-qc
+
+  artifact_assembly:
+    signals: [submission_status_ready]
+    route: artifact-assembler
+
+rules:
+  - "State precedence overrides keyword intent when completion or submission is requested."
+  - "A user asking for final output cannot bypass missing evidence, pricing, reconciliation, or QC gates."
+  - "Do not reroute a bounded specialist unless one of the listed state signals changes."

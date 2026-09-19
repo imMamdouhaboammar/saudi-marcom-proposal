@@ -1,22 +1,53 @@
-version: 1
+version: 2
+multi_route: true
+
 service_routes:
   media-corporate-comms:
-    triggers: ["corporate communications", "PR", "media relations", "content", "production", "التواصل المؤسسي", "الإعلام", "العلاقات العامة"]
+    signals:
+      deliverables: ["press release", "content calendar", "media relations", "executive communications", "video", "photography", "design", "social publishing"]
+      ar: ["التواصل المؤسسي", "الإعلام", "العلاقات العامة", "الإنتاج الإعلامي", "المحتوى"]
     reference: references/service-modules/media-corporate-comms.md
+
   marketing-promotion:
-    triggers: ["marketing", "campaign", "promotion", "paid media", "influencer", "التسويق", "الترويج", "الحملات"]
+    signals:
+      deliverables: ["campaign", "paid media", "media buying", "influencer", "activation", "lead generation", "conversion"]
+      ar: ["التسويق", "الترويج", "الحملات", "الإعلانات", "المؤثرين"]
     reference: references/service-modules/marketing-promotion.md
+
   events-experiences:
-    triggers: ["event", "conference", "exhibition", "activation", "gathering", "فعالية", "مؤتمر", "معرض"]
+    signals:
+      deliverables: ["event", "conference", "exhibition", "gathering", "booth", "hospitality", "entertainment", "production"]
+      ar: ["فعالية", "مؤتمر", "معرض", "حفل", "ضيافة", "تنظيم"]
     reference: references/service-modules/events-experiences.md
+
   crisis-reputation:
-    triggers: ["crisis", "reputation", "issues management", "war room", "أزمة", "سمعة", "إدارة الأزمات"]
+    signals:
+      deliverables: ["crisis plan", "war room", "issues management", "reputation", "spokesperson", "incident response"]
+      ar: ["إدارة الأزمات", "السمعة", "غرفة عمليات", "متحدث رسمي"]
     reference: references/service-modules/crisis-reputation.md
+
   digital-ai:
-    triggers: ["digital", "website", "app", "platform", "AI", "automation", "chatbot", "خدمات رقمية", "ذكاء اصطناعي"]
+    signals:
+      deliverables: ["website", "portal", "app", "dashboard", "AI assistant", "chatbot", "automation", "integration", "CRM"]
+      ar: ["خدمات رقمية", "ذكاء اصطناعي", "موقع", "بوابة", "تطبيق", "أتمتة"]
     reference: references/service-modules/digital-ai.md
+
   monitoring-intelligence:
-    triggers: ["monitoring", "social listening", "media intelligence", "sentiment", "early warning", "رصد", "تحليل", "إنذار مبكر"]
+    signals:
+      deliverables: ["media monitoring", "social listening", "sentiment", "early warning", "intelligence report", "dashboard"]
+      ar: ["رصد", "تحليل", "إنذار مبكر", "استماع اجتماعي", "صورة ذهنية"]
     reference: references/service-modules/monitoring-intelligence.md
-multi_route: true
-rule: "A proposal can activate multiple modules. Keep one shared deliverable map and one commercial model to prevent duplicated scope."
+
+routing_logic:
+  - "Classify by required deliverable and operating responsibility, not keywords alone."
+  - "A requirement may activate multiple modules only when each module owns a distinct output or control."
+  - "For each cross-module handoff, identify producer, consumer, cadence, data format, and acceptance point."
+  - "Keep one shared deliverable map and one commercial model."
+  - "Performance marketing belongs to marketing-promotion; enabling websites, analytics plumbing, automation, and AI belong to digital-ai."
+  - "Social listening collection belongs to monitoring-intelligence; crisis decision and response governance belong to crisis-reputation."
+
+output:
+  active_service_modules: []
+  service_boundaries: []
+  cross_module_interfaces: []
+  shared_resources: []

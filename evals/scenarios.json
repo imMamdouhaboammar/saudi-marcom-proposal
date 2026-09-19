@@ -216,7 +216,7 @@
       "family": "vague-direct-brief",
       "public_prompt": "A Saudi organization wants us to handle digital marketing, events, PR, AI, and monitoring. There is no RFP yet. Make a perfect technical and financial proposal.",
       "expected_route": [
-        "proposal-intake",
+        "source-intake",
         "service-router"
       ],
       "must_do": [

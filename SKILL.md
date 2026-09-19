@@ -103,8 +103,8 @@ flowchart TD
 | **`service-router`** | `skills/service-router/` | Scope classification across 6 MarCom service families | Ledger $\to$ `active_service_modules`, `service_boundaries` |
 | **`technical-architect`** | `skills/technical-architect/` | Solution design, methodology, deliverables, governance | Modules $\to$ `technical_outline`, `deliverable_map`, `schedule` |
 | **`commercial-modeler`** | `skills/commercial-modeler/` | Pricing engine, client BOQ, milestones, exclusions | Deliverables $\to$ `pricing_engine`, `client_boq`, `payment_milestones` |
-| **`scope-reconciliation`**| `skills/scope-reconciliation/`| Bidirectional scope-to-price verification & parity | Deliverables + BOQ $\to$ `scope_price_map`, `reconciliation_cert` |
-| **`proposal-qc`** | `skills/proposal-qc/` | Independent red-team review & disqualification audit | Drafts + Cert $\to$ `qc_report`, `submission_status` (PASS/BLOCK) |
+| **`scope-reconciliation`**| `skills/scope-reconciliation/`| Bidirectional scope-to-price verification & parity | Deliverables + BOQ $\to$ `scope_price_map`, `reconciliation_certificate` |
+| **`proposal-qc`** | `skills/proposal-qc/` | Independent red-team review & disqualification audit | Drafts + Cert $\to$ `qc_report`, `submission_status` (`READY` \| `REVISIONS_REQUIRED` \| `BLOCKED`) |
 | **`artifact-assembler`** | `skills/artifact-assembler/` | Deliverable compilation, Arabic RTL layout, packaging | Approved copy $\to$ Final DOCX, PPTX, XLSX, PDF bundle |
 
 ## Orchestration Protocol
@@ -113,6 +113,7 @@ flowchart TD
 1. Invoke `skills/source-intake/SKILL.md`:
    - Catalog all incoming tender files and record in `templates/source-ledger.csv`.
    - Screen out confidential client data.
+   - Output `situation_classification` including `required_output` (`Technical`, `Financial`, or `Both`).
 2. Invoke `skills/rfp-forensics/SKILL.md`:
    - Decompose RFP clauses into `templates/requirement-ledger.csv`.
    - Map scoring weights and extract mandatory qualification attachments.
@@ -123,24 +124,26 @@ flowchart TD
 4. Invoke `skills/service-router/SKILL.md`:
    - Classify scope into core service modules: Media & Comms, Marketing, Events, Crisis, Digital & AI, Monitoring.
 
-### Phase 3: Dual Architecture Generation
-5. Invoke `skills/technical-architect/SKILL.md`:
-   - Author technical solution narrative, discrete deliverable units, RACI governance, work plan, and risk register.
-6. Invoke `skills/commercial-modeler/SKILL.md`:
-   - Build financial pricing engine, client BOQ, payment milestones, and commercial assumptions.
+### Phase 3: Dual Architecture Generation (Conditional)
+5. **Technical Solution Stream** (executed when `required_output` is `Technical` or `Both`):
+   - Invoke `skills/technical-architect/SKILL.md`:
+     - Author technical solution narrative, discrete deliverable units, RACI governance, work plan, and risk register.
+6. **Commercial Modeling Stream** (executed when `required_output` is `Financial` or `Both`):
+   - Invoke `skills/commercial-modeler/SKILL.md`:
+     - Build financial pricing engine, client BOQ, payment milestones, and commercial assumptions.
 
-### Phase 4: Bidirectional Reconciliation & Quality Gate
-7. Invoke `skills/scope-reconciliation/SKILL.md`:
-   - Run two-way verification: every deliverable priced $\leftrightarrow$ every BOQ line justified.
-   - On mismatch: halt and route back to `technical-architect` or `commercial-modeler`.
-   - On pass: issue `reconciliation_certificate`.
-8. Invoke `skills/proposal-qc/SKILL.md`:
-   - Red-team audit for compliance gaps, ungrounded claims, arithmetic defects, or leakage.
-   - Any blocking issue vetoes release.
+### Phase 4: Reconciliation & Quality Gate
+7. **Reconciliation Check**:
+   - For `Both`: Invoke `skills/scope-reconciliation/SKILL.md` for bidirectional verification (every deliverable priced $\leftrightarrow$ every BOQ line justified). On pass, issue `reconciliation_certificate`.
+   - For single-stream (`Technical` only or `Financial` only): Verify scope deliverables or pricing BOQ directly against `requirement_ledger` without blocking on missing counterpart files, issuing a single-stream `reconciliation_certificate`.
+8. **Quality Control Audit**:
+   - Invoke `skills/proposal-qc/SKILL.md`:
+     - Red-team audit for compliance gaps, ungrounded claims, arithmetic defects, or leakage.
+     - Enforce `submission_status: READY`. Any blocking issue halts release.
 
 ### Phase 5: Production & Artifact Release
 9. Invoke `skills/artifact-assembler/SKILL.md`:
-   - Format and package the separate technical proposal, financial offer, and required client-facing attachments.
+   - Format and package the requested proposal documents (`technical_proposal_doc`, `financial_proposal_doc`, or both per `required_output`) and required client-facing attachments.
    - Keep internal ledgers outside `final_handoff` unless the RFP explicitly requires a specific ledger.
 
 ## Self-Healing Recovery Policies

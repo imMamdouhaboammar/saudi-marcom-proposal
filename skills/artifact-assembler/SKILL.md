@@ -7,6 +7,7 @@ role: atomic-skill
 inputs:
   - technical_outline
   - client_boq
+  - payment_milestones
   - requirement_ledger
   - qc_report
   - submission_status
@@ -70,8 +71,8 @@ Verify preconditions before touching files:
 ### Step 2: Technical Proposal Assembly
 Assemble the technical document:
 - Front matter: Cover page, Table of Contents, Document Control, Executive Summary
-- Core sections: Methodology, Scope, Deliverables, Team, Schedule, Risk Register
-- Appendices: Compliance Matrix, Case Studies, Certifications, Key Personnel CVs
+- Core sections: Methodology, Scope, Deliverables, Team, Schedule (and client-mandated risk summary only if explicitly requested in RFP)
+- Appendices: Case Studies, Certifications, Key Personnel CVs (and Compliance Matrix only if explicitly requested by RFP)
 - Apply formal Arabic typography (e.g., DIN Next LT Arabic, GE SS Unique, Arial) with clean hierarchy (H1, H2, H3)
 
 ### Step 3: Financial Offer & BOQ Assembly

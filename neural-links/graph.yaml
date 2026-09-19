@@ -68,25 +68,23 @@ nodes:
     outputs: [scope_price_map, mismatch_report, reconciliation_certificate]
     precursors: [technical-architect, commercial-modeler]
     continuations: [proposal-qc]
-    on_pass: [proposal-qc]
     on_fail: [technical-architect, commercial-modeler]
     recovery: scope-reconciliation
 
   proposal-qc:
     path: skills/proposal-qc/SKILL.md
     role: "Red-Team Review & Quality Gate"
-    inputs: [technical_outline, deliverable_map, client_boq, requirement_ledger, reconciliation_certificate]
+    inputs: [technical_outline, deliverable_map, client_boq, payment_milestones, requirement_ledger, reconciliation_certificate]
     outputs: [qc_report, submission_status, blocker_log]
     precursors: [scope-reconciliation]
     continuations: [artifact-assembler]
-    on_pass: [artifact-assembler]
     on_fail: [rfp-forensics, technical-architect, commercial-modeler]
     recovery: proposal-qc
 
   artifact-assembler:
     path: skills/artifact-assembler/SKILL.md
     role: "Deliverable Production & Package Assembly"
-    inputs: [technical_outline, client_boq, requirement_ledger, qc_report, submission_status]
+    inputs: [technical_outline, client_boq, payment_milestones, requirement_ledger, qc_report, submission_status]
     outputs: [technical_proposal_doc, financial_proposal_doc, final_handoff]
     precursors: [proposal-qc]
     continuations: [submission-complete]

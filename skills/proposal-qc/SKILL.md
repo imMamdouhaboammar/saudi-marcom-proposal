@@ -8,6 +8,7 @@ inputs:
   - technical_outline
   - deliverable_map
   - client_boq
+  - payment_milestones
   - requirement_ledger
   - reconciliation_certificate
 requires:

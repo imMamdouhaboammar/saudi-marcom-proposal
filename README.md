@@ -70,7 +70,7 @@ python3 -m pip install -r requirements.txt
 # Validate master orchestrator and all 9 atomic skills (<500 lines, neural links, secrets)
 python3 scripts/validate_pack.py
 
-# Run scenario behavioral test bank
+# Run scenario schema validation (use full live testbed harness for behavioral scoring)
 python3 scripts/run_static_evals.py
 ```
 

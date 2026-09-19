@@ -6,6 +6,7 @@
 - security scan now inspects UTF-8 extensionless files and dotfiles instead of relying only on filename suffixes
 - GitHub Actions permission audit now checks workflow-level and job-level permission grants
 - CI now runs the full test discovery set and validates fix branches
+- GitHub Actions checkout and Python setup dependencies upgraded to Node 24 based v7 releases
 - README, evaluation report, review report, manifest, and master Skill version are synchronized
 - README architecture now reflects all 12 atomic skills
 - validation now detects release-document version drift

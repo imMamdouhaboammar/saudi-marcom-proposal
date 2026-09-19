@@ -1,99 +1,106 @@
-version: 2
+version: 3
 pack: saudi-marcom-proposal
-architecture: atomic-neural-dag
+architecture: guarded-state-dag
+state_contract: schemas/bid-state.schema.json
 
 nodes:
   source-intake:
     path: skills/source-intake/SKILL.md
-    role: "Intake & Source Forensics"
-    inputs: [rfp_documents, organization_context, reference_work, pricing_inputs]
+    inputs: [rfp_documents, organization_context, bidder_evidence, reference_work, pricing_inputs]
     outputs: [source_inventory, situation_classification, confidentiality_flags]
-    precursors: []
     continuations: [rfp-forensics]
     recovery: source-intake
+    exit_guard: source_inventory_complete
 
   rfp-forensics:
     path: skills/rfp-forensics/SKILL.md
-    role: "Requirement Extraction & Traceability"
     inputs: [source_inventory, rfp_documents]
     outputs: [requirement_ledger, compliance_matrix, evaluation_map, clarification_log]
     precursors: [source-intake]
-    continuations: [regulatory-scout, service-router]
+    continuations: [regulatory-scout, service-router, bid-strategist]
     recovery: source-intake
+    exit_guard: material_requirements_traceable
 
   regulatory-scout:
     path: skills/regulatory-scout/SKILL.md
-    role: "Saudi Regulatory & Freshness Scout"
     inputs: [requirement_ledger, situation_classification]
-    outputs: [regulatory_source_ledger, applicability_flags, compliance_citations]
+    outputs: [regulatory_source_ledger, applicability_flags, regulatory_effective_state]
     precursors: [rfp-forensics]
     continuations: [technical-architect, commercial-modeler]
-    lateral_peers: [rfp-forensics]
     recovery: regulatory-scout
+    exit_guard: triggered_domains_resolved_or_flagged
 
   service-router:
     path: skills/service-router/SKILL.md
-    role: "MarCom Service Architecture Router"
     inputs: [requirement_ledger]
-    outputs: [active_service_modules, service_boundaries]
+    outputs: [active_service_modules, cross_cutting_lenses, service_boundaries]
     precursors: [rfp-forensics]
     continuations: [technical-architect]
-    lateral_peers: [regulatory-scout]
     recovery: rfp-forensics
+    exit_guard: material_scope_owned
+
+  bid-strategist:
+    path: skills/bid-strategist/SKILL.md
+    inputs: [situation_classification, evaluation_map, requirement_ledger, bidder_evidence]
+    outputs: [bid_posture, evaluation_strategy, proof_plan, response_strategy]
+    precursors: [rfp-forensics]
+    continuations: [technical-architect]
+    recovery: rfp-forensics
+    exit_guard: buyer_strategy_grounded
 
   technical-architect:
     path: skills/technical-architect/SKILL.md
-    role: "Solution Design & Technical Proposal"
-    inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger]
-    outputs: [technical_outline, deliverable_map, schedule, governance_model, risk_register, assumptions_register]
-    precursors: [service-router, regulatory-scout]
+    inputs: [requirement_ledger, active_service_modules, cross_cutting_lenses, regulatory_source_ledger, evaluation_strategy, proof_plan]
+    outputs: [technical_outline, deliverable_map, acceptance_map, schedule, governance_model, risk_register, assumptions_register]
+    precursors: [service-router, regulatory-scout, bid-strategist]
     continuations: [commercial-modeler, scope-reconciliation]
-    lateral_peers: [commercial-modeler]
     recovery: rfp-forensics
+    exit_guard: mandatory_scope_executable
 
   commercial-modeler:
     path: skills/commercial-modeler/SKILL.md
-    role: "Commercial Modeling & Client BOQ"
-    inputs: [deliverable_map, boq_templates, pricing_inputs, regulatory_source_ledger]
-    outputs: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
+    inputs: [deliverable_map, acceptance_map, pricing_inputs, regulatory_source_ledger, buyer_forms]
+    outputs: [capacity_model, pricing_basis_ledger, pricing_engine, client_boq, payment_milestones, commercial_assumptions]
     precursors: [technical-architect, regulatory-scout]
     continuations: [scope-reconciliation]
-    lateral_peers: [technical-architect]
     recovery: commercial-modeler
+    exit_guard: commercial_basis_labeled
 
   scope-reconciliation:
     path: skills/scope-reconciliation/SKILL.md
-    role: "Bidirectional Technical-Financial Reconciliation"
-    inputs: [deliverable_map, pricing_engine, client_boq]
-    outputs: [scope_price_map, mismatch_report, reconciliation_certificate]
+    inputs: [requirement_ledger, deliverable_map, acceptance_map, capacity_model, pricing_basis_ledger, client_boq]
+    outputs: [scope_price_map, mismatch_report, reconciliation_certificate, change_impact_log]
     precursors: [technical-architect, commercial-modeler]
     continuations: [proposal-qc]
-    on_fail: [technical-architect, commercial-modeler]
     recovery: scope-reconciliation
+    exit_guard: semantic_parity_pass
 
   proposal-qc:
     path: skills/proposal-qc/SKILL.md
-    role: "Red-Team Review & Quality Gate"
-    inputs: [technical_outline, deliverable_map, client_boq, payment_milestones, requirement_ledger, reconciliation_certificate]
-    outputs: [qc_report, submission_status, blocker_log]
+    inputs: [bid_state, technical_outline, client_boq, reconciliation_certificate]
+    outputs: [qc_report, submission_status]
     precursors: [scope-reconciliation]
     continuations: [artifact-assembler]
-    on_fail: [rfp-forensics, technical-architect, commercial-modeler]
     recovery: proposal-qc
+    exit_guard: submission_status_ready
 
   artifact-assembler:
     path: skills/artifact-assembler/SKILL.md
-    role: "Deliverable Production & Package Assembly"
-    inputs: [technical_outline, client_boq, payment_milestones, requirement_ledger, qc_report, submission_status]
-    outputs: [technical_proposal_doc, financial_proposal_doc, final_handoff]
+    inputs: [submission_status, buyer_forms, technical_outline, client_boq, client_safe_evidence]
+    outputs: [final_handoff, render_validation]
     precursors: [proposal-qc]
     continuations: [submission-complete]
-    recovery: proposal-qc
+    recovery: artifact-assembler
+    exit_guard: package_matches_submission_contract
 
 recovery:
-  stale_source: regulatory-scout
+  stale_source: source-intake
   conflicting_requirement: rfp-forensics
-  missing_price: commercial-modeler
+  unresolved_regulatory_state: regulatory-scout
+  service_boundary_gap: service-router
+  weak_bid_evidence: bid-strategist
+  unsupported_claim: technical-architect
+  missing_price_basis: commercial-modeler
   mismatched_scope: scope-reconciliation
   copied_client_data: proposal-qc
   layout_formatting_defect: artifact-assembler

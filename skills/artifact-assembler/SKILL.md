@@ -1,115 +1,104 @@
 ---
 name: artifact-assembler
-description: "Assemble, format, and package final Saudi proposal submission deliverables in DOCX, PPTX, XLSX, PDF, or structured Markdown. Use when compiling validated technical proposals, financial BOQs, and required client-facing attachments into submission packages that meet Arabic RTL and portal constraints. Do NOT use for narrative generation, price estimation, or quality auditing."
-version: 0.2.0
+description: "Assemble approved Saudi MarCom proposal content into client-safe technical, financial, and supporting artifacts while preserving buyer templates, RTL/LTR behavior, separation rules, and submission packaging. Use only after proposal QC is READY or when the user explicitly requests a non-final draft artifact. Do NOT use to invent scope, claims, or pricing."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
+  - submission_status
+  - buyer_forms
   - technical_outline
   - client_boq
-  - payment_milestones
-  - requirement_ledger
-  - qc_report
-  - submission_status
+  - client_safe_evidence
 requires:
   - source_grounding
 produces:
-  - technical_proposal_doc
-  - financial_proposal_doc
   - final_handoff
+  - render_validation
 gates:
-  - verified_qc_ready_status
-  - format_specification_compliance
-  - rtl_layout_fidelity
-  - client_ledger_isolation
+  - client_boundary
+  - mandatory_format_fidelity
+  - rtl_ltr_integrity
+  - render_validation
 neural_links:
-  precursors:
-    - proposal-qc
-  continuations:
-    - submission-complete
-  lateral_peers: []
-  recovery: proposal-qc
+  precursors: [proposal-qc]
+  continuations: [submission-complete]
+  recovery: artifact-assembler
 ---
 
-# Deliverable Production & Artifact Assembler
+# Artifact Assembler
 
-Compile, format, and package client-ready proposal submission deliverables.
+Turn approved content into submission artifacts without changing substance.
 
-## Mission
+## Release boundary
 
-Take validated technical copy, reconciled financial models, and required client-facing attachments, and compile them into submission artifacts that meet Saudi typography, RTL, and portal requirements.
+For a final package, require `submission_status: READY`.
 
-## Activation Contract
+For a user-requested draft, label every artifact `DRAFT - NOT SUBMISSION READY` and preserve unresolved blockers.
 
-Activate when:
-- Compiling approved proposal texts into final document formats (DOCX, PPTX, XLSX, PDF, Markdown)
-- Formatting Arabic or bilingual documents with proper Right-to-Left (RTL) hierarchy and typography
-- Bundling technical and financial offers into separate or combined archives according to tender rules
-- Verifying file size limits and naming conventions for portal upload (e.g., Etimad, Ariba)
+## Artifact contract
 
-Do NOT activate for:
-- Writing or revising technical scope (use `technical-architect`)
-- Re-calculating financial lines or discounts (use `commercial-modeler`)
-- Conducting quality control reviews (use `proposal-qc`)
+Determine required outputs from the RFP or user:
+- technical proposal DOCX/PPTX/PDF
+- financial proposal XLSX/PDF
+- mandatory buyer forms
+- appendices/CVs/case evidence
+- cover letter
+- separate encrypted/compressed package if instructed
 
-## Non-Negotiable Invariants
+Do not combine technical and financial content unless the submission instructions permit it.
 
-1. **Gate on Verified QC READY Status**: Never begin assembly or release deliverables unless `submission_status` is explicitly verified as `READY` from `proposal-qc`. Any `BLOCKED` status halts assembly immediately.
-2. **Strict Internal Ledger Isolation**: Audit ledgers (source ledger, internal assumptions, risk register, QC reports) contain confidential client notes, operational margins, and internal reviewer logs. They must remain in an internal-only archive and NEVER be included in the client submission package unless the RFP explicitly mandates their submission.
-3. **Separation of Offers**: By default, technical and financial deliverables must be saved into separate files/folders unless the client explicitly requests a merged file.
-4. **Preserve Prescribed Tables**: Mandatory government templates and vendor declaration sheets must retain their original structure and layout.
-5. **RTL & Bidi Fidelity**: Arabic headings, body text, tables, and page numbering must strictly align Right-to-Left without font distortion or reversed bracket artifacts.
+## Mandatory form fidelity
 
-## Execution Procedure
+If the buyer supplies a form:
+- preserve sheet/tab/column/order structure
+- populate only allowed fields
+- do not redesign it for visual consistency
+- keep formulas or protected structure intact where possible
+- validate after write
 
-### Step 1: Quality Gate Verification
-Verify preconditions before touching files:
-- Inspect `submission_status` from `proposal-qc`. If not `READY`, abort assembly and report blockers.
-- Inspect submission constraints from `source-intake` (e.g., Word, PowerPoint, Excel, PDF).
-- Check portal file size limits (e.g., Etimad 50MB per attachment, email 15MB cap).
+## Client-safe boundary
 
-### Step 2: Technical Proposal Assembly
-Assemble the technical document:
-- Front matter: Cover page, Table of Contents, Document Control, Executive Summary
-- Core sections: Methodology, Scope, Deliverables, Team, Schedule (and client-mandated risk summary only if explicitly requested in RFP)
-- Appendices: Case Studies, Certifications, Key Personnel CVs (and Compliance Matrix only if explicitly requested by RFP)
-- Apply formal Arabic typography (e.g., DIN Next LT Arabic, GE SS Unique, Arial) with clean hierarchy (H1, H2, H3)
+Exclude unless explicitly required:
+- internal pricing engine
+- salaries and buy rates
+- margin/markup
+- private benchmark data
+- source ledgers containing confidential prior-client content
+- internal red-team comments
+- bank details not required by submission
+- private working notes
 
-### Step 3: Financial Offer & BOQ Assembly
-Assemble the financial document:
-- Formal financial cover letter / commercial declaration on company letterhead
-- Populated Client BOQ (`templates/boq.csv` or `templates/pricing-model.xlsx`)
-- Milestone cashflow schedule and price validity clause
-- Clear 15% VAT statement and payment terms
+## Arabic and bilingual output
 
-### Step 4: Internal Archive & Release Boundary
-Segregate artifacts at the release boundary:
-- **Client Submission Package**: Contains ONLY client-facing technical and financial proposals and required public appendices.
-- **Internal Governance Archive**: Stores internal ledgers (`requirement-ledger.csv`, `source-ledger.csv`, `assumptions-register.csv`, `final-qc-checklist.md`) for corporate records and audit readiness. Do NOT attach to client portal.
+Validate:
+- true RTL paragraph and table behavior for Arabic
+- correct Arabic punctuation and numeral policy per artifact
+- no accidental LTR ordering in Arabic tables
+- English remains LTR
+- bilingual tables maintain column logic
+- fonts render consistently
+- Arabic text is not converted to disconnected glyphs
 
-### Step 5: Post-Assembly Quality Verification
-Verify the compiled files before marking handoff:
-- Reconfirm that `submission_status` is `READY`.
-- Match every rendered file and attachment against the RFP submission checklist. Reject missing, extra, stale, or incorrectly separated artifacts.
-- Inspect DOCX, PPTX, XLSX, PDF, and archive contents for comments, tracked changes, hidden sheets or slides, speaker notes, embedded files, and document metadata. Remove internal or non-required content.
-- Confirm that prescribed forms, signatures, appendices, filenames, versions, and client-authorized ledger attachments are complete and unchanged.
-- Verify that PDF/DOCX export preserved RTL text alignment and numbering.
-- Verify total bundle file size is within portal limits.
-- Apply clean naming conventions:
-  - `[BidderName]_[ProjectName]_Technical_Proposal_v1.0.pdf`
-  - `[BidderName]_[ProjectName]_Financial_Proposal_v1.0.pdf`
-- Run the complete final submission checklist against the rendered package. If any check fails, do not emit `final_handoff`; route the defect to its owning skill.
+## Render validation
 
-## Neural Handoff Contract
+For each final artifact:
+- open/render it
+- check page/slide overflow
+- check clipping and table breaks
+- check formulas and totals in spreadsheets
+- verify required logos/titles/IDs
+- verify file naming
+- verify client-safe content boundary
 
-Only after every post-assembly check passes, output:
-- `technical_proposal_doc`: Final technical artifact
-- `financial_proposal_doc`: Final commercial artifact
-- `final_handoff`: Delivery package ready for client/portal submission
-- Target Continuation: Hand off to **`submission-complete`**
+A file existing on disk is not proof that it renders correctly.
 
-## Progressive Resources
-- `tools/artifact-output-contract.md`
-- `references/writing-and-rtl.md`
-- `templates/technical-proposal-outline.md`
-- `templates/financial-offer-outline.md`
+## Final handoff
+
+Return:
+- file inventory
+- submission purpose of each file
+- status
+- unresolved caveats if draft
+- render-validation receipt
+- checksum or stable identifier when available

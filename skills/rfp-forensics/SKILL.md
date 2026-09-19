@@ -1,7 +1,7 @@
 ---
 name: rfp-forensics
-description: "Extract, catalog, and map every clause, requirement, scoring criterion, and mandatory form from Saudi RFP documents into a Requirement Ledger and Compliance Matrix. Use when analyzing tender documents, RFP specifications, terms of reference (TOR), or client briefs to build full requirement traceability before proposal drafting. Do NOT use for generic text summarization, technical narrative writing, or pricing calculations."
-version: 0.1.0
+description: "Forensically extract Saudi MarCom RFP requirements, mandatory forms, evaluation criteria, quantities, SLAs, qualifications, submission rules, and contradictions into traceable ledgers. Use after source intake or when reconstructing requirements for a proposal review. Do NOT use for solution prose, final pricing, legal opinions, or generic document summarization."
+version: 0.3.0
 pack: saudi-marcom-proposal
 role: atomic-skill
 inputs:
@@ -15,88 +15,105 @@ produces:
   - evaluation_map
   - clarification_log
 gates:
-  - 100_percent_clause_attribution
+  - material_clause_attribution
   - mandatory_form_preservation
-  - zero_ungrounded_requirements
+  - zero_silent_contradiction
 neural_links:
-  precursors:
-    - source-intake
-  continuations:
-    - regulatory-scout
-    - service-router
-  lateral_peers:
-    - regulatory-scout
+  precursors: [source-intake]
+  continuations: [regulatory-scout, service-router, bid-strategist]
+  lateral_peers: [regulatory-scout]
   recovery: source-intake
 ---
 
-# RFP Forensics & Requirement Ledger
+# RFP Forensics
 
-Deconstruct RFP clauses into an exhaustive, traceable requirement model.
+Build the requirement model that every downstream claim and price must trace back to.
 
-## Mission
+## Requirement record
 
-Perform forensic analysis on tender documents to extract all mandatory conditions, technical specifications, evaluation weights, quantities, and submission forms into a structured Requirement Ledger.
+For every material requirement capture:
+- requirement ID
+- source ID
+- exact locator: section, clause, page, table, or row
+- concise requirement statement
+- exact excerpt when useful
+- type: technical / commercial / operational / qualification / submission / form
+- status: mandatory / scored / informative / ambiguous
+- quantity/unit
+- SLA/turnaround
+- language/geography
+- evidence required
+- buyer form dependency
+- clarification needed
+- downstream owner
+- proposal response location
+- commercial dependency
 
-## Activation Contract
+Do not split one atomic obligation into unrelated rows when that would hide the full acceptance condition.
 
-Activate when:
-- Analyzing Saudi RFP packs, terms of reference (TOR), or brief documents
-- Extracting technical deliverables, service level agreements (SLAs), and submission requirements
-- Mapping evaluation criteria and scoring weights
-- Building the formal `requirement_ledger` or `compliance_matrix`
-- Logging contradictions or ambiguities for client clarification
+## Evaluation map
 
-Do NOT activate for:
-- Writing the narrative solution (use `technical-architect`)
-- Commercial pricing models (use `commercial-modeler`)
-- Final proofreading or QC (use `proposal-qc`)
+When explicit scoring exists, capture:
+- criterion
+- weight
+- subcriterion
+- threshold/pass-fail condition
+- required evidence
+- relevant requirement IDs
 
-## Non-Negotiable Invariants
+If weights are absent, store UNKNOWN. Do not infer percentages.
 
-1. **Every Requirement Sourced**: Never record a requirement without its specific document name, section number, and clause citation.
-2. **Preserve Form Integrity**: Never alter, redesign, or skip mandatory government tables or prescribed BOQ formats.
-3. **Traceability**: Every item in the ledger must map forward to a proposal section, deliverable ID, and commercial line.
+## Mandatory form registry
 
-## Execution Procedure
+Record every buyer-supplied form:
+- filename
+- purpose
+- submission stream: technical / financial / qualification
+- editable cells/fields if known
+- immutable structure requirements
+- signature/stamp requirements
+- upload format
 
-### Step 1: Clause Extraction
-Decompose the RFP into structured rows:
-- `req_id`: Unique key (REQ-001, REQ-002...)
-- `source_ref`: Document name + Section/Clause number
-- `category`: Technical / Commercial / Operational / Governance / Mandatory Attachment
-- `classification`: Mandatory (Pass/Fail) / Scored (Weight %) / Informational / Ambiguous
-- `exact_text`: Verbatim requirement excerpt
+Mandatory form fidelity is a release gate.
 
-### Step 2: Evaluation Scoring Model
-Extract the buyer's evaluation rubric:
-- Technical scoring criteria, sub-criteria, and percentage weights
-- Minimum technical qualification threshold (e.g., 70% or 80%)
-- Commercial weight vs Technical weight (e.g., 60/40 or 70/30)
-- Highlight high-weight scoring areas for strategic emphasis
+## Contradiction handling
 
-### Step 3: Operational Constraints Ledger
-Extract all non-functional requirements:
-- Delivery locations across Saudi Arabia (e.g., Riyadh, Jeddah, NEOM, Eastern Province)
-- Turnaround times, SLAs, and emergency response times (e.g., 2-hour crisis response)
-- Team residency and key personnel requirements (e.g., full-time on-site, Saudi national quotas)
-- Mandatory portal submission rules (Etimad, vendor portals, email zip caps)
+When sources conflict:
+1. preserve both source receipts
+2. state the exact conflict
+3. identify scope/price/submission impact
+4. check whether a newer addendum resolves it
+5. otherwise add a clarification question
+6. if work must continue, create an explicit interim assumption with owner and impact
 
-### Step 4: Clarification Log
-Identify contradictions, ambiguities, or missing information:
-- Document the discrepancy
-- Draft the exact inquiry text for formal client submission
-- Record working assumptions until clarification is answered
+Never silently select the more reasonable quantity.
 
-## Neural Handoff Contract
+## Qualification and submission controls
 
-When complete, output:
-- `requirement_ledger`: `templates/requirement-ledger.csv` populated
-- `compliance_matrix`: `templates/compliance-matrix.csv` initialized
-- `evaluation_map`: Scoring breakdown table
-- `clarification_log`: Formal inquiry list
-- Target Continuations: Hand off concurrently to **`regulatory-scout`** and **`service-router`**
+Extract:
+- eligibility/pass-fail conditions
+- certificates and attachments
+- team/CV requirements
+- bonds/guarantees if named
+- portal/upload rules
+- file separation
+- signatures/stamps
+- deadline and opening rules
+- local-content forms if actually requested
 
-## Progressive Resources
-- `references/rfp-forensics-and-compliance.md`
-- `templates/requirement-ledger.csv`
-- `templates/compliance-matrix.csv`
+## Failure taxonomy
+
+- missed pass/fail condition
+- requirement with no source locator
+- scoring weight invented
+- buyer form ignored
+- contradiction silently normalized
+- quantity buried in prose but absent from ledger
+- qualification attachment treated as optional
+- current addendum not propagated
+
+## Handoff
+
+Append requirement ledger, compliance matrix, evaluation map, form registry, and clarification log to bid_state.
+
+Continue in parallel to regulatory-scout, service-router, and bid-strategist.

@@ -1,4 +1,4 @@
-version: 1
+version: 2
 service_routes:
   media-corporate-comms:
     triggers: ["corporate communications", "PR", "media relations", "content", "production", "التواصل المؤسسي", "الإعلام", "العلاقات العامة"]
@@ -18,5 +18,26 @@ service_routes:
   monitoring-intelligence:
     triggers: ["monitoring", "social listening", "media intelligence", "sentiment", "early warning", "رصد", "تحليل", "إنذار مبكر"]
     reference: references/service-modules/monitoring-intelligence.md
+
+cross_cutting_lenses:
+  creative-production:
+    activate_when: ["video", "motion", "design", "photography", "studio", "production"]
+    obligations: ["rights", "formats", "revision rounds", "asset handover", "turnaround"]
+  measurement-analytics:
+    activate_when: ["KPI", "dashboard", "attribution", "ROI", "reporting", "analytics"]
+    obligations: ["metric definition", "data source", "cadence", "owner", "acceptance rule"]
+  multilingual-operations:
+    activate_when: ["Arabic", "English", "Urdu", "Bahasa", "translation", "multilingual"]
+    obligations: ["language owner", "QA step", "approval topology", "volume unit"]
+  onsite-operations:
+    activate_when: ["onsite", "event day", "war room", "coverage shift", "live"]
+    obligations: ["shift model", "access", "connectivity", "fallback", "handover"]
+  data-and-security:
+    activate_when: ["personal data", "CRM", "AI", "employee data", "tracking", "API"]
+    obligations: ["data classification", "controller/processor", "hosting", "transfer", "retention", "access"]
+  third-party-dependency:
+    activate_when: ["vendor", "influencer", "venue", "platform license", "supplier", "performer"]
+    obligations: ["quote basis", "availability", "lead time", "permit dependency", "pass-through treatment"]
+
 multi_route: true
-rule: "A proposal can activate multiple modules. Keep one shared deliverable map and one commercial model to prevent duplicated scope."
+rule: "Activate all material service families, then apply cross-cutting lenses. Maintain one shared deliverable and capacity model to prevent duplicated scope."

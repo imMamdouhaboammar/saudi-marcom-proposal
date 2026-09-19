@@ -1,0 +1,382 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/imMamdouhaboammar/saudi-marcom-proposal/schemas/bid-state.schema.json",
+  "title": "Saudi MarCom Proposal Bid State",
+  "type": "object",
+  "required": [
+    "run_id",
+    "mode",
+    "status",
+    "revision",
+    "sources",
+    "requirements",
+    "decisions",
+    "gates",
+    "artifacts",
+    "blockers"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "FULL_BID",
+        "TECHNICAL_ONLY",
+        "FINANCIAL_ONLY",
+        "REVIEW_ONLY",
+        "DISCOVERY_DRAFT"
+      ]
+    },
+    "status": {
+      "enum": [
+        "DISCOVERY",
+        "MODELING",
+        "DRAFTING",
+        "RECONCILING",
+        "QC",
+        "READY",
+        "BLOCKED"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "buyer_context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sourceReceipt"
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "req_id",
+          "source_id",
+          "statement",
+          "status"
+        ],
+        "properties": {
+          "req_id": {
+            "type": "string"
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "statement": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "MANDATORY",
+              "SCORED",
+              "INFORMATIVE",
+              "AMBIGUOUS"
+            ]
+          },
+          "locator": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "commercial_dependency": {
+            "type": [
+              "boolean",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "regulatory_state": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/regulatoryReceipt"
+      }
+    },
+    "service_architecture": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "bid_strategy": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "deliv_id",
+          "name",
+          "commercial_treatment"
+        ],
+        "properties": {
+          "deliv_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "commercial_treatment": {
+            "enum": [
+              "PRICED",
+              "INCLUDED",
+              "OPTIONAL",
+              "EXCLUDED",
+              "CLIENT_SUPPLIED",
+              "INPUT_REQUIRED"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "capacity_model": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "pricing_basis": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    },
+    "decisions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "decision_id",
+          "owner",
+          "status"
+        ],
+        "properties": {
+          "decision_id": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "DECIDED",
+              "PENDING",
+              "SUPERSEDED"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "gates": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "PENDING",
+          "PASS",
+          "FAIL",
+          "NA"
+        ]
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "artifact_id",
+          "kind",
+          "freshness"
+        ],
+        "properties": {
+          "artifact_id": {
+            "type": "string"
+          },
+          "kind": {
+            "type": "string"
+          },
+          "freshness": {
+            "enum": [
+              "CURRENT",
+              "STALE",
+              "DRAFT"
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/blocker"
+      }
+    },
+    "history": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "sourceReceipt": {
+      "type": "object",
+      "required": [
+        "source_id",
+        "source_class",
+        "title",
+        "status"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string"
+        },
+        "source_class": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "VERIFIED",
+            "ASSUMED",
+            "CONTRADICTED",
+            "PENDING",
+            "SUPERSEDED",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "locator": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issued_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "checked_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "allowed_use": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "regulatoryReceipt": {
+      "type": "object",
+      "required": [
+        "reg_id",
+        "domain",
+        "authority",
+        "status",
+        "official_url",
+        "checked_at"
+      ],
+      "properties": {
+        "reg_id": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "authority": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ANNOUNCED",
+            "ENACTED",
+            "EFFECTIVE",
+            "SUPERSEDED",
+            "UNKNOWN"
+          ]
+        },
+        "official_url": {
+          "type": "string"
+        },
+        "checked_at": {
+          "type": "string"
+        },
+        "publication_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "effective_date": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "blocker": {
+      "type": "object",
+      "required": [
+        "blocker_id",
+        "severity",
+        "owner",
+        "reason"
+      ],
+      "properties": {
+        "blocker_id": {
+          "type": "string"
+        },
+        "severity": {
+          "enum": [
+            "BLOCKER",
+            "MAJOR",
+            "MINOR",
+            "POLISH"
+          ]
+        },
+        "owner": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "OPEN",
+            "RESOLVED",
+            "ACCEPTED_RISK"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

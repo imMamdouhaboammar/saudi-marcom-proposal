@@ -1,15 +1,15 @@
 {
   "name": "saudi-marcom-proposal",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "agentic-skill-pack",
   "entrypoint": "SKILL.md",
-  "architecture": "atomic-neural-dag",
+  "architecture": "guarded-state-dag",
   "domain": [
     "Saudi Arabia",
     "technical proposals",
     "financial proposals",
+    "corporate communications",
     "media",
-    "communications",
     "marketing",
     "events",
     "crisis",
@@ -17,78 +17,85 @@
     "AI",
     "monitoring"
   ],
+  "state_contract": "schemas/bid-state.schema.json",
   "neural_graph": "neural-links/graph.yaml",
   "skills": [
     {
       "name": "source-intake",
       "path": "skills/source-intake/SKILL.md",
-      "role": "Intake & Source Forensics"
+      "role": "Source Intake"
     },
     {
       "name": "rfp-forensics",
       "path": "skills/rfp-forensics/SKILL.md",
-      "role": "Requirement Extraction & Traceability"
+      "role": "Requirement Forensics"
     },
     {
       "name": "regulatory-scout",
       "path": "skills/regulatory-scout/SKILL.md",
-      "role": "Saudi Regulatory & Freshness Scout"
+      "role": "Regulatory Effective-State Resolver"
     },
     {
       "name": "service-router",
       "path": "skills/service-router/SKILL.md",
-      "role": "MarCom Service Architecture Router"
+      "role": "Service Architecture Router"
+    },
+    {
+      "name": "bid-strategist",
+      "path": "skills/bid-strategist/SKILL.md",
+      "role": "Buyer and Evaluation Strategy"
     },
     {
       "name": "technical-architect",
       "path": "skills/technical-architect/SKILL.md",
-      "role": "Solution Design & Technical Proposal"
+      "role": "Technical Solution Architecture"
     },
     {
       "name": "commercial-modeler",
       "path": "skills/commercial-modeler/SKILL.md",
-      "role": "Commercial Modeling & Client BOQ"
+      "role": "Commercial and Capacity Modeling"
     },
     {
       "name": "scope-reconciliation",
       "path": "skills/scope-reconciliation/SKILL.md",
-      "role": "Bidirectional Technical-Financial Reconciliation"
+      "role": "Semantic Technical-Financial Reconciliation"
     },
     {
       "name": "proposal-qc",
       "path": "skills/proposal-qc/SKILL.md",
-      "role": "Red-Team Review & Quality Gate"
+      "role": "Independent Bid QC"
     },
     {
       "name": "artifact-assembler",
       "path": "skills/artifact-assembler/SKILL.md",
-      "role": "Deliverable Production & Package Assembly"
+      "role": "Client Package Assembly"
     }
   ],
   "artifacts": [
-    "technical_proposal",
-    "financial_proposal",
+    "bid_state",
     "requirement_ledger",
     "compliance_matrix",
-    "risk_register",
-    "assumptions_register",
-    "source_ledger",
+    "bid_strategy",
+    "technical_proposal",
+    "financial_proposal",
+    "reconciliation_certificate",
     "qc_report"
   ],
-  "requires_live_research_for": [
-    "procurement rules",
-    "tax treatment",
-    "data protection",
-    "media regulation",
-    "event permits",
-    "submission platform rules"
+  "routers": [
+    "routers/intent-router.yaml",
+    "routers/buyer-context-router.yaml",
+    "routers/service-router.yaml",
+    "routers/source-precedence.yaml"
   ],
+  "tool_registry": "tools/tool-registry.yaml",
   "privacy": {
     "raw_private_benchmark_data_included": false,
-    "client_identifiers_in_examples": false
+    "client_identifiers_in_examples": false,
+    "internal_costs_client_visible": false
   },
   "behavioral_eval": {
     "definitions_included": true,
+    "trace_contract": "evals/behavior-harness-contract.md",
     "fresh_harness_run_required_for_maturity_claim": true
   }
 }

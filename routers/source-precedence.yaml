@@ -1,14 +1,29 @@
-version: 1
+version: 2
 precedence:
-  - current_user_instruction
-  - current_rfp_and_addenda
-  - official_saudi_authority_source
+  - current_buyer_addenda_and_formal_clarifications
+  - current_buyer_rfp_and_mandatory_forms
+  - current_official_saudi_authority_source
   - verified_bidder_owned_fact
+  - approved_bidder_commercial_policy_or_rate_card
+  - current_user_instruction_on_response_strategy
   - approved_internal_template_pattern
   - credible_current_public_benchmark
+  - private_prior_proposal_pattern
   - labeled_assumption
-conflict_rules:
-  - "Newer issued addendum overrides older RFP text when explicitly stated."
-  - "Mandatory portal form overrides an internal template."
-  - "A private prior proposal never overrides the current brief."
-  - "If two current authoritative sources materially conflict, record the contradiction and seek clarification rather than silently choosing."
+
+rules:
+  - "Buyer mandatory requirements are not overridden by a user stylistic or convenience instruction."
+  - "A newer formal addendum overrides the superseded buyer clause to the extent explicitly stated."
+  - "Official effective law or regulation may create an obligation not repeated in the RFP; record the conflict/implication rather than rewriting the RFP."
+  - "An announced or enacted rule without verified effective state does not silently override an effective rule."
+  - "Verified bidder facts describe the bidder only; they cannot change buyer requirements."
+  - "Private prior proposals are structural evidence by default, never current client facts or price authority."
+  - "If two high-precedence current sources materially conflict, record both and open a clarification or effective-state question."
+
+fact_statuses:
+  - VERIFIED
+  - ASSUMED
+  - CONTRADICTED
+  - PENDING
+  - SUPERSEDED
+  - NOT_APPLICABLE

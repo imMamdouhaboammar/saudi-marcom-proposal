@@ -1,39 +1,101 @@
-version: 1
+version: 2
+pack: saudi-marcom-proposal
+architecture: atomic-neural-dag
+
 nodes:
   source-intake:
-    outputs: [source_inventory, confidentiality_flags]
-    next: [rfp-forensics]
+    path: skills/source-intake/SKILL.md
+    role: "Intake & Source Forensics"
+    inputs: [rfp_documents, organization_context, reference_work, pricing_inputs]
+    outputs: [source_inventory, situation_classification, confidentiality_flags]
+    precursors: []
+    continuations: [rfp-forensics]
+    recovery: proposal-recovery
+
   rfp-forensics:
-    outputs: [requirement_ledger, evaluation_map, clarification_log]
-    next: [regulatory-scout, service-router]
+    path: skills/rfp-forensics/SKILL.md
+    role: "Requirement Extraction & Traceability"
+    inputs: [source_inventory, rfp_documents]
+    outputs: [requirement_ledger, compliance_matrix, evaluation_map, clarification_log]
+    precursors: [source-intake]
+    continuations: [regulatory-scout, service-router]
+    recovery: source-intake
+
   regulatory-scout:
-    outputs: [regulatory_source_ledger, applicability_flags]
-    next: [technical-architect, commercial-modeler]
+    path: skills/regulatory-scout/SKILL.md
+    role: "Saudi Regulatory & Freshness Scout"
+    inputs: [requirement_ledger, situation_classification]
+    outputs: [regulatory_source_ledger, applicability_flags, compliance_citations]
+    precursors: [rfp-forensics]
+    continuations: [technical-architect, commercial-modeler]
+    lateral_peers: [rfp-forensics]
+    recovery: regulatory-scout
+
   service-router:
-    outputs: [active_service_modules]
-    next: [technical-architect]
+    path: skills/service-router/SKILL.md
+    role: "MarCom Service Architecture Router"
+    inputs: [requirement_ledger]
+    outputs: [active_service_modules, service_boundaries]
+    precursors: [rfp-forensics]
+    continuations: [technical-architect]
+    lateral_peers: [regulatory-scout]
+    recovery: rfp-forensics
+
   technical-architect:
-    outputs: [technical_outline, deliverable_map, schedule, governance, risk_register]
-    next: [commercial-modeler, proposal-qc]
+    path: skills/technical-architect/SKILL.md
+    role: "Solution Design & Technical Proposal"
+    inputs: [requirement_ledger, active_service_modules, regulatory_source_ledger]
+    outputs: [technical_outline, deliverable_map, schedule, governance_model, risk_register]
+    precursors: [service-router, regulatory-scout]
+    continuations: [commercial-modeler, scope-reconciliation]
+    lateral_peers: [commercial-modeler]
+    recovery: rfp-forensics
+
   commercial-modeler:
-    outputs: [pricing_engine, client_boq, payment_milestones]
-    next: [reconciliation]
-  reconciliation:
-    outputs: [scope_price_map, mismatch_report]
+    path: skills/commercial-modeler/SKILL.md
+    role: "Commercial Modeling & Client BOQ"
+    inputs: [deliverable_map, boq_templates, pricing_inputs, regulatory_source_ledger]
+    outputs: [pricing_engine, client_boq, payment_milestones, commercial_assumptions]
+    precursors: [technical-architect, regulatory-scout]
+    continuations: [scope-reconciliation]
+    lateral_peers: [technical-architect]
+    recovery: commercial-modeler
+
+  scope-reconciliation:
+    path: skills/scope-reconciliation/SKILL.md
+    role: "Bidirectional Technical-Financial Reconciliation"
+    inputs: [deliverable_map, pricing_engine, client_boq]
+    outputs: [scope_price_map, mismatch_report, reconciliation_certificate]
+    precursors: [technical-architect, commercial-modeler]
+    continuations: [proposal-qc]
     on_pass: [proposal-qc]
     on_fail: [technical-architect, commercial-modeler]
+    recovery: scope-reconciliation
+
   proposal-qc:
-    outputs: [qc_report, submission_status]
+    path: skills/proposal-qc/SKILL.md
+    role: "Red-Team Review & Quality Gate"
+    inputs: [technical_outline, deliverable_map, client_boq, requirement_ledger, reconciliation_certificate]
+    outputs: [qc_report, submission_status, blocker_log]
+    precursors: [scope-reconciliation]
+    continuations: [artifact-assembler]
     on_pass: [artifact-assembler]
     on_fail: [rfp-forensics, technical-architect, commercial-modeler]
+    recovery: proposal-qc
+
   artifact-assembler:
-    outputs: [submission_artifacts]
-    next: [submission-check]
-  submission-check:
-    outputs: [final_handoff]
+    path: skills/artifact-assembler/SKILL.md
+    role: "Deliverable Production & Package Assembly"
+    inputs: [technical_outline, client_boq, requirement_ledger, qc_report]
+    outputs: [technical_proposal_doc, financial_proposal_doc, ledgers_bundle, final_handoff]
+    precursors: [proposal-qc]
+    continuations: [submission-complete]
+    recovery: proposal-qc
+
 recovery:
   stale_source: regulatory-scout
   conflicting_requirement: rfp-forensics
   missing_price: commercial-modeler
-  mismatched_scope: reconciliation
+  mismatched_scope: scope-reconciliation
   copied_client_data: proposal-qc
+  layout_formatting_defect: artifact-assembler

@@ -1,8 +1,9 @@
 {
   "name": "saudi-marcom-proposal",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "agentic-skill-pack",
   "entrypoint": "SKILL.md",
+  "architecture": "atomic-neural-dag",
   "domain": [
     "Saudi Arabia",
     "technical proposals",
@@ -15,6 +16,54 @@
     "digital",
     "AI",
     "monitoring"
+  ],
+  "neural_graph": "neural-links/graph.yaml",
+  "skills": [
+    {
+      "name": "source-intake",
+      "path": "skills/source-intake/SKILL.md",
+      "role": "Intake & Source Forensics"
+    },
+    {
+      "name": "rfp-forensics",
+      "path": "skills/rfp-forensics/SKILL.md",
+      "role": "Requirement Extraction & Traceability"
+    },
+    {
+      "name": "regulatory-scout",
+      "path": "skills/regulatory-scout/SKILL.md",
+      "role": "Saudi Regulatory & Freshness Scout"
+    },
+    {
+      "name": "service-router",
+      "path": "skills/service-router/SKILL.md",
+      "role": "MarCom Service Architecture Router"
+    },
+    {
+      "name": "technical-architect",
+      "path": "skills/technical-architect/SKILL.md",
+      "role": "Solution Design & Technical Proposal"
+    },
+    {
+      "name": "commercial-modeler",
+      "path": "skills/commercial-modeler/SKILL.md",
+      "role": "Commercial Modeling & Client BOQ"
+    },
+    {
+      "name": "scope-reconciliation",
+      "path": "skills/scope-reconciliation/SKILL.md",
+      "role": "Bidirectional Technical-Financial Reconciliation"
+    },
+    {
+      "name": "proposal-qc",
+      "path": "skills/proposal-qc/SKILL.md",
+      "role": "Red-Team Review & Quality Gate"
+    },
+    {
+      "name": "artifact-assembler",
+      "path": "skills/artifact-assembler/SKILL.md",
+      "role": "Deliverable Production & Package Assembly"
+    }
   ],
   "artifacts": [
     "technical_proposal",

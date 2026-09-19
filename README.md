@@ -1,48 +1,76 @@
 # Saudi MarCom Proposal Skill Pack
 
-A provider-neutral agentic Skill for building and auditing tailored Saudi technical and financial proposals across media, corporate communications, marketing, promotion, events, crisis and reputation, digital and AI, monitoring, production, and adjacent services.
+A provider-neutral agentic Skill Pack for architecting, authoring, and auditing tailored Saudi technical and financial proposals across media, corporate communications, marketing, promotion, events, crisis and reputation, digital and AI, monitoring, production, and adjacent services.
 
-## What makes this pack different
+## Architectural Model: Atomic Neural-Connected DAG
 
-The pack treats proposal creation as a traceable operating system rather than a writing prompt:
+The skill pack is organized as a **Master Dynamic Orchestrator** (`SKILL.md`) driving a **Directed Acyclic Graph (DAG)** of 9 discrete, fully self-contained atomic skills under `skills/` connected via the `neural_links` protocol:
 
-1. source inventory and RFP forensics
-2. requirement ledger and compliance matrix
-3. Saudi-context relevance checks
-4. service-specific solution architecture
-5. deliverable and acceptance design
-6. financial model tied directly to scope
-7. technical-financial reconciliation
-8. independent red-team QA
-9. artifact assembly
+```mermaid
+flowchart TD
+    In["RFP / Tender Input"] --> S1["skills/source-intake"]
+    S1 --> S2["skills/rfp-forensics"]
+    S2 --> S3["skills/regulatory-scout"]
+    S2 --> S4["skills/service-router"]
+    S3 --> S5["skills/technical-architect"]
+    S4 --> S5
+    S3 --> S6["skills/commercial-modeler"]
+    S5 --> S6
+    S5 --> S7["skills/scope-reconciliation"]
+    S6 --> S7
+    S7 --> S8["skills/proposal-qc"]
+    S7 -.->|"Scope / Price Discrepancy"| S5
+    S8 --> S9["skills/artifact-assembler"]
+    S8 -.->|"Critical QC Blocker"| S2
+    S9 --> Out["Submission Package (Technical + Financial + Ledgers)"]
+```
 
-It was designed from anonymized patterns found in real Saudi proposal and pricing work, then separated from client-specific facts so the reusable package does not leak names, prices, bank details, or confidential material.
+## The 9 Atomic Skills Suite
 
-## Install shape
+| # | Skill Directory | Canonical Entrypoint | Core Responsibility |
+|---|---|---|---|
+| 1 | `skills/source-intake/` | `SKILL.md` | Ingestion, document inventory, situation classification, confidentiality quarantine |
+| 2 | `skills/rfp-forensics/` | `SKILL.md` | Clause decomposition, requirement ledger, scoring rubric, clarification log |
+| 3 | `skills/regulatory-scout/`| `SKILL.md` | Live Saudi checks: Etimad GTPL, Local Content, ZATCA VAT, PDPL, GCAM, GEA |
+| 4 | `skills/service-router/` | `SKILL.md` | Multi-stream scope routing across 6 MarCom families and interface boundaries |
+| 5 | `skills/technical-architect/`| `SKILL.md`| Technical proposal (العرض الفني), deliverable units, RACI, schedule, risk register |
+| 6 | `skills/commercial-modeler/` | `SKILL.md` | Financial model (العرض المالي), client BOQ (جدول الكميات والأسعار), payment milestones |
+| 7 | `skills/scope-reconciliation/`| `SKILL.md`| Bidirectional 2-way verification: every deliverable priced $\leftrightarrow$ every charge justified |
+| 8 | `skills/proposal-qc/` | `SKILL.md` | Adversarial red-team evaluation, compliance falsification, zero-leakage audit |
+| 9 | `skills/artifact-assembler/` | `SKILL.md` | Deliverable compilation, Arabic RTL layout fidelity, separate/combined packages |
 
-The canonical entrypoint is `SKILL.md`. Supporting depth sits under `references/`, while `routers/`, `agents/`, `neural-links/`, `templates/`, and `evals/` provide host adapters and evaluation material.
-
-## Minimum inputs for a final bid
+## Minimum Inputs for a Final Bid
 
 - RFP or approved brief
-- deadline and submission format
-- bidder facts and approved credentials
-- commercial inputs or rate cards
-- any mandatory templates or BOQ
-- clarification responses and issued addenda
+- Submission deadline and platform format
+- Bidder credentials and approved case facts
+- Commercial rate cards, vendor quotes, or pricing parameters
+- Prescribed client templates or mandatory BOQ
+- Clarification Q&A and issued addenda
 
-If these are incomplete, the Skill should produce a draft-for-validation plus an explicit missing-input list rather than invent facts.
+If inputs are incomplete, the skills produce an assumptions-led draft with an explicit missing-input list rather than inventing facts.
 
-## Included artifacts
+## Non-Negotiable Invariants
 
-- `templates/pricing-model.xlsx`: internal pricing engine + client BOQ
-- requirement/compliance/risk/assumption/source templates
-- 8 specialist agent profiles
-- service routing across six MarCom families
-- current-source freshness guide for Saudi procurement, tax, data, media, and event checks
-- benchmark scenarios and adversarial eval suite
-- static package validator
+1. **Source Before Prose**: Never write requirements from memory when the RFP or official source can answer it.
+2. **Evidence Before Claims**: Zero fabricated credentials, case stats, audience reach, or permit status.
+3. **Strict Scope-to-Price Parity**: Every technical promise must be funded; every BOQ line must have scope purpose.
+4. **Zero Unsourced Pricing**: Missing commercial inputs remain marked as `PRICING INPUT REQUIRED`.
+5. **Mandatory Form Preservation**: Government BOQ tables and declarations retain original structure.
+6. **Relevance-Gated Saudi Regulations**: Live-check only authorities that directly govern the scope.
+7. **Zero Client Leakage**: Scrub past client names, numbers, account details, and confidential case facts.
 
-## Evaluation status
+## Verification & Evaluation Suite
 
-The package includes deterministic static tests and behavioral eval definitions. Static checks can run locally with `python scripts/validate_pack.py`. A true model behavioral evaluation still requires a host harness that can run the Skill against held-out prompts and capture tool traces and outputs.
+Run the static validation and behavioral evaluation suites locally:
+
+```bash
+# Validate master orchestrator and all 9 atomic skills (<500 lines, neural links, secrets)
+python3 scripts/validate_pack.py
+
+# Evaluate atomic skills against /skill-evaluator and /omni-skill standards
+python3 scripts/eval_atomic_skills.py
+
+# Run scenario behavioral test bank
+python3 scripts/run_static_evals.py
+```

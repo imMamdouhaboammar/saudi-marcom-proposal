@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "full-capability",
+      "available": [
+        "connected_source_search",
+        "connected_source_read",
+        "public_web_search",
+        "public_web_fetch",
+        "spreadsheet_compute",
+        "document_artifact",
+        "presentation_artifact",
+        "deterministic_validator",
+        "independent_reviewer"
+      ],
+      "request_shape": "FULL_BID",
+      "expected_finalizable": true,
+      "expected_limitations": []
+    },
+    {
+      "id": "no-public-web",
+      "available": [
+        "connected_source_search",
+        "connected_source_read",
+        "spreadsheet_compute",
+        "document_artifact",
+        "presentation_artifact",
+        "deterministic_validator"
+      ],
+      "request_shape": "FULL_BID_WITH_CURRENT_REGULATORY_CLAIM",
+      "expected_finalizable": false,
+      "expected_limitations": [
+        "REGULATORY_FRESHNESS_BLOCKED"
+      ]
+    },
+    {
+      "id": "no-private-source",
+      "available": [
+        "public_web_search",
+        "public_web_fetch",
+        "spreadsheet_compute",
+        "document_artifact",
+        "presentation_artifact",
+        "deterministic_validator"
+      ],
+      "request_shape": "FULL_BID_REFERENCING_PRIVATE_RFP",
+      "expected_finalizable": false,
+      "expected_limitations": [
+        "SOURCE_GROUNDING_REQUIRED"
+      ]
+    },
+    {
+      "id": "no-spreadsheet",
+      "available": [
+        "connected_source_search",
+        "connected_source_read",
+        "public_web_search",
+        "public_web_fetch",
+        "document_artifact",
+        "presentation_artifact",
+        "deterministic_validator"
+      ],
+      "request_shape": "FINANCIAL_ONLY",
+      "expected_finalizable": false,
+      "expected_limitations": [
+        "FINANCIAL_FINALIZATION_BLOCKED"
+      ]
+    },
+    {
+      "id": "no-artifact-renderer",
+      "available": [
+        "connected_source_search",
+        "connected_source_read",
+        "public_web_search",
+        "public_web_fetch",
+        "spreadsheet_compute",
+        "deterministic_validator"
+      ],
+      "request_shape": "FULL_BID_WITH_FINISHED_FILES",
+      "expected_finalizable": false,
+      "expected_limitations": [
+        "ARTIFACT_FINALIZATION_BLOCKED"
+      ]
+    },
+    {
+      "id": "no-external-reviewer",
+      "available": [
+        "connected_source_search",
+        "connected_source_read",
+        "public_web_search",
+        "public_web_fetch",
+        "spreadsheet_compute",
+        "document_artifact",
+        "presentation_artifact",
+        "deterministic_validator"
+      ],
+      "request_shape": "FULL_BID",
+      "expected_finalizable": true,
+      "expected_limitations": [
+        "EXTERNAL_REVIEWER_UNAVAILABLE_OPTIONAL"
+      ]
+    }
+  ]
+}

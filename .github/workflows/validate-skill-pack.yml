@@ -32,6 +32,9 @@ jobs:
       - name: Validate static eval corpus
         run: python scripts/run_static_evals.py
 
+      - name: Validate runtime adapter compatibility
+        run: python scripts/validate_runtime_adapters.py
+
       - name: Run focused security regression scan
         run: python scripts/security_scan.py
 

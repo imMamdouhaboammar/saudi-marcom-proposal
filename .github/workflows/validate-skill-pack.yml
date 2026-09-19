@@ -32,5 +32,8 @@ jobs:
       - name: Validate static eval corpus
         run: python scripts/run_static_evals.py
 
+      - name: Run focused security regression scan
+        run: python scripts/security_scan.py
+
       - name: Run unit tests
         run: python -m unittest tests/test_validate_pack.py
